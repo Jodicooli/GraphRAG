@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+streamlit
+openai
+faiss-cpu
+sentence-transformers
+neo4j
+requests
