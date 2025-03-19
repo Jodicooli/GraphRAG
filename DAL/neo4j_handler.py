@@ -9,7 +9,7 @@ def get_movie_info(movie_ids):
     WHERE m.movieId IN $movie_ids
     OPTIONAL MATCH (m)<-[:ACTED_IN]-(a:Actor)
     OPTIONAL MATCH (m)<-[:DIRECTED]-(d:Director)
-    OPTIONAL MATCH (m)-[:BELONGS_TO]->(g:Genre)
+    OPTIONAL MATCH (m)-[:IN_GENRE]->(g:Genre)  
     OPTIONAL MATCH (m)<-[:RATED]-(u:User)
     RETURN 
         m.movieId AS id,
