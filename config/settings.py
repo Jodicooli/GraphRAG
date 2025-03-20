@@ -1,10 +1,16 @@
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d’environnement depuis un fichier .env
+load_dotenv("config/.env")
+
 # OpenAI API Key
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # Neo4j Database Config
-NEO4J_URI = "neo4j+ssc://6258fcdd.databases.neo4j.io"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "wC_DRlSyIrD1rAUfOjdQMWZV1OVpXY-60Kx3oJB-AEc"
+NEO4J_URI = os.getenv("NEO4J_URI")
+NEO4J_USER = os.getenv("NEO4J_USER")
+NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 # FAISS Configuration
 FAISS_INDEX_PATH = "movie_index.faiss"
