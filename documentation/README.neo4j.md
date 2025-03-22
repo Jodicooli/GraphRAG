@@ -157,7 +157,7 @@ Thanks to its structure and query language, Neo4j allows us to easily traverse t
 
 ---
 
-## Disadvantage of Neo4j
+## Disadvantages of Neo4j
 
 - Write scalability: While read queries are fast, write-heavy workloads or large-scale ingestion (e.g. real-time logging) require tuning and often the Enterprise version.
 
