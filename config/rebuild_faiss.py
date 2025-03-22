@@ -19,13 +19,12 @@ def get_movies(tx):
     query = """
     MATCH (m:Movie)  
     RETURN m.movieId AS id, m.title AS title  
-    ORDER BY rand()  
     LIMIT 50000
     """
     return [{"id": record["id"], "title": record["title"]} for record in tx.run(query)]
 
 def rebuild_faiss():
-    """Rebuilds FAISS index with Neo4j movie IDs."""
+    """Rebuilds FAISS index with Neo4j movie IDs and normalized embeddings."""
     with driver.session() as session:
         movies = session.read_transaction(get_movies)  
 
@@ -36,10 +35,13 @@ def rebuild_faiss():
     texts = [m["title"] for m in movies]
     embeddings = model.encode(texts)
 
+    # Normalize embeddings for better cosine similarity search
+    embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+
     # Store in FAISS with their Neo4j IDs
     dimension = embeddings.shape[1]
-    index = faiss.IndexFlatL2(dimension)
-    index.add(np.array(embeddings).astype('float32'))
+    index = faiss.IndexFlatIP(dimension)  # ✅ Use inner product (cosine similarity)
+    index.add(embeddings.astype('float32'))
 
     # Save FAISS index
     faiss.write_index(index, settings.FAISS_INDEX_PATH)
@@ -48,4 +50,4 @@ def rebuild_faiss():
     with open("movies_list.pkl", "wb") as f:
         pickle.dump(movies, f)
 
-    print("✅ Successfully rebuilt FAISS index with Movie dataset!")
+    print("✅ Successfully rebuilt FAISS index with normalized embeddings!")

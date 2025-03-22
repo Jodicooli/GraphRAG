@@ -1,10 +1,11 @@
-# 🧠 GraphRAG: AI-Powered Q&A with Neo4j + FAISS + GPT-4
+# 🧠 GraphRAG: AI-Powered Movie Q&A with Neo4j + FAISS + Local LLMs
 
 ## 🚀 Overview
-GraphRAG (Graph-based Retrieval-Augmented Generation) is an advanced AI system that:
-- Uses **Neo4j (Graph Database)** for structured knowledge retrieval.
-- Uses **FAISS (Vector Database)** for semantic similarity search.
-- Uses **GPT-4** for generating AI-powered answers.
+GraphRAG (Graph-based Retrieval-Augmented Generation) is a smart AI system that combines:
+- 🧩 **Neo4j**: A graph database for structured movie knowledge (movies, actors, genres, users, ratings, etc.)
+- 🧠 **FAISS**: For fast semantic search over movie embeddings
+- 🤖 **Ollama + Mistral**: A local LLM that generates rich, multi-hop, graph-aware answers
+- 🖥️ **Streamlit**: A simple, friendly UI to ask natural language movie questions
 
 This system dynamically retrieves knowledge from both **graph-based** and **vector-based** search, ensuring **more relevant** and **accurate AI responses**.
 
@@ -20,7 +21,7 @@ GraphRAG_Project/
 │
 │── 📁 bll/               # Business Logic Layer (BLL)
 │   ├── retrieval.py      # Dynamically retrieves data from FAISS & Neo4j
-│   ├── ai_processor.py   # AI logic (GPT-4 interaction)
+│   ├── ai_processor.py   # Interacts with LLM via Ollama
 │
 │── 📁 api/               # API Layer (FastAPI)
 │   ├── main.py           # API endpoints
@@ -29,7 +30,7 @@ GraphRAG_Project/
 │   ├── app.py            # UI for user interaction
 │
 │── 📁 config/            # Configurations
-│   ├── settings.py       # Centralized settings (API keys, DB URIs)
+│   ├── settings.py       # Centralized settings (DB URIs)
 │
 │── requirements.txt      # Dependencies
 │── README.md             # Documentation
@@ -44,12 +45,17 @@ GraphRAG_Project/
 pip install -r requirements.txt
 ```
 
-### ➕ 2. Start the Backend API (FastAPI)
+### ➕ 2. Make sure Ollama is installed and running
+```bash
+ollama run mistral
+```
+
+### ➕ 3. Start the Backend API (FastAPI)
 ```bash
 uvicorn api.main:app --reload
 ```
 
-### ➕ 3. Start the Frontend (Streamlit UI)
+### ➕ 4. Start the Frontend (Streamlit UI)
 ```bash
 streamlit run frontend/app.py
 ```
@@ -60,7 +66,7 @@ streamlit run frontend/app.py
 1. **User asks a question** via the Streamlit UI or API.
 2. **FAISS retrieves similar past questions** from stored embeddings.
 3. **Neo4j dynamically retrieves graph-based knowledge** from the StackOverflow dataset.
-4. **GPT-4 generates an AI response** using both FAISS & Neo4j context.
+4. **Ollama (with Mistral) generates an AI response with multi-hop explanation** using both FAISS & Neo4j context.
 5. **Answer is returned to the user** through the frontend or API.
 
 ---
@@ -76,17 +82,18 @@ Open `http://127.0.0.1:8000/docs` in your browser to use the interactive Swagger
 
 ---
 
-## 🚀 Future Improvements
-- ✅ **Deploy API & UI to the cloud (AWS, Render, Railway)**
-- ✅ **Improve Neo4j retrieval with multi-hop queries**
-- ✅ **Add caching for faster responses**
-- ✅ **Fine-tune GPT-4 prompts for better responses**
+## 🎯 Features
+- 🔎 Semantic similarity search (FAISS + SentenceTransformers)
+- 🧠 Multi-hop reasoning over movie data (via GraphRAG)
+- 🗃️ Rich graph relationships: movies, genres, actors, users, ratings
+- 📈 Real-time API and UI
+- ✅ Works offline with local LLMs (Ollama)
 
 ---
 
 ## 👨‍💻 Contributors
 - **Adriano Dias** 
-- **Johanna S.** 
+- **Johanna Summermatter** 
 - **Lorenzo De Ieso** 
 - **Luana Ramirez**
 
