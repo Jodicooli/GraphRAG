@@ -1,11 +1,11 @@
-# 🧠 GraphRAG: AI-Powered Movie Q&A with Neo4j + FAISS + Local LLMs
+# GraphRAG: AI-Powered Movie Q&A with Neo4j + FAISS + Local LLMs
 
-## 🚀 Overview
+## Overview
 GraphRAG (Graph-based Retrieval-Augmented Generation) is a smart AI system that combines:
-- 🧩 **Neo4j**: A graph database for structured movie knowledge (movies, actors, genres, users, ratings, etc.)
-- 🧠 **FAISS**: For fast semantic search over movie embeddings
-- 🤖 **Ollama + Mistral**: A local LLM that generates rich, multi-hop, graph-aware answers
-- 🖥️ **Streamlit**: A simple, friendly UI to ask natural language movie questions
+- **Neo4j**: A graph database for structured movie knowledge (movies, actors, genres, users, ratings, etc.)
+- **FAISS**: For fast semantic search over movie embeddings
+- **Ollama + Mistral**: A local LLM that generates rich, multi-hop, graph-aware answers
+- **Streamlit**: A simple, friendly UI to ask natural language movie questions
 
 This system dynamically retrieves knowledge from both **graph-based** and **vector-based** search, ensuring **more relevant** and **accurate AI responses**.
 
@@ -45,7 +45,7 @@ GraphRAG_Project/
 pip install -r requirements.txt
 ```
 
-### ➕ 2. Make sure Ollama is installed and running
+### ➕ 2. Make sure Ollama is installed (https://ollama.com/download/windows) and run the following command
 ```bash
 ollama run mistral
 ```
@@ -83,21 +83,8 @@ Open `http://127.0.0.1:8000/docs` in your browser to use the interactive Swagger
 ---
 
 ## 🎯 Features
-- 🔎 Semantic similarity search (FAISS + SentenceTransformers)
-- 🧠 Multi-hop reasoning over movie data (via GraphRAG)
-- 🗃️ Rich graph relationships: movies, genres, actors, users, ratings
-- 📈 Real-time API and UI
-- ✅ Works offline with local LLMs (Ollama)
-
----
-
-## 👨‍💻 Contributors
-- **Adriano Dias** 
-- **Johanna Summermatter** 
-- **Lorenzo De Ieso** 
-- **Luana Ramirez**
-
----
-
-🚀 **Happy Coding! Let me know if you need any improvements!** 🔧
-
+- Semantic similarity search (FAISS + SentenceTransformers)
+- Multi-hop reasoning over movie data (via GraphRAG)
+- Rich graph relationships: movies, genres, actors, users, ratings
+- Real-time API and UI
+- Works offline with local LLMs (Ollama)
