@@ -29,7 +29,7 @@ def rebuild_faiss():
         movies = session.read_transaction(get_movies)  
 
     if not movies:
-        raise ValueError("❌ No movies found! Check your Neo4j dataset.")
+        raise ValueError("No movies found! Check your Neo4j dataset.")
 
     # Convert movie titles to embeddings
     texts = [m["title"] for m in movies]
@@ -40,7 +40,7 @@ def rebuild_faiss():
 
     # Store in FAISS with their Neo4j IDs
     dimension = embeddings.shape[1]
-    index = faiss.IndexFlatIP(dimension)  # ✅ Use inner product (cosine similarity)
+    index = faiss.IndexFlatIP(dimension) 
     index.add(embeddings.astype('float32'))
 
     # Save FAISS index
@@ -50,4 +50,4 @@ def rebuild_faiss():
     with open("movies_list.pkl", "wb") as f:
         pickle.dump(movies, f)
 
-    print("✅ Successfully rebuilt FAISS index with normalized embeddings!")
+    print("Successfully rebuilt FAISS index with normalized embeddings!")

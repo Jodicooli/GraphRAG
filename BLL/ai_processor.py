@@ -1,57 +1,93 @@
 import ollama
 
+def perform_hop_reasoning(movies, query):
+    """Performs multiple hop reasoning on the movie data."""
+    
+    reasoning_prompt = f"""
+    Analyze the following movie data using multiple hop reasoning:
+    1. First hop: Direct relationships (movie->genre, movie->director, etc.)
+    2. Second hop: Indirect relationships (actor->movie->genre, director->movie->rating)
+    3. Third hop: Complex patterns (actor->multiple movies->common genres)
+    
+    Provide structured reasoning steps that:
+    1. Identify relevant entities in the query
+    2. Follow relationship paths
+    3. Draw conclusions from patterns
+    
+    Data to analyze: {movies}
+    Query: {query}
+    """
+    
+    reasoning_response = ollama.chat(
+        model='mistral',
+        messages=[
+            {"role": "user", "content": reasoning_prompt}
+        ]
+    )
+    
+    return reasoning_response['message']['content']
+
 def generate_response(answer, query):
     """Generates a rich, helpful, accurate response using a local LLM via Ollama."""
 
-    # Step 1: Sort and format knowledge
+    # Define system behavior with explicit visualization rules
+    system_msg = """
+    You are part of a GraphRAG system using Neo4j. Follow these strict rules:
+
+    1. ALWAYS start your response with visualization tags when applicable:
+       - Use <SHOW_GRAPH> for relationship visualizations
+       - Use <SHOW_BAR_CHART> for rating comparisons
+    
+    2. REQUIRED tag usage:
+       - When comparing 2+ movies/actors/directors → <SHOW_BAR_CHART>
+       - When explaining relationships/connections → <SHOW_GRAPH>
+    
+    3. Format:
+       - First line: visualization tags
+       - Second line: Clear answer based on reasoning
+       - Third line onwards: Supporting details
+
+    Never skip tags when relationships or comparisons are involved.
+    """
+
+    # Force visualization tags based on query type
+    visualization_tags = []
+    if any(word in query.lower() for word in ['visualize', 'show', 'connection', 'relationship', 'between']):
+        visualization_tags.append("<SHOW_GRAPH>")
+    if any(word in query.lower() for word in ['compare', 'rating', 'best', 'top', 'versus', 'vs']):
+        visualization_tags.append("<SHOW_BAR_CHART>")
+
+    # Sort and format knowledge
     movies_sorted = sorted(answer["movies"], key=lambda x: x.get("avg_rating", 0), reverse=True)
     knowledge = "\n".join([
-        f"{i+1}. 🎬 *{m['movie']}*\n   • ⭐ Avg Rating: {round(m.get('avg_rating', 0), 2)}\n   • 🎭 Genres: {', '.join(m.get('genres', []))}\n   • 🎬 Directed by: {', '.join(m.get('directors', []))}\n   • 👥 Rated by: {len(m.get('user_ratings', []))} users"
+        f"{i+1}. 🎬 *{m['movie']}*\n   • Avg Rating: {round(m.get('avg_rating', 0), 2)}\n   • Genres: {', '.join(m.get('genres', []))}\n   • Directed by: {', '.join(m.get('directors', []))}\n   • Rated by: {len(m.get('user_ratings', []))} users"
         for i, m in enumerate(movies_sorted)
     ])
     
     graph_paths = build_graph_paths(answer["movies"])
+    
+    # Perform multiple hop reasoning
+    reasoning_results = perform_hop_reasoning(answer["movies"], query)
 
-    # Step 2: Define system behavior clearly
-    system_msg = """
-        You are part of a GraphRAG system using Neo4j as the source of structured movie knowledge.
-        Your task is to explain movie relationships using graph concepts.
-
-        "Never explain how to write queries or how graphs work.\n"
-        "Instead, use the graph-based knowledge already retrieved to answer clearly with real values (movie titles, actor names, etc).\n"
-
-        Each movie node may be connected to:
-        - (Actor) via ACTED_IN
-        - (Director) via DIRECTED
-        - (Genre) via IN_GENRE
-        - (User) via RATED
-
-        "You SHOULD recommend visualizations using <SHOW_GRAPH> or <SHOW_BAR_CHART> when helpful. Don’t say you can’t — just trigger the tags at the top of the message and than add your text."
-        When a user asks about people, genres, or connections:
-        1. Extract those from the given data.
-        2. Mention relationships explicitly like: Actor —[:ACTED_IN]→ Movie.
-        3. Include <SHOW_GRAPH> if the graph view would help.
-        4. If top movies are compared by rating, also include <SHOW_BAR_CHART>.
-
-        Never say “no data found” unless you’ve verified none exist in the structured input.
-        """
-
-
-    # Step 3: Build user prompt
+    # Build final response with forced visualization tags
+    final_response = "\n".join(visualization_tags) + "\n" if visualization_tags else ""
+    
+    # Generate content with Ollama
     prompt = f"""
-        Here is structured movie knowledge retrieved from a graph database (via GraphRAG):
+    Based on the following information, provide a detailed answer:
+    
+    Question: {query}
+    
+    Multiple Hop Reasoning Results:
+    {reasoning_results}
 
-        {knowledge}
+    Structured Knowledge:
+    {knowledge}
 
-        🔗 Graph relationships:
-        {graph_paths}
-
-        User Question: {query}
-
-        Please reason step-by-step using the relationships above. If a graph would help, add <SHOW_GRAPH>. If rating comparisons would help, add <SHOW_BAR_CHART>.
-        """
-
-    # Step 4: Generate
+    Graph Relationships:
+    {graph_paths}
+    """
+    
     response = ollama.chat(
         model='mistral',
         messages=[
@@ -59,8 +95,10 @@ def generate_response(answer, query):
             {"role": "user", "content": prompt}
         ]
     )
-
-    return response['message']['content']
+    
+    # Combine tags with response
+    final_response += response['message']['content']
+    return final_response
 
 def build_graph_paths(movies):
     paths = []

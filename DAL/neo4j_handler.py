@@ -1,7 +1,5 @@
 from DAL.db_config import driver  
 
-from DAL.db_config import driver  
-
 def get_movie_info(movie_ids):
     """Retrieve movie relationships using movie IDs (GraphRAG)."""
     query = """

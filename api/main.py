@@ -5,6 +5,6 @@ app = FastAPI()
 
 @app.get("/ask")
 def ask_question(query: str):
-    """Handles user queries & fetches movie relationships using GraphRAG."""
+    """Handles user queries & fetches relevant information in a structured format."""
     response = retrieve_context(query)
     return {"movies": response}
