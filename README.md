@@ -145,17 +145,17 @@ Open `http://127.0.0.1:8000/docs` in your browser to use the interactive Swagger
 
 ## Conclusion of this application created with Neo4j, FAISS, FastAPI, Streamlit and Ollama/OpenAI
 
-This project demonstrates how you can fully implement a GraphRAG system from scratch without relying on any pre-packaged or proprietary solution. While pre-packaged tools offer shortcuts, building it yourself brings:
+This project demonstrates how you can **fully implement** a GraphRAG system **from scratch** without relying on any pre-packaged or proprietary solution. While pre-packaged tools offer shortcuts, building it yourself brings:
 
-- A deeper understanding of how knowledge retrieval, vector search, and reasoning actually work
-- Full customization of your graph structure, prompt engineering, reasoning paths, and UI
-- Transparency and debugging freedom
+- A **deeper understanding** of how knowledge retrieval, vector search, and reasoning actually work
+- **Full customization** of your graph structure, prompt engineering, reasoning paths, and UI
+- **Transparency and debugging** freedom
 
-However, we also noticed some limitations:
+However, we also noticed some **limitations**:
 
-- The system can be slow, especially when the reasoning becomes complex or when the local LLM is under heavy load.
-- Local LLMs like Mistral (via Ollama) are impressive but sometimes struggle with very nuanced or long queries.
-- Query performance depends heavily on database size, indexing, and memory usage.
-- Depending on the LLM you use, it can be a little expensive and you have to keep an eye on the costs. At the beginning we used an API key from OpenAI. After only few days using to code the application and debug, we already had a bill of over 6 dollars.
+- The system can be **slow**, especially when the reasoning becomes complex or when the local LLM is under heavy load.
+- Local LLMs like Mistral (via Ollama) are impressive but sometimes struggle with very **nuanced** or **long queries**.
+- Query **performance depends heavily on database size**, indexing, and memory usage.
+- Depending on the LLM you use, it can be a little **expensive** and you have to keep an eye on the costs. At the beginning we used an API key from OpenAI. After only few days using to code the application and debug, we already had a bill of over 6 dollars.
 
 That said, this architecture is ideal for learning, prototyping, and local use cases — especially when privacy, customization, and cost control matter.

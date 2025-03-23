@@ -96,7 +96,7 @@ if st.button("Ask"):
                         # Clean up
                         os.unlink(tmp_file.name)
                 except Exception as e:
-                    st.error(f"Error generating graph: {str(e)}")
+                    st.info(f"There might be an issue with the graph visualization, If you can't see the graph, please try again later. If the graph is visible, ignore this message.")
             
             # Display the answer without visualization tags
             clean_answer = answer.replace("<SHOW_BAR_CHART>", "").replace("<SHOW_GRAPH>", "")
