@@ -92,14 +92,14 @@ The structure is clean and separated into DAL, BLL, API, Frontend, and Config, m
 4. You can now **import** your data from a **data source** or directly click on the three dots next to the current instance, select **Backup & restore** and browse for your **.dump file**. The dump file for the movie dataset is in the folder: **db_backup_file**
 5. Create a **.env** file in the **config** folder and put your database URI, username, and password with the following variable names: NEO4J_URI, NEO4J_USER and NEO4J_PASSWORD. 
 
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Make sure Ollama is installed (https://ollama.com/download/windows) and run the following command
+### 2. Make sure Ollama is installed (https://ollama.com/download/windows) and run the following command
 ```bash
 ollama run mistral
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
 ```
 
 ### 4. Start the Backend API (FastAPI)
