@@ -14,23 +14,33 @@ This system dynamically retrieves knowledge from both **graph-based** and **vect
 ## Folder Structure
 ```
 GraphRAG_Project/
-│── 📁 dal/               # Data Access Layer (DAL)
-│   ├── faiss_handler.py  # Handles FAISS operations
-│   ├── neo4j_handler.py  # Handles Neo4j queries dynamically
-│   ├── db_config.py      # Centralized database configuration
+│── 📁 dal/                     # Data Access Layer (DAL)
+│   ├── faiss_handler.py        # Handles FAISS operations
+│   ├── neo4j_handler.py        # Handles Neo4j queries dynamically
+│   ├── db_config.py            # Centralized database configuration
 │
-│── 📁 bll/               # Business Logic Layer (BLL)
-│   ├── retrieval.py      # Dynamically retrieves data from FAISS & Neo4j
-│   ├── ai_processor.py   # Interacts with LLM via Ollama
+│── 📁 bll/                     # Business Logic Layer (BLL)
+│   ├── retrieval.py            # Dynamically retrieves data from FAISS & Neo4j
+│   ├── ai_processor.py         # Interacts with LLM via Ollama
 │
-│── 📁 api/               # API Layer (FastAPI)
-│   ├── main.py           # API endpoints
+│── 📁 api/                     # API Layer (FastAPI)
+│   ├── main.py                 # API endpoints
 │
-│── 📁 frontend/          # Frontend Layer (Streamlit)
-│   ├── app.py            # UI for user interaction
+│── 📁 frontend/                # Frontend Layer (Streamlit)
+│   ├── app.py                  # UI for user interaction
 │
-│── 📁 config/            # Configurations
-│   ├── settings.py       # Centralized settings (DB URIs)
+│── 📁 config/                  # Configurations
+│   ├── settings.py             # Centralized settings (DB URIs)
+│
+│── 📁 documentation/           # Documentation
+│   ├── README.ai.md            # documentation about OpenAI and Ollama
+│   ├── README.faiss.md         # documentation about FAISS
+│   ├── README.fastapi.md       # documentation about FastAPI
+│   ├── README.neo4j.md         # documentation about Neo4j and the database database
+│   ├── README.streamlit.md     # documentation about Streamlit
+│
+│── 📁 db_backup_file/          # Backup file for the database
+│   ├── recommandations-50.dump # -dump file to recreate the database (for Neo4j)
 │
 │── requirements.txt      # Dependencies
 │── README.md             # Documentation
