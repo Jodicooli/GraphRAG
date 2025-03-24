@@ -17,37 +17,74 @@ driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 # Retrieve movies & their IDs from Neo4j
 def get_movies(tx):
     query = """
-    MATCH (m:Movie)  
-    RETURN m.movieId AS id, m.title AS title  
-    LIMIT 50000
+    MATCH (m:Movie)
+        OPTIONAL MATCH (m)<-[:ACTED_IN]-(a:Actor)
+        OPTIONAL MATCH (m)<-[:DIRECTED]-(d:Director)
+        OPTIONAL MATCH (m)-[:IN_GENRE]->(g:Genre)
+
+        RETURN
+            m.movieId AS id,
+            m.title AS title,
+            m.year AS year,
+            m.languages AS languages,
+            m.countries AS countries,
+            m.plot AS plot,
+            COLLECT(DISTINCT coalesce(a.name, "")) AS actors,
+            COLLECT(DISTINCT coalesce(d.name, "")) AS directors,
+            COLLECT(DISTINCT coalesce(g.name, "")) AS genres
+
+        LIMIT 50000
     """
-    return [{"id": record["id"], "title": record["title"]} for record in tx.run(query)]
+    # record.data() returns a dict of all returned fields
+    return [record.data() for record in tx.run(query)]
 
 def rebuild_faiss():
-    """Rebuilds FAISS index with Neo4j movie IDs and normalized embeddings."""
     with driver.session() as session:
-        movies = session.read_transaction(get_movies)  
+        movies = session.read_transaction(get_movies)
 
     if not movies:
         raise ValueError("No movies found! Check your Neo4j dataset.")
 
-    # Convert movie titles to embeddings
-    texts = [m["title"] for m in movies]
-    embeddings = model.encode(texts)
+    # Build a textual representation for each movie
+    texts = []
+    for m in movies:
+        # Safely handle None values
+        title = m.get("title", "")
+        plot = m.get("plot", "")
+        year = m.get("year", "")
+        actors = ", ".join(m.get("actors", []))
+        directors = ", ".join(m.get("directors", []))
+        genres = ", ".join(m.get("genres", []))
+        imdb_rating = m.get("imdbRating", "")
+        imdb_votes = m.get("imdbVotes", "")
 
-    # Normalize embeddings for better cosine similarity search
+        # Combine everything into a single text block
+        movie_text = f"""
+        Title: {title}
+        Year: {year}
+        Plot: {plot}
+        Actors: {actors}
+        Directors: {directors}
+        Genres: {genres}
+        IMDb Rating: {imdb_rating}
+        IMDb Votes: {imdb_votes}
+        """
+        texts.append(movie_text.strip())
+
+    # Encode with SentenceTransformer
+    embeddings = model.encode(texts, show_progress_bar=True)
+    # Normalize embeddings
     embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
-    # Store in FAISS with their Neo4j IDs
     dimension = embeddings.shape[1]
-    index = faiss.IndexFlatIP(dimension) 
+    index = faiss.IndexFlatIP(dimension)
     index.add(embeddings.astype('float32'))
 
     # Save FAISS index
     faiss.write_index(index, settings.FAISS_INDEX_PATH)
 
-    # Save movie ID mapping
+    # Save movie data (including IDs + all details)
     with open("movies_list.pkl", "wb") as f:
         pickle.dump(movies, f)
 
-    print("Successfully rebuilt FAISS index with normalized embeddings!")
+    print("Successfully rebuilt FAISS index!")

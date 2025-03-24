@@ -7,7 +7,7 @@ import tempfile
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from BLL.ai_processor import generate_response
+from BLL.ai_processor import generate_response, keep_relevant_data_graph
 
 API_URL = "http://127.0.0.1:8000/ask"
 
@@ -32,12 +32,13 @@ if st.button("Ask"):
             # Visual flags
             show_bar = "<SHOW_BAR_CHART>" in answer
             print(show_bar)
-            show_graph = "<SHOW_GRAPH>" in answer
+            show_graph = "<SHOW_GRAPH>" in answer or len(response.get("movies", [])) > 0
             print(show_graph)
                                     
             if show_bar and "movies" in response:
+                response = keep_relevant_data_graph(response, query)
                 top_movies = sorted(response["movies"], key=lambda m: m.get("avg_rating", 0), reverse=True)[:5]
-                titles = [m["movie"] for m in top_movies]
+                titles = [m["title"] for m in top_movies] 
                 ratings = [m["avg_rating"] for m in top_movies]
 
                 st.markdown("### 📊 Top Rated Movies")
@@ -46,7 +47,6 @@ if st.button("Ask"):
                 ax.set_xlabel("Avg Rating")
                 ax.set_title("Top Rated Movies")
                 st.pyplot(fig)
-                pass
             
             if show_graph:
                 st.markdown("### 🌐 Graph View of Relationships")
@@ -58,45 +58,48 @@ if st.button("Ask"):
                 # Add nodes and edges
                 added_nodes = set()  # Track added nodes to avoid duplicates
                 
+                # use the keep_relevant_data_graph function to keep only relevant data
+                response = keep_relevant_data_graph(response, query)
+                print(response)
+                #print the datatype of response
+                print(type(response))
+                # Ensure edges are always added, even if nodes already exist
                 for m in response["movies"]:
-                    movie_id = m["movie"].replace(" ", "_")  # Create valid ID
-                    if movie_id not in added_nodes:
-                        net.add_node(movie_id, label=m["movie"], title="Movie", 
-                                   color="#00ff1e", size=25)
-                        added_nodes.add(movie_id)
-                    
-                    # Add actors
+                    movie_id = m["title"].replace(" ", "_")  
+                    net.add_node(movie_id, label=m["title"], title="Movie", color="#00ff1e", size=25)
+
+                    # Add actors & edges
                     for actor in m.get("actors", []):
                         actor_id = actor.replace(" ", "_")
                         if actor_id not in added_nodes:
-                            net.add_node(actor_id, label=actor, title="Actor", 
-                                       color="#ffa500", size=20)
+                            net.add_node(actor_id, label=actor, title="Actor", color="#ffa500", size=20)
                             added_nodes.add(actor_id)
-                        net.add_edge(actor_id, movie_id, title="ACTED_IN")
-                    
-                    # Add directors
+                        net.add_edge(actor_id, movie_id, title="ACTED_IN") 
+
+                    # Add directors & edges
                     for director in m.get("directors", []):
                         dir_id = director.replace(" ", "_")
                         if dir_id not in added_nodes:
-                            net.add_node(dir_id, label=director, title="Director", 
-                                       color="#ff0000", size=20)
+                            net.add_node(dir_id, label=director, title="Director", color="#ff0000", size=20)
                             added_nodes.add(dir_id)
-                        net.add_edge(dir_id, movie_id, title="DIRECTED")
-                
+                        net.add_edge(dir_id, movie_id, title="DIRECTED")  
+
                 # Save and display the graph
                 try:
-                    # Create a temporary file
-                    with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as tmp_file:
-                        # Save the network
-                        net.save_graph(tmp_file.name)
-                        # Display in Streamlit
-                        with open(tmp_file.name, 'r', encoding='utf-8') as f:
-                            html = f.read()
-                        st.components.v1.html(html, height=500)
-                        # Clean up
-                        os.unlink(tmp_file.name)
+                    # Save graph
+                    tmp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.html')
+                    net.save_graph(tmp_file.name)
+                    tmp_file.close()  # Close before reading
+
+                    # Read & render
+                    with open(tmp_file.name, 'r', encoding='utf-8') as f:
+                        html = f.read()
+                    st.components.v1.html(html, height=500)
+
+                    # Cleanup
+                    os.remove(tmp_file.name)
                 except Exception as e:
-                    st.info(f"There might be an issue with the graph visualization, If you can't see the graph, please try again later. If the graph is visible, ignore this message.")
+                    st.warning(f"⚠️ Graph visualization failed: {str(e)}")
             
             # Display the answer without visualization tags
             clean_answer = answer.replace("<SHOW_BAR_CHART>", "").replace("<SHOW_GRAPH>", "")
@@ -120,4 +123,3 @@ with st.expander("🗂️ Chat History"):
         st.markdown(f"**Q:** {chat['query']}")
         st.markdown(f"**A:** {chat['answer']}")
         st.markdown("---")
-

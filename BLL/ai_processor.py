@@ -1,93 +1,70 @@
+import json
 import ollama
 
-def perform_hop_reasoning(movies, query):
-    """Performs multiple hop reasoning on the movie data."""
-    
-    reasoning_prompt = f"""
-    Analyze the following movie data using multiple hop reasoning:
-    1. First hop: Direct relationships (movie->genre, movie->director, etc.)
-    2. Second hop: Indirect relationships (actor->movie->genre, director->movie->rating)
-    3. Third hop: Complex patterns (actor->multiple movies->common genres)
-    
-    Provide structured reasoning steps that:
-    1. Identify relevant entities in the query
-    2. Follow relationship paths
-    3. Draw conclusions from patterns
-    
-    Data to analyze: {movies}
-    Query: {query}
-    """
-    
-    reasoning_response = ollama.chat(
-        model='mistral',
-        messages=[
-            {"role": "user", "content": reasoning_prompt}
-        ]
-    )
-    
-    return reasoning_response['message']['content']
+def build_graph_paths(movies):
+    """Constructs knowledge graph relationships from movie data."""
+    paths = []
+    for m in movies:
+        movie = m["title"]
+        for actor in m.get("actors", []):
+            paths.append(f"{actor} —[:ACTED_IN]→ {movie}")
+        for director in m.get("directors", []):
+            paths.append(f"{director} —[:DIRECTED]→ {movie}")
+        for genre in m.get("genres", []):
+            paths.append(f"{movie} —[:IN_GENRE]→ {genre}")
+        for language in m.get("languages", []):
+            paths.append(f"{movie} —[:HAS_LANGUAGE]→ {language}")
+        for country in m.get("countries", []):
+            paths.append(f"{movie} —[:ORIGINATES_FROM]→ {country}")
+        for user in m.get("user_ratings", []):
+            name = user.get("name", f"User {user.get('id')}")
+            paths.append(f"{name} —[:RATED]→ {movie}")
+    return "\n".join(paths)
 
 def generate_response(answer, query):
-    """Generates a rich, helpful, accurate response using a local LLM via Ollama."""
-
-    # Define system behavior with explicit visualization rules
+    """Generates a precise and structured response using a local LLM via Ollama."""
+    
     system_msg = """
-    You are part of a GraphRAG system using Neo4j. Follow these strict rules:
-
-    1. ALWAYS start your response with visualization tags when applicable:
-       - Use <SHOW_GRAPH> for relationship visualizations
-       - Use <SHOW_BAR_CHART> for rating comparisons
+    You are an expert AI assistant for a movie knowledge graph. Your job is to provide **precise, relevant, and structured answers** to user questions.
     
-    2. REQUIRED tag usage:
-       - When comparing 2+ movies/actors/directors → <SHOW_BAR_CHART>
-       - When explaining relationships/connections → <SHOW_GRAPH>
-    
-    3. Format:
-       - First line: visualization tags
-       - Second line: Clear answer based on reasoning
-       - Third line onwards: Supporting details
+    As soon as something is asked with connections, relationships, or similar you should put the tag "<SHOW_GRAPH>" as the first word in your response.
+    As soon as something is asked with a list of items, or a chart, or a rating you should put the tag "<SHOW_BAR_CHART>" as the first word in your response.
 
-    Never skip tags when relationships or comparisons are involved.
+    **Rules:**
+    1. your answer shhould answer the user's question. Add extra information only if necessary. but always answer in a very nice and polite way. You dont need to keep all the information from the prompt, often its more than really needed.
+    2. If the query asks for **a list (e.g., languages, genres, actors)**, return a **bullet-point list**.
+    3. If the query asks for **a fact (e.g., a release year, director name, or language)**, return just the fact with minimal extra information.
+    4. If no relevant data is available, **say so explicitly** rather than guessing.
     """
 
-    # Force visualization tags based on query type
-    visualization_tags = []
-    if any(word in query.lower() for word in ['visualize', 'show', 'connection', 'relationship', 'between']):
-        visualization_tags.append("<SHOW_GRAPH>")
-    if any(word in query.lower() for word in ['compare', 'rating', 'best', 'top', 'versus', 'vs']):
-        visualization_tags.append("<SHOW_BAR_CHART>")
-
-    # Sort and format knowledge
-    movies_sorted = sorted(answer["movies"], key=lambda x: x.get("avg_rating", 0), reverse=True)
-    knowledge = "\n".join([
-        f"{i+1}. 🎬 *{m['movie']}*\n   • Avg Rating: {round(m.get('avg_rating', 0), 2)}\n   • Genres: {', '.join(m.get('genres', []))}\n   • Directed by: {', '.join(m.get('directors', []))}\n   • Rated by: {len(m.get('user_ratings', []))} users"
-        for i, m in enumerate(movies_sorted)
+    # Format structured data
+    movie_details = "\n".join([
+        f"""{i+1}. *{m['title']}*
+        • Year: {m.get('year', 'N/A')}
+        • Plot: {m.get('plot', 'N/A')}
+        • Languages: {', '.join(m.get('languages', [])) or 'N/A'}
+        • Countries: {', '.join(m.get('countries', [])) or 'N/A'}
+        • Genres: {', '.join(m.get('genres', []))}
+        • Directed by: {', '.join(m.get('directors', []))}
+        """ for i, m in enumerate(answer.get("movies", []))
     ])
-    
+
     graph_paths = build_graph_paths(answer["movies"])
-    
-    # Perform multiple hop reasoning
-    reasoning_results = perform_hop_reasoning(answer["movies"], query)
 
-    # Build final response with forced visualization tags
-    final_response = "\n".join(visualization_tags) + "\n" if visualization_tags else ""
-    
-    # Generate content with Ollama
+    # Construct a **direct** prompt
     prompt = f"""
-    Based on the following information, provide a detailed answer:
-    
-    Question: {query}
-    
-    Multiple Hop Reasoning Results:
-    {reasoning_results}
+    User Query: "{query}"
 
-    Structured Knowledge:
-    {knowledge}
+    Available Movie Data:
+    {movie_details}
 
     Graph Relationships:
     {graph_paths}
+
+    Answer the user's question concisely and directly using the provided data.
+    If the information is missing, say "I don't have that information."
     """
-    
+
     response = ollama.chat(
         model='mistral',
         messages=[
@@ -95,22 +72,69 @@ def generate_response(answer, query):
             {"role": "user", "content": prompt}
         ]
     )
-    
-    # Combine tags with response
-    final_response += response['message']['content']
-    return final_response
 
-def build_graph_paths(movies):
-    paths = []
-    for m in movies:
-        movie = m["movie"]
-        for actor in m["actors"]:
-            paths.append(f"{actor} —[:ACTED_IN]→ {movie}")
-        for director in m["directors"]:
-            paths.append(f"{director} —[:DIRECTED]→ {movie}")
-        for genre in m["genres"]:
-            paths.append(f"{movie} —[:IN_GENRE]→ {genre}")
-        for user in m["user_ratings"]:
-            name = user.get("name", f"User {user.get('id')}")
-            paths.append(f"{name} —[:RATED]→ {movie}")
-    return "\n".join(paths)
+    return response['message']['content']
+
+def keep_relevant_data_graph(response, query):
+    """Keep only relevant data for graph visualization. For this create a prompt with the graph data."""
+    movie_details = "\n".join([
+        f"""{i+1}. *{m['title']}*
+        • Year: {m.get('year', 'N/A')}
+        • Plot: {m.get('plot', 'N/A')}
+        • Languages: {', '.join(m.get('languages', [])) or 'N/A'}
+        • Countries: {', '.join(m.get('countries', [])) or 'N/A'}
+        • Genres: {', '.join(m.get('genres', []))}
+        • Directed by: {', '.join(m.get('directors', []))}
+        """ for i, m in enumerate(response.get("movies", []))
+    ])
+
+    graph_paths = build_graph_paths(response["movies"])
+
+    # Construct a **direct** prompt
+    prompt = f"""
+    User Query: "{query}"
+
+    Available Movie Data:
+    {movie_details}
+
+    Graph Relationships:
+    {graph_paths}
+
+    You are a graph visualization AI assistant and part of a GraphRAG application.
+    I want to visualize the graph relationships between the movies, actors and directors. Please only keep the relevant data for visualization for the users query.
+    Please take the same json structure as the input and remove all the data that is not needed for the graph visualization and return it.
+
+    The structure should be like this:
+    {{
+        "movies": [
+            {{
+                "title": "Movie Title",
+                "actors": ["Actor 1", "Actor 2"],
+                "directors": ["Director 1", "Director 2"]
+            }}
+        ]
+    }}
+
+    Thank you!
+    """
+
+    system_msg = """
+    You are a graph visualization AI assistant and part of a GraphRAG application.
+    Your job is to keep only the relevant data for visualization for the user's query." \
+    """
+
+    response = ollama.chat(
+        model='mistral',
+        messages=[
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    try:
+        response_json = json.loads(response['message']['content'])
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON response: {e}")
+        return "There was an error processing the response."
+
+    return response_json
