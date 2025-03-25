@@ -7,7 +7,7 @@ import tempfile
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from BLL.ai_processor import generate_response, keep_relevant_data_graph
+from BLL.ai_processor import generate_response
 
 API_URL = "http://127.0.0.1:8000/ask"
 
@@ -30,24 +30,9 @@ if st.button("Ask"):
             answer = generate_response(response, query)
             
             # Visual flags
-            show_bar = "<SHOW_BAR_CHART>" in answer
-            print(show_bar)
             show_graph = "<SHOW_GRAPH>" in answer or len(response.get("movies", [])) > 0
             print(show_graph)
                                     
-            if show_bar and "movies" in response:
-                response = keep_relevant_data_graph(response, query)
-                top_movies = sorted(response["movies"], key=lambda m: m.get("avg_rating", 0), reverse=True)[:5]
-                titles = [m["title"] for m in top_movies] 
-                ratings = [m["avg_rating"] for m in top_movies]
-
-                st.markdown("### 📊 Top Rated Movies")
-                fig, ax = plt.subplots()
-                ax.barh(titles[::-1], ratings[::-1])  
-                ax.set_xlabel("Avg Rating")
-                ax.set_title("Top Rated Movies")
-                st.pyplot(fig)
-            
             if show_graph:
                 st.markdown("### 🌐 Graph View of Relationships")
                 
@@ -58,9 +43,6 @@ if st.button("Ask"):
                 # Add nodes and edges
                 added_nodes = set()  # Track added nodes to avoid duplicates
                 
-                # use the keep_relevant_data_graph function to keep only relevant data
-                response = keep_relevant_data_graph(response, query)
-                print(response)
                 #print the datatype of response
                 print(type(response))
                 # Ensure edges are always added, even if nodes already exist
@@ -102,7 +84,7 @@ if st.button("Ask"):
                     st.warning(f"⚠️ Graph visualization failed: {str(e)}")
             
             # Display the answer without visualization tags
-            clean_answer = answer.replace("<SHOW_BAR_CHART>", "").replace("<SHOW_GRAPH>", "")
+            clean_answer = answer.replace("<SHOW_GRAPH>", "")
 
             st.markdown("### 🤖 AI Response:")
             st.write(clean_answer)

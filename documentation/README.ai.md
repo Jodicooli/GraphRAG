@@ -2,7 +2,7 @@
 
 ## What is OpenAI / Ollama?
 
-This project began using **OpenAI's GPT-4** API for natural language generation, due to its accuracy and power. However, due to **token-based pricing**, costs quickly added up (as shown in the screenshot), which led to switching to **Ollama**, a local LLM runtime that allows models like **Mistral**, **LLaMA2**, or **Gemma** to run **entirely offline** on your machine — for free.
+This project began using **OpenAI's GPT-4** API for natural language generation, due to its accuracy and power. However, due to **token-based pricing**, costs quickly added up (as shown in the screenshot), which led to switching to **Ollama**, a local LLM runtime that allows models like **llama3**, **LLaMA2**, or **Gemma** to run **entirely offline** on your machine — for free.
 
 Ollama is ideal for local development, prototypes, and low-latency applications. It serves as a drop-in replacement for OpenAI’s chat interface with minimal code changes.
 
@@ -28,7 +28,7 @@ Ollama is ideal for local development, prototypes, and low-latency applications.
 2. Install the binary for your OS (macOS, Windows, Linux)
 3. Run the installer and verify with:
     ```
-    ollama run mistral
+    ollama run llama3
     ```
 4. Install Python wrapper:
     ```
@@ -41,7 +41,7 @@ The **AI model** is used to generate **intelligent, multi-hop** answers about mo
 
 **OpenAI**: We used GPT-4 via API to generate context-aware answers. Queries and structured knowledge were sent as messages using the OpenAI Chat API.
 
-**Ollama**: A simple and free replacement. Ollama loads a model like mistral locally and processes messages in a similar JSON format.
+**Ollama**: A simple and free replacement. Ollama loads a model like llama3 locally and processes messages in a similar JSON format.
 
 ---
 
@@ -61,7 +61,7 @@ Make sure you have a valid key and call the API with:
 **With Ollama**
 After installing the model, just run:
     ```
-    ollama run mistral
+    ollama run llama3
     ```
 And interact with it via the ollama Python client or CLI.
 
@@ -89,7 +89,7 @@ This made the system:
 - Free and local — no token costs
 - Simple setup
 - Runs on your machine (privacy-by-design)
-- Works well with smaller LLMs like Mistral or LLaMA2
+- Works well with smaller LLMs like llama3 or LLaMA2
 
 
 ---
@@ -104,7 +104,7 @@ This made the system:
 
 - Less accurate than OpenAI
 - Requires system resources (RAM/CPU)
-- Model quality depends on what you install (e.g., Mistral vs GPT-4)
+- Model quality depends on what you install (e.g., llama3 vs GPT-4)
 
 ---
 
@@ -122,7 +122,7 @@ This made the system:
 
 ## 📝 Summary
 
-We began the project with **OpenAI** because of its powerful capabilities and accurate multi-hop reasoning. However, due to rising API costs, we later switched to **Ollama**, which allows us to run LLMs like Mistral entirely **offline** and **for free**.
+We began the project with **OpenAI** because of its powerful capabilities and accurate multi-hop reasoning. However, due to rising API costs, we later switched to **Ollama**, which allows us to run LLMs like llama3 entirely **offline** and **for free**.
 
 This transition helped us keep development local, reduce budget impact, and test more freely. 
 

@@ -4,7 +4,7 @@
 GraphRAG (Graph-based Retrieval-Augmented Generation) is a smart AI system that combines in our project:
 - **Neo4j**: A graph database for structured movie knowledge (movies, actors, genres, users, ratings, etc.)
 - **FAISS**: For fast semantic search over movie embeddings
-- **Ollama + Mistral**: A local LLM that generates rich, multi-hop, graph-aware answers
+- **Ollama + llama3**: A local LLM that generates rich, multi-hop, graph-aware answers
 - **Streamlit**: A simple, friendly UI to ask natural language movie questions
 
 This system dynamically retrieves knowledge from both **graph-based** and **vector-based** search, ensuring **more relevant** and **accurate AI responses**.
@@ -75,7 +75,7 @@ We followed a modular approach to build the full-stack AI system from scratch:
 - **Data**: We started with a .dump file, which we found on https://neo4j.com/docs/getting-started/appendix/example-data/ containing movie ratings and metadata (imported into Neo4j).
 - **FAISS Index**: Created using SentenceTransformers to store vector representations of movie titles for similarity search.
 **Backend (FastAPI)**: Handles API queries and communicates with both FAISS and Neo4j.
-- **LLM Reasoning (Ollama)**: Generates answers using local models (like Mistral) based on graph knowledge and embeddings.
+- **LLM Reasoning (Ollama)**: Generates answers using local models (like llama3) based on graph knowledge and embeddings.
 - **Frontend (Streamlit)**: Enables natural user interaction with graph-based visualizations and charts.
 - **Documentations**: We documented each layer separately to make it easy for others to reuse or learn from our approach.
 
@@ -94,7 +94,7 @@ The structure is clean and separated into DAL, BLL, API, Frontend, and Config, m
 
 ### 2. Make sure Ollama is installed (https://ollama.com/download/windows) and run the following command
 ```bash
-ollama run mistral
+ollama run llama3
 ```
 
 ### 3. Install dependencies
@@ -118,7 +118,7 @@ streamlit run frontend/app.py
 1. **User asks a question** via the Streamlit UI or API.
 2. **FAISS retrieves similar past questions** from stored embeddings.
 3. **Neo4j dynamically retrieves graph-based knowledge** from the StackOverflow dataset.
-4. **Ollama (with Mistral) generates an AI response with multi-hop explanation** using both FAISS & Neo4j context.
+4. **Ollama (with llama3) generates an AI response with multi-hop explanation** using both FAISS & Neo4j context.
 5. **Answer is returned to the user** through the frontend or API.
 
 ---
@@ -154,7 +154,7 @@ This project demonstrates how you can **fully implement** a GraphRAG system **fr
 However, we also noticed some **limitations**:
 
 - The system can be **slow**, especially when the reasoning becomes complex or when the local LLM is under heavy load.
-- Local LLMs like Mistral (via Ollama) are impressive but sometimes struggle with very **nuanced** or **long queries**.
+- Local LLMs like llama3 (via Ollama) are impressive but sometimes struggle with very **nuanced** or **long queries**.
 - Query **performance depends heavily on database size**, indexing, and memory usage.
 - Depending on the LLM you use, it can be a little **expensive** and you have to keep an eye on the costs. At the beginning we used an API key from OpenAI. After only few days using to code the application and debug, we already had a bill of over 6 dollars.
 
