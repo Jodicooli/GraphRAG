@@ -1,43 +1,102 @@
-from openai import OpenAI
-import config.settings as settings
-from BLL.retrieval import retrieve_context
+import ollama
 
-# Initialize OpenAI client
-client = OpenAI(api_key=settings.OPENAI_API_KEY)
+def build_graph_paths(movies):
+    """Constructs knowledge graph relationships from movie data."""
+    paths = []
+    for m in movies:
+        movie = m["title"]
+        for actor in m.get("actors", []):
+            paths.append(f"{actor} —[:ACTED_IN]→ {movie}")
+        for director in m.get("directors", []):
+            paths.append(f"{director} —[:DIRECTED]→ {movie}")
+        for genre in m.get("genres", []):
+            paths.append(f"{movie} —[:IN_GENRE]→ {genre}")
+        for language in m.get("languages", []):
+            paths.append(f"{movie} —[:HAS_LANGUAGE]→ {language}")
+        for country in m.get("countries", []):
+            paths.append(f"{movie} —[:ORIGINATES_FROM]→ {country}")
+        for user in m.get("user_ratings", []):
+            name = user.get("name", f"User {user.get('id')}")
+            paths.append(f"{name} —[:RATED]→ {movie}")
+    return "\n".join(paths)
 
-def generate_response(query):
-    """
-    Generates an AI response using OpenAI GPT-4 based on retrieved context.
-    Ensures minimal token usage to avoid rate limits.
-    """
-    related_movies = retrieve_context(query, limit=15)
+def generate_response(answer, query):
+    """Generates a precise and structured response using a local LLM via Ollama."""
 
-    knowledge_text = "\n".join([
-    f"🎬 {movie.get('movie', 'Unknown Movie')} ({movie.get('year', 'Year Unknown')})\n"
-    f"   Actors: {', '.join(movie.get('actors', [])[:3])}\n"
-    f"   Director: {', '.join(movie.get('directors', [])[:2])}\n"
-    f"   Genres: {', '.join(movie.get('genres', [])[:2])}\n"
-    for movie in related_movies
-])
+    system_msg = """
+        You are an expert AI assistant for a movie knowledge graph. Your goal is to provide **precise, relevant, and structured answers**.
+        
+        As soon as something is asked with connections, relationships, or similar you should put the tag "<SHOW_GRAPH>" as the first word in your response.
+
+        ### Rules:
+        1. **Only include movies that are directly related to the user's query**.
+        2. **Avoid unrelated information**—do not list extra movies unless they are relevant.
+        3. **Do not guess**. If the information is missing, say **"I don't have that information."**
+        4. **Use structured formatting** for clarity.
+        """
+
+    # Format structured data
+    movie_details = "\n".join([
+        f"""{i+1}. *{m['title']}*
+        • Year: {m.get('year', 'N/A')}
+        • Plot: {m.get('plot', 'N/A')}
+        • Languages: {', '.join(m.get('languages', [])) or 'N/A'}
+        • Countries: {', '.join(m.get('countries', [])) or 'N/A'}
+        • Genres: {', '.join(m.get('genres', []))}
+        • Directed by: {', '.join(m.get('directors', []))}
+        """ for i, m in enumerate(answer.get("movies", []))
+    ])
+
+    graph_paths = build_graph_paths(answer["movies"])
+
+    if "country" in query.lower():
+        focus_field = "countries"
+    elif "director" in query.lower():
+        focus_field = "directors"
+    elif "actor" in query.lower():
+        focus_field = "actors"
+    elif "genre" in query.lower():
+        focus_field = "genres"
+    elif "language" in query.lower():
+        focus_field = "languages"
+    elif "plot" in query.lower():
+        focus_field = "plot"
+    elif "rating" in query.lower():
+        focus_field = "user ratings"
+    elif "year" in query.lower():
+        focus_field = "year"
+    elif "title" in query.lower():
+        focus_field = "title"
+    elif "average" in query.lower():
+        focus_field = "average rating"
+    elif "user" in query.lower():
+        focus_field = "user ratings"
+    else:
+        focus_field = "general information"
 
     prompt = f"""
-    You are a helpful AI assistant. Based on the following knowledge, answer the user's question:
+    User Query: "{query}"
 
-    Knowledge:
-    {knowledge_text}
+    ### Relevant Field: {focus_field}
 
-    User Question: {query}
+    ### Available Movie Data:
+    {movie_details}
 
-    Answer:
+    ### Graph-Based Relationships:
+    {graph_paths}
+
+    **Instructions:**
+    - Focus on `{focus_field}` when answering.
+    - Do **not** include unrelated movies or fields.
+    - Use structured formatting.
     """
 
-    response = client.chat.completions.create(
-        model="gpt-4",
+    response = ollama.chat(
+        model='llama3',
         messages=[
-            {"role": "system", "content": "You are an expert assistant using GraphRAG for knowledge retrieval."},
+            {"role": "system", "content": system_msg},
             {"role": "user", "content": prompt}
-        ],
-        temperature=0.7
+        ]
     )
 
-    return response.choices[0].message.content
+    return response['message']['content']
