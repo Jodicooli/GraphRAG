@@ -196,6 +196,8 @@ However, we also noticed some **limitations**:
 
 That said, this architecture is ideal for learning, prototyping, and local use cases — especially when privacy, customization, and cost control matter.
 
+---
+
 ## Experiments and Challenges
 
 Throughout the development of this GraphRAG system, we tested various approaches, models, and configurations. While each experiment provided valuable insights, not all solutions were ideal. Here’s what we tried and the challenges we encountered:
@@ -228,6 +230,8 @@ Throughout the development of this GraphRAG system, we tested various approaches
 - When switching from OpenAI to Ollama, we often had to rewrite and fine-tune prompts just to get coherent answers.
 
 - Small changes in phrasing could completely alter the model’s response quality.
+
+---
 
 ### Key Takeaways
 - OpenAI is expensive but more reliable and accurate.
