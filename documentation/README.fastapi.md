@@ -1,4 +1,4 @@
-# FastAPI - Lightweight API for GraphRAG Backend
+# FastAPI - Lightweight API for GraphRAG backend
 
 ## What is FastAPI?
 
@@ -10,7 +10,7 @@ In this project, FastAPI powers the backend API that connects the **Frontend UI*
 
 ## Installation
 
-Install FastAPI and a server (we use `uvicorn` for development):
+Install FastAPI and a server (we use `uvicorn` for development) (already in the requirements.txt file):
 
 ```bash
 pip install fastapi uvicorn
@@ -20,19 +20,16 @@ pip install fastapi uvicorn
 We use FastAPI to define a simple route that accepts a movie-related question and returns a structured response. The endpoint connects all retrieval components (FAISS + Neo4j) and returns data to the frontend.
 
 ```
-from fastapi import FastAPI
-from BLL.retrieval import retrieve_context
-
 app = FastAPI()
 
 @app.get("/ask")
 def ask_question(query: str):
-    """Handles user queries & fetches movie relationships using GraphRAG."""
+    """Handles user queries & fetches relevant information in a structured format."""
     response = retrieve_context(query)
     return {"movies": response}
 ```
 
-When you call this /ask endpoint with a query like What is the best crime movie?, it returns a JSON response with relevant movie information pulled from both vector and graph-based retrieval.
+When you call this /ask endpoint with a query like "What are some Horror Movies?"", it returns a JSON response with relevant movie information pulled from both vector and graph-based retrieval.
 
 ---
 
@@ -40,13 +37,20 @@ When you call this /ask endpoint with a query like What is the best crime movie?
 To run the API locally: ```bash uvicorn api.main:app --reload ```
 Then go to http://localhost:8000/docs for interactive Swagger documentation.
 
+![FastAPI](images/fastapi.png)
+
+---
 
 ## Why We Used FastAPI
 
 - **Fast & efficient**: Built on ASGI for high-performance APIs.
+
 - **Pythonic**: Clean and readable syntax.
-- **Async support**: Easily handle I/O operations like database calls.
+
+- **Async support**: Easily handle input/output operations like database calls.
+
 - **Automatic docs**: OpenAPI/Swagger docs available at `/docs`.
+
 - **Easy integration**: Works well with Neo4j, FAISS, and local LLMs like Ollama.
 
 ---
@@ -54,9 +58,13 @@ Then go to http://localhost:8000/docs for interactive Swagger documentation.
 ## Advantages of FastAPI
 
 - **High Performance**: FastAPI is built on top of ASGI (Asynchronous Server Gateway Interface), making it one of the fastest Python frameworks available today.
+
 - **Automatic Documentation**: Built-in support for OpenAPI and Swagger UI — no extra setup needed.
+
 - **Easy to Use**: Clean, and modern syntax. Easy for beginners and still efficient for advanced users.
+
 - **Asynchronous Support**: Fully supports `async` and `await`, great for operations like databases or external APIs.
+
 - **Modular and Scalable**: Easy to build small services and grow them into larger, modular applications.
 
 ---
@@ -64,6 +72,7 @@ Then go to http://localhost:8000/docs for interactive Swagger documentation.
 ## Disadvantages of FastAPI
 
 - **Fewer Extensions**: Compared to Django or Flask, FastAPI has a smaller ecosystem of plugins and built-in tools.
+
 - **Authentication and Authorization**: Not as robust out-of-the-box; you often need to build your own auth logic or use third-party packages.
 
 ---

@@ -1,4 +1,4 @@
-# FAISS - Semantic Movie Search with Embeddings
+# FAISS - Semantic movie search with embeddings
 
 ## Overview
 
@@ -16,7 +16,7 @@ This is especially useful when users ask for something like _"similar to The Mat
 
 ## Installation
 
-To install FAISS and the sentence transformer:
+To install FAISS and the sentence transformer (already in the requirements.txt file):
 
 ```bash
 pip install faiss-cpu sentence-transformers
@@ -25,22 +25,26 @@ pip install faiss-cpu sentence-transformers
 ---
 
 ## How It Works in This Project
-1. When the project starts, a list of all movie titles is encoded using all-MiniLM-L6-v2 from sentence-transformers
-2. Embeddings are stored and indexed with FAISS
-3. When a user asks a question, we encode the query and retrieve the top K most similar movies
+1. When the project starts, movie data (title, plot, actors, directors, genres, etc.) is extracted from Neo4j and combined into a textual representation for each movie.
+
+2. The combined movie text is encoded into embeddings using the all-MiniLM-L6-v2 model from Sentence-Transformers.
+
+3. The embeddings are indexed and stored with FAISS for efficient similarity search.
+
+4. When a user asks a question, the query is encoded into an embedding, and the top K most similar movies are retrieved by searching the FAISS index.
 
 ```
-def find_similar_movies(query, k=50, min_similarity=0.3):
+def find_similar_movies(query, k=50, min_similarity=0.6):
     """Find similar movies using FAISS & return their Neo4j IDs with better filtering."""
     query_embedding = model.encode([query]).astype('float32')
 
-    D, I = index.search(query_embedding, k=k)  # D = distances, I = indexes
+    D, I = index.search(query_embedding, k=k)  
 
     relevant_movies = []
     for dist, idx in zip(D[0], I[0]):
-        if idx == -1:  # FAISS returns -1 if no match is found
+        if idx == -1: 
             continue
-        if dist < min_similarity:  # Filter out weak matches
+        if dist < min_similarity:  
             continue
 
         relevant_movies.append(movies[idx]["id"])
@@ -53,23 +57,31 @@ This returns a ranked list of movie IDs — which are then used to query Neo4j f
 
 ## Why we chose FAISS
 - Open-source and well-maintained by Meta
+
 - Lightweight and fast for local development
+
 - Perfect for semantic similarity over small to medium datasets
+
 - Easy to rebuild/update embeddings on the fly
+
 - Integrates well with Python and sentence-transformers
 
 ---
 
 ## Advantages of FAISS
 - Free and open source
+
 - Blazing fast: Handles large-scale vector search in milliseconds
+
 - Great for semantic search: Combined with sentence-transformers, it enables contextual queries
+
 - Works locally: Works without a cloud connection
 
 ---
 
 ## Disadvantages of FAISS
 - Flat file-based index: Not ideal for real-time inserts or dynamic updates
+
 - Memory-bound: Large datasets may require lots of RAM
 
 ---

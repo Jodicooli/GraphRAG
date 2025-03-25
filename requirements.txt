@@ -1,10 +1,13 @@
 fastapi
 uvicorn
-streamlit
 ollama
 faiss-cpu
-sentence-transformers
 neo4j
+sentence-transformers
+numpy
+scipy
 requests
-python-dotenv
+matplotlib
+streamlit
 pyvis
+python-dotenv

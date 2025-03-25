@@ -1,17 +1,22 @@
-# Neo4j - Graph Database for Movie Knowledge
+# Neo4j - Graph database for movie knowledge
 
 ## Overview
 
 Neo4j is a graph database used in this project to store structured movie data including:
 
 - **Movies**
+
 - **Actors**
+
 - **Directors**
+
 - **Genres**
+
 - **Users**
+
 - **Ratings**
 
-By using graph relationships (e.g., `(:User)-[:RATED]->(:Movie)-[:ACTED_IN]<-(:Actor)`), Neo4j enables **multi-hop reasoning** across connected entities — perfect for GraphRAG-style systems.
+By using graph relationships (e.g., `(:User)-[:RATED]->(:Movie)-[:ACTED_IN]<-(:Actor)`), Neo4j enable relationship-based reasoning, allowing insights to emerge through entity connections.
 
 ---
 
@@ -20,14 +25,19 @@ By using graph relationships (e.g., `(:User)-[:RATED]->(:Movie)-[:ACTED_IN]<-(:A
 ### Option 1: Use the cloud version 
 
 1. Access the site: [https://neo4j.com/](https://neo4j.com/)
+
 2. Click on **Get Started Free** and create an account
+
 3. Create a new instance if you do not have one yet by clicking on **Create instance**
+
 4. You can now **import** your data from a **data source** or directly click on the three dots next to the current instance, select **Backup & restore** and browse for your **.dump file**. If you are interest in using the same database about movies, find the .dump file in the folder **db_backup_file**
 
 ### Option 2: Neo4j Desktop
 
 1. Download Neo4j Desktop: [https://neo4j.com/download/](https://neo4j.com/download/)
+
 2. Install and open the application
+
 3. Create a **Local Database** 
 
 Access Neo4j at: [http://localhost:7474](http://localhost:7474)
@@ -51,6 +61,7 @@ docker run \
 ### Usage of Neo4j 
 
 In the Neo4j interface, you'll find two key tools: **Query** and **Explore**.
+![Neo4j](images/neo4j_query_explore.png)
 
 **Query** allows you to write and execute Cypher queries manually. It's the primary way to interact with the graph using Neo4j's query language, giving you full control to retrieve nodes, relationships, paths, and more. You can filter, sort, or even return visual subgraphs — great for debugging or exploring specific questions. Below an exmaple of a query:
 
@@ -92,21 +103,17 @@ MATCH (m:Movie)
     OPTIONAL MATCH (u:User)-[r:RATED]->(m)
 
     RETURN 
-    m.movieId AS id,
-    m.title AS movie,
-    COLLECT(DISTINCT a.name) AS actors,
-    COLLECT(DISTINCT d.name) AS directors,
-    COLLECT(DISTINCT g.name) AS genres,
-    COLLECT(DISTINCT {id: u.userId, name: u.name}) AS user_ratings,
-    COLLECT(DISTINCT {
-        user: u.name,
-        movie: m.title,
-        actor: a.name,
-        director: d.name,
-        genre: g.name,
-        rating: r.rating
-    }) AS graph_paths,
-    AVG(toFloat(r.rating)) AS avg_rating
+        m.movieId AS id,
+        COALESCE(m.title, "Unknown") AS title,
+        COALESCE(m.year, "Unknown") AS year,
+        COALESCE(m.plot, "No plot available") AS plot,
+        COALESCE(m.languages, "Unknown") AS languages,
+        COALESCE(m.countries, "Unknown") AS countries,
+        COLLECT(DISTINCT COALESCE(a.name, "")) AS actors,
+        COLLECT(DISTINCT COALESCE(d.name, "")) AS directors,
+        COLLECT(DISTINCT COALESCE(g.name, "")) AS genres,
+        COLLECT(DISTINCT {id: u.userId, name: u.name}) AS user_ratings,
+        AVG(toFloat(r.rating)) AS avg_rating
     """
 
     with driver.session() as session:
@@ -114,12 +121,16 @@ MATCH (m:Movie)
         return [
             {
                 "id": record["id"],
-                "movie": record["movie"],
+                "title": record["title"],
+                "year": record["year"],
+                "plot": record["plot"],
+                "languages": record["languages"],
+                "countries": record["countries"],
                 "actors": record["actors"],
                 "directors": record["directors"],
                 "genres": record["genres"],
                 "user_ratings": record["user_ratings"],
-                "avg_rating": record["avg_rating"]  
+                "avg_rating": record["avg_rating"] if record["avg_rating"] else 0.0 
             }
             for record in result
         ]
@@ -135,7 +146,9 @@ Neo4j is a native graph database used to store data as nodes and relationships, 
 
 - Users rating multiple movies
 
-- Multi-hop reasoning (e.g. "Who rated the top movies in a specific genre?")
+- Efficient querying of connected data (e.g., retrieving all movies from a specific director)
+
+- Seamless integration of diverse data types (e.g., ratings, genres, actors) for better insights
 
 Thanks to its structure and query language, Neo4j allows us to easily traverse these relationships to answer natural-language questions.
 
@@ -147,7 +160,7 @@ Thanks to its structure and query language, Neo4j allows us to easily traverse t
 
 - Free to use: Neo4j has a Community Edition that is free and perfect for local development and learning.
 
-- Strong documentation & adoption: Neo4j is used by companies like ebay, Adobe, UBS and others.
+- Strong documentation & adoption: Neo4j is used by companies like ebay, Adobe, UBS and others. It has therefore a lot of documentation available.
 
 - Cypher query language: Simple and powerful for writing expressive graph queries.
 
@@ -185,7 +198,7 @@ Cypher is easy, but thinking in graphs is different from traditional SQL.
 
 ## Summary
 
-We chose Neo4j because it is a **free**, **beginner-friendly**, and highly **visual graph database** that fits  with our movie dataset. Its graph-native structure and rich query language allow for multi-hop reasoning and deep insights. Perfect for using GraphRAG.
+We chose Neo4j because it is a **free**, **beginner-friendly**, and highly **visual graph database** that fits  with our movie dataset. Its graph-native structure and rich query language is perfect for ou GraphRAG application and allow deep insights.
 
 ---
 

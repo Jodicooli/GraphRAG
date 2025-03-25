@@ -2,7 +2,7 @@
 
 ## What is OpenAI / Ollama?
 
-This project began using **OpenAI's GPT-4** API for natural language generation, due to its accuracy and power. However, due to **token-based pricing**, costs quickly added up (as shown in the screenshot), which led to switching to **Ollama**, a local LLM runtime that allows models like **llama3**, **LLaMA2**, or **Gemma** to run **entirely offline** on your machine — for free.
+This project began using **OpenAI's GPT-4** API for natural language generation, due to its accuracy and power. However, due to **token-based pricing**, costs quickly added up, which led to switching to **Ollama**, a local LLM runtime that allows models like **llama3**, **LLaMA2**, or **Gemma** to run **entirely offline** on your machine — for free.
 
 Ollama is ideal for local development, prototypes, and low-latency applications. It serves as a drop-in replacement for OpenAI’s chat interface with minimal code changes.
 
@@ -13,11 +13,14 @@ Ollama is ideal for local development, prototypes, and low-latency applications.
 ### OpenAI
 
 1. Sign up at [https://platform.openai.com](https://platform.openai.com)
+
 2. Create an API key under your account settings
+
 3. Install the OpenAI Python client:
    ```bash
    pip install openai
    ```
+
 4. Add your key to your environment variables or .env file:
     ```
     OPENAI_API_KEY=your_key_here
@@ -25,19 +28,23 @@ Ollama is ideal for local development, prototypes, and low-latency applications.
 
 ### Ollama (Local LLM)
 1. Download from https://ollama.com
+
 2. Install the binary for your OS (macOS, Windows, Linux)
-3. Run the installer and verify with:
+
+3. Pull and run the model with:
     ```
+    ollama pull llama3
     ollama run llama3
     ```
-4. Install Python wrapper:
+
+4. Install Python wrapper (already in the requirements.txt file):
     ```
     pip install ollama
     ```
 
 ## How It’s Used in This Project
 
-The **AI model** is used to generate **intelligent, multi-hop** answers about movies, based on retrieved graph data (from Neo4j) and semantic vector matches (from FAISS). Here's how each version was integrated:
+The **AI model** is used to generate **intelligent and accurate** answers about movies, based on retrieved graph data (from Neo4j) and semantic vector matches (from FAISS). Here's how each version was integrated:
 
 **OpenAI**: We used GPT-4 via API to generate context-aware answers. Queries and structured knowledge were sent as messages using the OpenAI Chat API.
 
@@ -64,6 +71,7 @@ After installing the model, just run:
     ollama run llama3
     ```
 And interact with it via the ollama Python client or CLI.
+![Ollama](images/ollama.png)
 
 ## Why We Used 
 
@@ -80,30 +88,39 @@ This made the system:
 ## Advantages of OpenAI
 
 - Best-in-class performance
+
 - Deep context understanding & multi-hop reasoning
+
 - Cloud-hosted, no setup required
+
 - Supports multiple models and tools (functions, vision, etc.)
 
 ## Advantages of Ollama
  
 - Free and local — no token costs
-- Simple setup
-- Runs on your machine (privacy-by-design)
-- Works well with smaller LLMs like llama3 or LLaMA2
 
+- Simple setup
+
+- Runs on your machine (privacy-by-design)
+
+- Works well with smaller LLMs like llama3 or LLaMA2
 
 ---
 
 ## Disadvantages of OpenAI
 
 - Expensive at scale (per-token pricing)
+
 - Requires internet connection
+
 - May leak sensitive data if not handled securely
 
 ## Disadvantages of Ollama
 
 - Less accurate than OpenAI
+
 - Requires system resources (RAM/CPU)
+
 - Model quality depends on what you install (e.g., llama3 vs GPT-4)
 
 ---

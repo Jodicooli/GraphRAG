@@ -1,4 +1,3 @@
-import json
 import ollama
 
 def build_graph_paths(movies):

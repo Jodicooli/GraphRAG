@@ -19,7 +19,7 @@ if "chat_history" not in st.session_state:
 st.set_page_config(page_title="🎬 MovieGraphRAG", layout="wide")
 st.title("🧠 GraphRAG: Ask anything about movies")
 
-query = st.text_input("What would you like to know?", placeholder="e.g. What is the best action movie from the 90s?")
+query = st.text_input("What would you like to know?", placeholder="e.g. What is the plot of Inception?")
 
 if st.button("Ask"):
     if not query:
@@ -41,10 +41,8 @@ if st.button("Ask"):
                             font_color="white", directed=True)
                 
                 # Add nodes and edges
-                added_nodes = set()  # Track added nodes to avoid duplicates
-                
-                #print the datatype of response
-                print(type(response))
+                added_nodes = set() 
+
                 # Ensure edges are always added, even if nodes already exist
                 for m in response["movies"]:
                     movie_id = m["title"].replace(" ", "_")  
