@@ -13,8 +13,8 @@ openai_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=openai_key)
 
 # Load FAISS index
-index = faiss.read_index("index/faiss_index.bin")
-with open("index/text_chunks.pkl", "rb") as f:
+index = faiss.read_index("index/faiss_graph_index.bin")
+with open("index/graph_chunks.pkl", "rb") as f:
     text_chunks = pickle.load(f)
 
 # Embed model
