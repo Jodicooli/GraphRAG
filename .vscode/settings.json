@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./Custom_GraphRAG_Application/DAL"
+    ]
+}
