@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from llm.response_generator import query_llm
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI()
 
@@ -14,8 +16,8 @@ app.add_middleware(
 )
 
 @app.get("/")
-def root():
-    return {"message": "GraphRAG API is running!"}
+def serve_index():
+    return FileResponse(os.path.abspath("frontend/index.html"))
 
 @app.get("/ask")
 def ask(query: str):
