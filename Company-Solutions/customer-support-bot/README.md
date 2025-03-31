@@ -211,13 +211,15 @@ uvicorn api.main:app --reload
 
 1. Go to https://platform.openai.com/api-keys 
 
-2. Click on "Create new secret key" 
+2. Click on "Create new secret key"
+   
 ![Open AI create new key](images/CreateKey.png)
 
-3. Enter a name for the key 
+4. Enter a name for the key
+   
 ![Open AI Secret Key](images/SecretKey.png)
 
-4. Copy and save your key
+6. Copy and save your key
 
 Save your secret key in a safe place since you won't be able to view it again. 
 
