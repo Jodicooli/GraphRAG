@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./Custom_GraphRAG_Application/DAL"
+        "./Custom_GraphRAG_Application/DAL",
+        "./Company-Solutions/customer-support-bot"
     ]
 }
