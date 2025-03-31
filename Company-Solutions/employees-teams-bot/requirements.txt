@@ -1,0 +1,6 @@
+botbuilder-core==4.14.1
+aiohttp==3.8.1
+fastapi
+uvicorn
+python-dotenv
+requests
