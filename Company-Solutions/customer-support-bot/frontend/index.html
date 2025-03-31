@@ -1,29 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>GraphRAG Assistant</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyCompany | GraphRAG Support</title>
   <style>
-    body { font-family: Arial; max-width: 600px; margin: auto; padding-top: 40px; }
-    textarea { width: 100%; height: 80px; font-size: 16px; }
-    button { margin-top: 10px; padding: 10px 20px; }
-    .response { margin-top: 30px; background: #f2f2f2; padding: 15px; border-radius: 8px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #c988da;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    section {
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* Chat button */
+    #chatButton {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #c988da;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 26px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Chat window */
+    #chatWindow {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 350px;
+      max-height: 500px;
+      background: rgb(240, 205, 238);
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    #chatWindow h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    #queryInput {
+      width: 90%;
+      height: 60px;
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid rgb(240, 205, 238);
+      font-size: 14px;
+      resize: none;
+    }
+
+    #sendBtn {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #c988da;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    #chatResponse {
+      margin-top: 20px;
+      background: rgb(240, 205, 238);
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #333;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
-  <h2>Customer Support Assistant</h2>
-  <p>Ask me anything related to policies, shipping, refunds, etc.</p>
-  <textarea id="queryInput" placeholder="Type your question here..."></textarea>
-  <br>
-  <button onclick="submitQuery()">Ask</button>
-  <div id="result" class="response" style="display:none;"></div>
+
+  <header>
+    <h1>MyCompany</h1>
+    <p>Welcome to our awesome fake product site 👋</p>
+  </header>
+
+  <section>
+    <h2>📦 Explore Our Services</h2>
+    <p>
+      Welcome! 👋 We're here to help you with anything related to your purchases — whether it's <strong>returns</strong>, <strong>shipping</strong>, <strong>refunds</strong>, <strong>orders</strong>, or <strong>account assistance</strong>.  
+      Just click the 💬 chat button in the corner to speak to our AI support assistant!
+    </p>
+    <p>
+      This is a <strong>school project</strong> demonstrating a <strong>GraphRAG-powered customer support bot</strong>.  
+      It's designed to answer questions by combining graph-based knowledge from a Neo4j database with a smart AI language model.  
+      ⚠️ Responses are for demo purposes only and may not reflect real company policies.
+    </p>
+  </section>
+  
+  <section>
+    <h2>🛍️ Our Products</h2>
+    <ul>
+      <li><strong>Physical Product</strong> 📦 — Shipped directly to your door, returnable within 30 days.</li>
+      <li><strong>Digital Product</strong> 💻 — Instantly downloadable and non-returnable after purchase.</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>🧾 Policies & Actions</h2>
+    <ul>
+      <li><strong>Return Policy:</strong> Products can be returned within 30 days. Refunds processed in 5–7 business days.</li>
+      <li><strong>Refund Timeline:</strong> Refunds are issued after the returned product is received.</li>
+      <li><strong>Shipping Zones:</strong> We ship to 🇺🇸 US, 🇪🇺 EU, and 🇨🇦 Canada. Customs may apply.</li>
+      <li><strong>Common Actions:</strong> Request a return, track your order, or reset your password.</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>👥 About Us</h2>
+    <p>
+      We're a fictional company created for educational purposes.  
+      This website was built to demonstrate how AI + Graph Databases can power customer support systems.  
+      Our mission is to help users find answers quickly and naturally using smart technology.  
+    </p>
+  </section>  
+
+  <!-- Chat Button -->
+  <button id="chatButton" onclick="toggleChat()">💬</button>
+
+  <!-- Chat Window -->
+  <div id="chatWindow">
+    <h3>I am a GraphRAG-powered support assistant 🤖</h3>
+    <textarea id="queryInput" placeholder="Type your question here..."></textarea>
+    <button id="sendBtn" onclick="sendQuery()">Ask</button>
+    <div id="chatResponse"></div>
+  </div>
 
   <script>
-    async function submitQuery() {
-        const query = document.getElementById("queryInput").value;
-        const res = await fetch(`https://graphrag-api-pkdf.onrender.com/ask?query=${encodeURIComponent(query)}`);
+    const apiBase = "https://graphrag-api-pkdf.onrender.com"
+
+    function toggleChat() {
+      const chat = document.getElementById("chatWindow");
+      chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+    }
+
+    async function sendQuery() {
+      const input = document.getElementById("queryInput").value.trim();
+      const responseBox = document.getElementById("chatResponse");
+
+      if (!input) {
+        responseBox.innerText = "Please enter a question.";
+        return;
+      }
+
+      responseBox.innerText = "Thinking...";
+      try {
+        const res = await fetch(`${apiBase}/ask?query=${encodeURIComponent(input)}`);
         const data = await res.json();
-      document.getElementById("result").style.display = "block";
-      document.getElementById("result").innerText = data.answer;
+        responseBox.innerText = data.answer || "Sorry, I couldn’t find an answer.";
+      } catch (err) {
+        responseBox.innerText = "Something went wrong. Please try again.";
+      }
     }
   </script>
 </body>
