@@ -19,9 +19,9 @@
 
   <script>
     async function submitQuery() {
-      const query = document.getElementById("queryInput").value;
-      const res = await fetch(`https://API-URL.com/ask?query=${encodeURIComponent(query)}`);
-      const data = await res.json();
+        const query = document.getElementById("queryInput").value;
+        const res = await fetch(`https://graphrag-api-pkdf.onrender.com/ask?query=${encodeURIComponent(query)}`);
+        const data = await res.json();
       document.getElementById("result").style.display = "block";
       document.getElementById("result").innerText = data.answer;
     }
