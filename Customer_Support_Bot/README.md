@@ -128,7 +128,7 @@ This kind of assistant is ideal for companies that want lightweight, AI-powered 
 Benefits:
 - Smarter answers via reasoning (not just keyword search)
 
-- Easy integration — add a <script> and embed the chat bot in any webpage
+- Easy integration — add a script and embed the chat bot in any webpage
 
 - Works with structured knowledge (graphs), making it great for:
 

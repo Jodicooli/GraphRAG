@@ -137,7 +137,7 @@ This made the system:
 
 ---
 
-## 📝 Summary
+## Summary
 
 We began the project with **OpenAI** because of its powerful capabilities and accurate multi-hop reasoning. However, due to rising API costs, we later switched to **Ollama**, which allows us to run LLMs like llama3 entirely **offline** and **for free**.
 

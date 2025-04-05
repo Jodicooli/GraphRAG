@@ -99,7 +99,7 @@ In short: it made building an interactive UI for our GraphRAG system easy and fa
 
 ---
 
-## 📝 Summary
+## Summary
 
 Streamlit was the perfect fit for this GraphRAG project because it’s **fast**, and **user-friendly**.  
 It helped us build an interactive movie assistant UI — including **graph visualizations** — without any frontend coding.

@@ -88,7 +88,7 @@ Then go to http://localhost:8000/docs for interactive Swagger documentation.
 
 ---
 
-## 📝 Summary
+## Summary
 
 FastAPI is a lightweight yet powerful framework perfect for building modern APIs — especially useful in machine learning, data apps, or AI assistants like **GraphRAG**. It provides fast performance, clean syntax, and automatic docs out of the box. While it’s not as full-featured as Django or others its simplicity and performance make it a top choice for our project.
 
