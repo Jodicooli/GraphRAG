@@ -1,0 +1,49 @@
+Delete everything first (if needed)
+MATCH (n) DETACH DELETE n.
+
+--- PRODUCTS ---
+Physical Product
+Digital Product
+
+--- TOPICS ---
+Returns
+Shipping
+Refunds
+Orders
+Account
+Payments
+Delivery
+Security
+Subscriptions
+
+--- POLICIES ---
+Return Policy: Products can be returned within 30 days. Refunds take 5-7 business days.
+Shipping Zones: Shipping available in US, EU, and Canada. Customs may apply.
+Refund Timeline: Refunds are issued 5-7 days after return is received.
+Payment Policy: We accept Visa, Mastercard, and PayPal. Refunds go to the original method.
+Delivery Guarantee: Orders are delivered in 3–5 business days. Delays are notified.
+Account Policy: You must register with a valid email. Keep your account secure.
+Subscription Policy: Subscriptions renew monthly. Cancel anytime from your dashboard.
+
+--- ACTIONS ---
+Request Return
+Track Order
+Reset Password
+Update Payment Info
+Cancel Subscription
+Report Fraud
+
+--- CHANNELS ---
+Email
+Live Chat
+Phone
+
+--- RELATIONSHIPS ---
+Returns → Return Policy, Refunds, Email, Live Chat, Request Return (on Physical Product)
+Refunds → Refund Timeline, Email, Request Return
+Shipping → Shipping Zones, Delivery, Live Chat
+Orders → Track Order, Shipping
+Account → Reset Password, Account Policy, Email, Security
+Payments → Payment Policy, Update Payment Info, Live Chat, Refunds
+Subscriptions → Subscription Policy, Cancel Subscription, Payments
+Security → Report Fraud, Phone

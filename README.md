@@ -6,21 +6,18 @@ This project is organized to clearly separate theory, practical implementations,
 
 ## Folder-by-folder breakdown
 
-### Theory folder
+### [Theory folder](./Theory/README.md)
 
 This folder contains all theoretical materials related to GraphRAG, including:
 
 - Concepts and foundations of RAG and GraphRAG
-
 - Comparisons with other retrieval methods
-
 - Discussions about knowledge graphs, prompt engineering, and performance trade-offs
-
 - Our final reflections, challenges, and conclusions after building multiple GraphRAG systems
 
 You should start with this folder to understand the concept of GraphRAG and our testings.
 
-### Custom_GraphRAG_Application / GraphRAG_Library / Customer_Support_Bot / Employees_Slack_Bot / etc.
+### [Custom_GraphRAG_Application](./Custom_GraphRAG_Application/README.md) / [GraphRAG_Library](./GraphRAG_Library/README.md) / [Customer_Support_Bot](./Customer_Support_Bot/README.md) / [Employees_Slack_Bot](./Employees_Slack_Bot/README.md)
 
 Each of these folders contains a complete and self-contained implementation of a GraphRAG system — ranging from simple setups using libraries like graphrag to full-stack custom systems with FAISS, Neo4j, Ollama, FastAPI, and Streamlit or a bot for answering questions in Slack.
 
@@ -28,19 +25,37 @@ Inside each folder, you’ll find:
 
 - A dedicated README.md explaining:
 
-    - The goal of the implementation
-
-    - Tools used
-
-    - How to install and run it
-
+  - The goal of the implementation
+  - Tools used
+  - How to install and run it
 - Source code organized by layers (e.g., DAL, BLL, API, Frontend)
-
 - Setup scripts (e.g., requirements.txt)
-
 - Optional test files or example queries
 
 These folders are independent, making it easy to run and compare them individually.
+
+### [Azure Accelerator](./Azure_Accelerator/readme.md)
+
+A complete cloud deployment of the [Azure-Samples GraphRAG Accelerator](https://github.com/Azure-Samples/graphrag-accelerator). This example shows how to use Azure OpenAI, Cognitive Search, AKS, and APIM to build a production-grade RAG pipeline.
+
+This folder includes:
+
+* Full deployment instructions and scripts
+* Architecture diagrams and screenshots
+* Notebooks for API testing and querying
+* A cost analysis based on real usage
+
+---
+
+### [Local implementation]()
+
+A standalone GraphRAG pipeline packaged in Docker for local/offline use. Ideal for environments without cloud access.
+
+This folder will include:
+
+* A `<span>docker-compose.yml</span>` for setting up services
+* Local embedding and generation options
+* Frontend and API as containers
 
 ### documentation/ (inside some implementations)
 
@@ -49,7 +64,6 @@ Some implementations include a nested "documentation/" folder with detailed expl
 Examples include:
 
 - README.neo4j.md – how Neo4j is used, set up and more details
-
 - README.ai.md – how OpenAI or local LLMs are integrated, what is best to use depending on the use case
 
 These are helpful if you want to dig deeper into specific technologies or replicate just a part of the system.
