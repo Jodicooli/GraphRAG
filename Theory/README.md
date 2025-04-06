@@ -326,6 +326,8 @@ At one point, we switched the underlying graph database structure. This required
 
 Building a GraphRAG system gave us a deep, hands-on understanding of AI retrieval, knowledge graphs, and LLM interaction. While the process was more difficult and time-consuming than expected, it also taught us the importance of system design, prompt clarity, and modular architecture.
 
+---
+
 ### 5.2 Using GraphRAG Accelerator
 
 The **GraphRAG Accelerator** is a ready-to-deploy solution that extends the `graphrag` Python library into a production-grade API hosted on Azure. Designed to scale with demand, this accelerator enables high-performance indexing and querying of knowledge graphs for enterprise use.
@@ -367,6 +369,8 @@ Using the **GraphRAG Accelerator** offers a powerful way to deploy a scalable, A
 However, our experience showed that despite the clear benefits, the setup is **not plug-and-play**, especially when using limited Azure accounts such as student subscriptions. Access restrictions and quota limitations can become major blockers, and resolving them may require a paid upgrade.
 
 Overall, the Accelerator is a great choice **if you have the technical expertise, proper permissions, and budget**. It delivers strong performance, flexibility, and a robust framework to test and productionize GraphRAG workflows. For smaller-scale or experimental projects, lighter setups (e.g., local implementations with `graphrag`) might be a better starting point.
+
+---
 
 ### 5.3 Using GraphRAG with AWS
 
@@ -431,6 +435,45 @@ While initial setup requires time and permissions, AWS provides all the componen
 
 
 ### 5.4 Using GraphRAG with Puppy Graph
+
+
+Although we did **not test PuppyGraph** in our implementation, we included it in our research as a compelling and innovative alternative worth exploring.
+
+**PuppyGraph** is a next-generation graph analytics engine designed to instantly transform existing relational databases into graph models—without any ETL. This is a radically different approach compared to traditional graph databases, with a focus on simplicity, performance, and direct integration into existing systems.
+
+With PuppyGraph, it is theoretically possible to build a GraphRAG application in just minutes, leveraging a scalable engine, native support for **Gremlin** and **Cypher**, and seamless compatibility with tools like **LangChain** and **OpenAI**.
+
+---
+
+### General Overview (Based on Documentation)
+
+#### Zero ETL Approach
+Unlike traditional setups requiring data to be extracted, transformed, and loaded into a dedicated graph database, PuppyGraph connects directly to existing data lakes and warehouses.  
+Tables in **PostgreSQL** or **MySQL** can be instantly treated as graph nodes and edges—no duplication required.
+
+#### Petabyte-Scale Performance
+PuppyGraph claims to execute complex queries (e.g., 10-hop traversals) in just seconds—even on petabyte-scale datasets.  
+This is achieved through a clear separation of compute and storage, and by leveraging distributed query execution.
+
+#### Simplified Management & Security
+No extra user or permission management is needed. PuppyGraph reuses permissions from your existing database, reducing complexity and keeping data securely within your environment.
+
+#### Native Gremlin & Cypher Support
+PuppyGraph supports both **Gremlin** (imperative style) and **Cypher** (declarative style), offering flexibility for developers to query graphs using their preferred language.
+
+#### Intelligent GraphRAG Agent
+The integrated **PuppyGraphAgent** can plan multi-step graph queries, reason through graph structure, and dynamically adapt its approach.  
+Built on **LangChain** and **OpenAI GPT-4o**, the agent follows a **Chain-of-Thought** methodology to explain its reasoning process at every step.
+
+---
+
+### Conclusion
+
+While we did not integrate or test PuppyGraph in our project, it appears to offer a **modern and practical vision of GraphRAG** — one that reduces setup friction and accelerates deployment.
+
+Its **Zero ETL** approach and support for existing SQL databases could make it an attractive solution for teams seeking rapid experimentation without heavy infrastructure.
+
+For future iterations or teams working with relational data, **PuppyGraph could be a powerful candidate to explore further.**
 
 ## 6. Comparative Evaluation of GraphRAG Approaches
 
@@ -607,6 +650,37 @@ Final quality and coverage analysis pending full results.
 
 ## 8. Conclusion
 
+Our exploration of GraphRAG has revealed its transformative potential in enhancing Retrieval-Augmented Generation with structured, semantic understanding.
+
+We tested and compared **three main approaches**:
+
+- **GraphRAG with Azure**: Using Cognitive Search and OpenAI, we deployed a cloud-based system with API endpoints. It offered good structure and reasoning but faced restrictions due to our student account and incurred potential costs for extended usage.
+
+- **GraphRAG with AWS**: Built with Amazon Neptune, Bedrock, and LlamaIndex, our implementation allowed graph-based reasoning over structured data. Although powerful, the setup required elevated permissions, leading us to use a personal credit card to access Bedrock and SageMaker features.
+
+- **Custom GraphRAG Application**: We developed our own stack from scratch using LangChain, OpenAI, and graph databases like Neo4j. This gave us complete control over schema design, retrieval strategies, prompt engineering, and UI logic. While more complex to implement and maintain, this approach proved the most flexible and educational.
+
+We also analyzed **PuppyGraph** as an **alternative we did not test directly**. Based on its documentation, it presents an interesting “Zero ETL” solution designed to simplify the entire GraphRAG pipeline by removing infrastructure overhead. It could be a valuable option for future projects using existing SQL data and requiring minimal deployment time.
+
+---
+
+Our conclusion is that **GraphRAG is a powerful but non-trivial enhancement to classical RAG**. Its success depends on several factors:
+
+- The structure and quality of the knowledge base  
+- The type of queries and reasoning required  
+- The chosen infrastructure (local, cloud, or hybrid)  
+- The team’s experience with graph technologies and LLM orchestration
+
+In our case, we found that **cloud-based services (AWS, Azure)** offered fast results and managed services but introduced permission and cost constraints. In contrast, **custom implementation** required more development effort but offered the best control and understanding.
+
+For future improvements, we plan to:
+
+- Refine our prompt engineering techniques  
+- Explore lightweight deployments with open-source LLMs  
+- Possibly evaluate PuppyGraph in a real scenario  
+
+GraphRAG is still a young but promising field — and it's clearly shaping the future of AI systems that reason, adapt, and retrieve information with higher precision and explainability.
+
 ---
 
 ## 9. References
@@ -628,6 +702,8 @@ Azure-Samples. (s. d.). GitHub - Azure-Samples/graphrag-accelerator : One-click 
 Harsh, K., & Harsh, K. (2024, 19 novembre). *What is Retrieval-Augmented Generation (RAG) ? * Bright Data. **https://brightdata.com/blog/web-data/rag-explained#:~:text=One%20major%20issue%20is%20the,back%20irrelevant%20or%20inaccurate%20documents.**
 
 Korland, G. (2025, 6. Februar). What is GraphRAG? Types, Limitations & When to Use. FalkorDB Knowledge Graph Database. **https://www.falkordb.com/blogs/what-is-graphrag/**
+
+PuppyGraph Docs. (n.d.). **https://docs.puppygraph.com/**
 
 Introducing the GraphRAG Toolkit. (2025, 27 January). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/introducing-the-graphrag-toolkit/**
 
