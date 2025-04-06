@@ -1,0 +1,57 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <graph edgedefault="undirected">
+    <node id="RETURNS" />
+    <node id="RETURN POLICY" />
+    <node id="REFUNDS" />
+    <node id="EMAIL" />
+    <node id="LIVE CHAT" />
+    <node id="REQUEST RETURN" />
+    <node id="REFUND TIMELINE" />
+    <node id="SHIPPING" />
+    <node id="SHIPPING ZONES" />
+    <node id="DELIVERY" />
+    <node id="ORDERS" />
+    <node id="DELIVERY GUARANTEE" />
+    <node id="PAYMENTS" />
+    <node id="TRACK ORDER" />
+    <node id="ACCOUNT" />
+    <node id="RESET PASSWORD" />
+    <node id="ACCOUNT POLICY" />
+    <node id="SECURITY" />
+    <node id="PAYMENT POLICY" />
+    <node id="UPDATE PAYMENT INFO" />
+    <node id="SUBSCRIPTIONS" />
+    <node id="REPORT FRAUD" />
+    <node id="PHONE" />
+    <node id="SUBSCRIPTION POLICY" />
+    <node id="CANCEL SUBSCRIPTION" />
+    <edge source="RETURNS" target="RETURN POLICY" />
+    <edge source="RETURNS" target="REFUNDS" />
+    <edge source="RETURNS" target="EMAIL" />
+    <edge source="RETURNS" target="LIVE CHAT" />
+    <edge source="RETURNS" target="REQUEST RETURN" />
+    <edge source="RETURNS" target="REFUND TIMELINE" />
+    <edge source="REFUNDS" target="REFUND TIMELINE" />
+    <edge source="REFUNDS" target="EMAIL" />
+    <edge source="REFUNDS" target="REQUEST RETURN" />
+    <edge source="REFUNDS" target="PAYMENTS" />
+    <edge source="EMAIL" target="ACCOUNT" />
+    <edge source="LIVE CHAT" target="SHIPPING" />
+    <edge source="LIVE CHAT" target="PAYMENTS" />
+    <edge source="SHIPPING" target="SHIPPING ZONES" />
+    <edge source="SHIPPING" target="DELIVERY" />
+    <edge source="SHIPPING" target="ORDERS" />
+    <edge source="SHIPPING" target="DELIVERY GUARANTEE" />
+    <edge source="ORDERS" target="TRACK ORDER" />
+    <edge source="PAYMENTS" target="PAYMENT POLICY" />
+    <edge source="PAYMENTS" target="UPDATE PAYMENT INFO" />
+    <edge source="PAYMENTS" target="SUBSCRIPTIONS" />
+    <edge source="ACCOUNT" target="RESET PASSWORD" />
+    <edge source="ACCOUNT" target="ACCOUNT POLICY" />
+    <edge source="ACCOUNT" target="SECURITY" />
+    <edge source="SECURITY" target="REPORT FRAUD" />
+    <edge source="SECURITY" target="PHONE" />
+    <edge source="SUBSCRIPTIONS" target="SUBSCRIPTION POLICY" />
+    <edge source="SUBSCRIPTIONS" target="CANCEL SUBSCRIPTION" />
+  </graph>
+</graphml>
