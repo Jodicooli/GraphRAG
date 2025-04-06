@@ -410,6 +410,65 @@ Overall, the Accelerator is a great choice **if you have the technical expertise
 
 ### 5.3 Using GraphRAG with AWS
 
+Amazon Web Services (AWS) provides a robust and production-grade environment to implement GraphRAG solutions by combining powerful services such as **Amazon Neptune** (graph database), **Amazon Bedrock** (foundational models like Claude and Titan), and **Amazon SageMaker** (for orchestration and experimentation via Jupyter notebooks).
+
+In our project, we explored how to deploy GraphRAG using AWS components to reason over structured data with LLMs. We worked with two complementary approaches:
+
+- A **custom LlamaIndex-based GraphRAG pipeline** running on Neptune + Bedrock  
+- The official **GraphRAG Toolkit**, recently open-sourced by AWS, enabling developers to rapidly prototype graph-augmented RAG systems.
+
+
+
+#### Architecture Overview
+
+A typical GraphRAG workflow on AWS follows these high-level steps:
+
+1. **Data Ingestion and Graph Indexing**  
+   Documents (e.g., web pages, PDFs, JSON) are parsed and chunked. Then, entities, facts, and relationships are extracted to populate a knowledge graph in **Amazon Neptune**. These elements are enriched with vector embeddings (stored in OpenSearch or other vector DBs).
+
+2. **Retrieval Step**  
+   When a user query is submitted (via notebook or API), relevant subgraphs are retrieved from Neptune using Cypher queries. Optional NL2Cypher modules allow translating natural language questions into graph queries.
+
+3. **Reasoning with LLMs**  
+   The extracted data is passed to a **foundation model** (e.g., Claude 3 Sonnet via Bedrock). The LLM generates an answer based on both the original prompt and the contextual information retrieved from the graph.
+
+4. **Response Generation**  
+   The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity.
+
+---
+
+#### Our Implementation
+
+We deployed a simplified GraphRAG system based on AWS documentation:
+
+- **Graph database**: Amazon Neptune (serverless)  
+- **LLM orchestration**: Amazon Bedrock via LlamaIndex  
+- **Interface**: Jupyter notebooks hosted on SageMaker  
+- **Toolkit**: [graphrag-toolkit](https://github.com/awslabs/graphrag-toolkit)
+
+
+#### Benefits of Using AWS for GraphRAG
+
+- **Scalable infrastructure**: Neptune and Bedrock support production-ready workloads with managed scaling.  
+- **Seamless integration**: Bedrock integrates natively with several LLMs (Anthropic, Cohere, Amazon Titan, etc.), reducing configuration complexity.  
+- **Rapid prototyping**: With the open-source GraphRAG Toolkit, developers can build indexing pipelines and search workflows using Python and LlamaIndex.  
+- **Hybrid retrieval strategies**: AWS supports both semantic search (via vector stores) and structured graph traversal for better relevance.
+
+
+
+#### Limitations Encountered
+
+Due to **student account restrictions**, we faced deployment limitations, especially with services requiring elevated permissions or quotas (e.g., Bedrock models, SageMaker notebooks). As a workaround, we had to connect a **personal credit card** to access these features and complete the tests.
+
+Additionally, running LLMs like Claude or Titan at scale through Bedrock can incur significant costs during development if not properly optimized.
+
+
+#### Conclusion
+
+Using AWS for GraphRAG allowed us to explore production-grade implementations of knowledge-augmented generation. The combination of Neptune, Bedrock, and LlamaIndex made it possible to reason over complex graphs and generate user-specific, explainable outputs.
+
+While initial setup requires time and permissions, AWS provides all the components needed to go from prototype to scalable application — whether via the GraphRAG Toolkit or custom-built stacks.
+
 
 ### 5.4 Using GraphRAG with Puppy Graph
 
@@ -442,9 +501,13 @@ Harsh, K., & Harsh, K. (2024, 19 novembre). *What is Retrieval-Augmented Generat
 
 Korland, G. (2025, 6. Februar). What is GraphRAG? Types, Limitations & When to Use. FalkorDB Knowledge Graph Database. **https://www.falkordb.com/blogs/what-is-graphrag/**
 
+Introducing the GraphRAG Toolkit. (2025, 27 January). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/introducing-the-graphrag-toolkit/**
+
 Martineau, K. (2024, 13. November). What is retrieval-augmented generation? IBM Research. **https://research.ibm.com/blog/retrieval-augmented-generation-RAG**
 
 Merritt, R. (2025, 31 janvier).  *What Is Retrieval-Augmented Generation aka RAG | NVIDIA Blogs* . NVIDIA Blog. **https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/?utm_source=chatgpt.com**
+
+Using knowledge graphs to build GraphRAG applications with Amazon Bedrock and Amazon Neptune. (2024, 1 August). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/using-knowledge-graphs-to-build-graphrag-applications-with-amazon-bedrock-and-amazon-neptune/**
 
 SivaParam. (2024, 25. September). Unlocking Insights: GraphRAG & Standard RAG in Financial Services. **https://techcommunity.microsoft.com/blog/azure-ai-services-blog/unlocking-insights-graphrag--standard-rag-in-financial-services/4253311**
 
