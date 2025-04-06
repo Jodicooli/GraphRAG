@@ -368,6 +368,45 @@ Building a GraphRAG system gave us a deep, hands-on understanding of AI retrieva
 
 ### 5.2 Using GraphRAG Accelerator
 
+The **GraphRAG Accelerator** is a ready-to-deploy solution that extends the `graphrag` Python library into a production-grade API hosted on Azure. Designed to scale with demand, this accelerator enables high-performance indexing and querying of knowledge graphs for enterprise use.
+
+#### Overview
+
+This accelerator simplifies the process of deploying a fully managed GraphRAG service on Azure, providing API endpoints to:
+- Trigger **indexing pipelines**.
+- Query the **knowledge graph** for context-enriched responses.
+
+It leverages Azure services such as Azure OpenAI, Azure Kubernetes Service (AKS), Azure Container Registry, and Azure API Management. While powerful, it’s important to note that this setup can incur **significant costs**, especially when auto-scaling or large-scale indexing are involved.
+
+#### Benefits of the GraphRAG Accelerator
+
+- **Hosted API Service**: Easily trigger GraphRAG operations (indexing, querying) via RESTful endpoints.
+- **Enterprise-Ready**: Auto-scaling, RBAC support, and integration with Azure OpenAI make it ideal for production use cases.
+- **Dev Container Support**: A DevContainer setup ensures that required tools are pre-installed for easier local development and deployment.
+
+#### Practical Insights from Deployment
+
+In our project, we tested this accelerator extensively. While the setup is streamlined through scripts and Bicep files, **we encountered limitations** due to using an Azure student account. Key Azure services required for deployment (e.g., Azure OpenAI or APIM) were restricted, preventing us from completing the setup with default configurations.
+
+To overcome this, we had to **upgrade our Azure subscription by attaching a personal credit card**, which allowed access to the required services and quotas (e.g., GPT-4 Turbo, embeddings).
+
+
+#### How to Deploy the Accelerator
+
+1. **Install prerequisites**: Tools like Azure CLI, Docker, Helm, kubectl, jq, yq, and others are needed. Opening the project in a VS Code DevContainer installs them automatically.
+2. **Register Azure providers**: Required providers include `Microsoft.OperationsManagement`, `Microsoft.Compute`, and `Microsoft.AlertsManagement`.
+3. **Prepare Azure**: Login, set your subscription, and create a resource group.
+4. **Configure deployment**: Edit `infra/deploy.parameters.json` with model names, API endpoints, quotas, and resource names.
+5. **Deploy**: Run `bash deploy.sh -p deploy.parameters.json`. The first deployment may take 40–50 minutes.
+6. **Access and test**: Once deployed, use the Quickstart notebook or navigate to `<APIM_gateway_url>/manpage/docs` to interact with the APIs.
+
+#### Conclusion
+
+Using the **GraphRAG Accelerator** offers a powerful way to deploy a scalable, API-based GraphRAG system in the cloud. It is particularly suited for enterprise environments where robust infrastructure, user management, and scalability are essential.
+
+However, our experience showed that despite the clear benefits, the setup is **not plug-and-play**, especially when using limited Azure accounts such as student subscriptions. Access restrictions and quota limitations can become major blockers, and resolving them may require a paid upgrade.
+
+Overall, the Accelerator is a great choice **if you have the technical expertise, proper permissions, and budget**. It delivers strong performance, flexibility, and a robust framework to test and productionize GraphRAG workflows. For smaller-scale or experimental projects, lighter setups (e.g., local implementations with `graphrag`) might be a better starting point.
 
 ### 5.3 Using GraphRAG with AWS
 
@@ -396,6 +435,8 @@ Evolution of AI in information retrieval | Restackio . (s. d.). **https://www.re
 Fokou, K. (2019, 11 juin).  *NLP & modèles de langage | Smals Research* . **https://www.smalsresearch.be/nlp-modeles-de-langue/**
 
 Hafeez, M. (2024, 1. September). GraphRAG: The Unique Value that Oracle Database 23ai Brings to the Table. **https://www.linkedin.com/pulse/graphrag-unique-value-oracle-database-23ai-brings-table-hafeez-9bj1f**
+
+Azure-Samples. (s. d.). GitHub - Azure-Samples/graphrag-accelerator : One-click deploy of a Knowledge Graph powered RAG (GraphRAG) in Azure. GitHub. **https://github.com/Azure-Samples/graphrag-accelerator?tab=readme-ov-file**
 
 Harsh, K., & Harsh, K. (2024, 19 novembre). *What is Retrieval-Augmented Generation (RAG) ? * Bright Data. **https://brightdata.com/blog/web-data/rag-explained#:~:text=One%20major%20issue%20is%20the,back%20irrelevant%20or%20inaccurate%20documents.**
 
