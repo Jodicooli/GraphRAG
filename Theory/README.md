@@ -32,13 +32,15 @@ This project explores how Graph RAG enhances AI retrieval and generation, its ap
 
 AI-assisted recovery systems have evolved significantly over time to become smarter and more precise. ( *Evolution Of AI In Information Retrieval | Restackio* , s. d.)
 
-* Traditional search engines (1990s - 2000s): These use keyword search and page ranking algorithms (such as PageRank). Their main drawback is that they don't really understand the context of queries, which can lead to irrelevant results. ( *Définition du PageRank - Agence SEO.fr* , 2024)
-* NLP-based search models (2000s - 2010s): Models such as TF-IDF and Word2Vec have been developed to better understand the meaning of words and their importance in context. TF-IDF measures word relevance based on frequency and distribution, while Word2Vec captures semantic relationships by representing words as vectors. However, these models do not take context into account. A word will always have the same meaning, regardless of the surrounding words in the sentence. (Fokou, 2019)
-* Transformers and pre-trained models (2017 - Present): The introduction of Transformers (e.g. BERT, RoBERTa) has revolutionized search systems by enabling better understanding of complete sentences. These models use attention mechanisms to analyze all the dependencies between words in a sentence, enabling them to capture the overall context. Unlike previous models, they give different meanings to words depending on context, resulting in a better understanding of sentences and more accurate results. (Fokou, 2019)
-* RAG (Retrieval-Augmented Generation) (2020 - Present): Introduced by Facebook AI in 2020, RAG combines an intelligent search engine with a generative model to produce answers based on relevant documents. This approach significantly improves the accuracy of answers by using up-to-date information from external sources, while generating coherent, contextually appropriate texts. (Merritt, 2025)
-* GraphRAG (2024 - Present): GraphRAG is an enhancement to RAG that uses graphs to organize and link information. Instead of just using conventional databases. This makes it easier to understand the relationships between concepts, and improves the accuracy of answers, particularly for complex questions requiring several stages of reasoning. ( *Welcome - GraphRAG* , s. d.-b)
+* **Traditional search engines (1990s - 2000s)**: These use keyword search and page ranking algorithms (such as PageRank). Their main drawback is that they don't really understand the context of queries, which can lead to irrelevant results. ( *Définition du PageRank - Agence SEO.fr* , 2024)
+* **NLP-based search models (2000s - 2010s)**: Models such as TF-IDF and Word2Vec have been developed to better understand the meaning of words and their importance in context. TF-IDF measures word relevance based on frequency and distribution, while Word2Vec captures semantic relationships by representing words as vectors. However, these models do not take context into account. A word will always have the same meaning, regardless of the surrounding words in the sentence. (Fokou, 2019)
+* **Transformers and pre-trained models (2017 - Present)**: The introduction of Transformers (e.g. BERT, RoBERTa) has revolutionized search systems by enabling better understanding of complete sentences. These models use attention mechanisms to analyze all the dependencies between words in a sentence, enabling them to capture the overall context. Unlike previous models, they give different meanings to words depending on context, resulting in a better understanding of sentences and more accurate results. (Fokou, 2019)
+* **RAG (Retrieval-Augmented Generation) (2020 - Present)**: Introduced by Facebook AI in 2020, RAG combines an intelligent search engine with a generative model to produce answers based on relevant documents. This approach significantly improves the accuracy of answers by using up-to-date information from external sources, while generating coherent, contextually appropriate texts. (Merritt, 2025)
+* **GraphRAG (2024 - Present)**: GraphRAG is an enhancement to RAG that uses graphs to organize and link information. Instead of just using conventional databases. This makes it easier to understand the relationships between concepts, and improves the accuracy of answers, particularly for complex questions requiring several stages of reasoning. ( *Welcome - GraphRAG* , s. d.-b)
 
-### The Development of RAG and Its Limitations
+![Timeline history](images/image2.png)
+
+### The development of RAG and its limitations
 
 The main idea behind RAG is to combine the advantages of search systems (contextual accuracy) with those of generative models (fluidity and creativity).
 
@@ -48,14 +50,16 @@ Limitations of RAG :
 * RAG doesn't really understand the complex relationships between concepts. For example, it might not make the connection between “CEO” and “company director” without having seen these terms used together in a document. (Harsh & Harsh, 2024)
 * The generative model can introduce inconsistencies if documents are contradictory. (Harsh & Harsh, 2024)
 
-### How Knowledge Graphs Enhance AI Understanding
+### How knowledge graphs enhance AI understanding
 
 Knowledge Graphs provide a solution to the limitations of RAG by providing a semantic and relational structure to information.
 
 * Unlike a traditional database, a Knowledge Graph links entities (nodes) by relationships (edges). For example
 
   * Entities: “Steve Jobs”, “Apple Inc.”, “iPhone”.
-  * Relationships: “founded”, “created”.
+  * Relationships: “founded”, “created”. 
+
+   ![Image of the graph](images/image3.png)
 
   This enables AI to understand not only words, but also the relationships between them.
 * A Knowledge Graph helps AI distinguish between similar concepts using relational context. For example, it can differentiate “Apple” (company) from “apple” (fruit) based on relationships (“founded” vs. “part of”).
@@ -64,112 +68,70 @@ Knowledge Graphs provide a solution to the limitations of RAG by providing a sem
 
 ## 3. Key Concepts & Theoretical Foundations
 
-### Fundamentals of Retrieval-Augmented Generation (RAG), Knowledge Graphs, and Graph RAG
+### 3.1 Fundamentals of Retrieval-Augmented Generation (RAG) and Graph RAG
 
-RAG combines **information retrieval** and **text generation**, allowing AI to fetch relevant knowledge before constructing responses.
-
-Graph RAG enhances this by structuring information in a **network of interconnected concepts**, improving contextual understanding.
-
-### How RAG Works: Retrieval and Generation
-
-- **Retrieval Phase**: The system searches a knowledge base for relevant documents before generating a response.
-- **Generation Phase**: It synthesizes the retrieved knowledge to produce a clear and contextually relevant answer.
-
-### The Role of Graphs in AI and Knowledge Representation
-
-- Graph RAG represents information as a **network of linked concepts** rather than isolated documents.
-- For example, in understanding *electric cars*:
-
-  - "Electric car" → "Battery"
-  - "Battery" → "Lithium"
-  - "Lithium" → "Mining industry"
-- These connections improve knowledge structuring and response accuracy.
-
-### Advantages and Challenges of Using Graph RAG
-
-#### **Advantages**
-
-**More accurate responses** – Finds the most relevant information dynamically.
-
-**Better contextual understanding** – Connects related concepts for improved comprehension.
-
-**Verifiable answers** – Can cite sources, enhancing reliability.
-
-#### **Challenges**
-
-**Managing large data volumes** – Organizing and retrieving vast amounts of information efficiently.
-
-**Keeping knowledge up to date** – Regular updates are required to maintain accuracy.
-
-**Ensuring quality relationships** – Conceptual connections must remain relevant and meaningful.
-
-### 3.1 What is RAG ?
-
-Retrieval-Augmented Generation (RAG) is an approach that enhances traditional generative models by incorporating a retrieval step. Instead of relying solely on the training data, RAG systems actively search for relevant external information, which helps generate responses that are more accurate, current, and grounded in real-world data.
+Retrieval-Augmented Generation (RAG) enhances traditional AI models by integrating **information retrieval** and **text generation**. Instead of relying solely on static training data, RAG dynamically retrieves external knowledge, which is then used to generate more relevant and up-to-date responses (Martineau, 2024).
 
 **Two-Step Process:**
 
-1. **Retrieval:** When a query is made, the system first searches through a large repository of documents or data to fetch the most relevant pieces of information.
-2. **Generation:** The generative model then uses this retrieved context to produce a response that is not only coherent but also enriched with factual data from the external sources.
+1. **Retrieval Phase:** The system searches a knowledge base or document repository to find the most relevant content (Martineau, 2024).
+2. **Generation Phase:** The retrieved context is used to generate an informed, coherent, and contextually accurate response (Martineau, 2024).
 
-**Addressing Limitations of Standalone Generative Models:**
+This hybrid method helps mitigate problems like hallucination and outdated knowledge common in standalone generative models.
 
-Traditional language models may “hallucinate” details or provide outdated responses because they rely solely on static training data. RAG overcomes this limitation by dynamically retrieving the most pertinent and up-to-date information, which helps improve the accuracy and reliability of the output.
+**Enhancements from IBM Research:**
 
-**Enhancements and Further Insights (from IBM Research):**
+IBM (International Business Machines Corporation) has extended the RAG framework by introducing neural retrieval and emphasizing adaptability to domain-specific tasks, responsiveness via advanced indexing, and the ability to combat knowledge decay by incorporating real-time information (Martineau, 2024).
 
-IBM Research further elaborates on this concept by emphasizing that RAG combines neural retrieval techniques with generative models to create a more robust and flexible framework. According to their research, this method allows the system to:
+### 3.2 The Role of Graphs in Knowledge Representation
 
-* **Adapt to Domain-Specific Tasks:** By fine-tuning both the retrieval and generation components, RAG can be tailored to meet the demands of specialized applications, ensuring higher performance and relevance in particular domains (Martineau, 2024).
-* **Improve Responsiveness:** The retrieval component can quickly sift through extensive datasets using advanced indexing methods, enabling the model to promptly incorporate the latest information (Martineau, 2024).
-* **Mitigate Knowledge Decay:** As models age, their training data can become outdated. RAG addresses this by continuously pulling in fresh, external information during the generation process, thereby maintaining relevance over time (Martineau, 2024).
+Graphs are a natural and effective way to model complex relationships. In AI, they’re used to structure information as **interconnected nodes (entities)** and **edges (relationships)**, making them suitable for tasks requiring reasoning, search, or inference (Enzo, 2025).
 
-### 3.2 The Role of Graphs in AI and Knowledge Representation
+**Why Graphs Matter:**
 
-Graphs play a crucial role in knowledge representation, especially in the context of AI. They provide a flexible and intuitive way to structure and visualize complex relationships between entities. In AI, graphs are used to represent a wide range of data, from knowledge graphs and semantic networks to social networks and biological data.
+1. **Relationship Modeling:** Graphs represent structured connections between entities like people, concepts, or items (Enzo, 2025).
+2. **Contextual Understanding:** Graphs help systems grasp the context in which facts exist (Enzo, 2025).
+3. **Semantic Reasoning:** They allow AI to infer new insights based on patterns and indirect links (Enzo, 2025).
 
-**Why Graphs Matter in AI:**
+**Example:** Understanding "electric cars" in a graph structure:
 
-1. **Representation of Relationships:** Graphs naturally model relationships between entities, where nodes represent entities (e.g., people, places, concepts) and edges represent relationships (e.g., "is related to", "is part of"). This makes graphs highly suitable for tasks such as question answering, reasoning, and information retrieval.
-2. **Contextual Understanding:** Graph-based representations enable AI models to not only access facts but also to understand the context in which these facts exist. This helps AI systems answer more sophisticated queries by understanding how different pieces of information relate to each other.
-3. **Semantic Reasoning:** Graphs enable semantic reasoning, allowing AI systems to infer new facts or relationships that are not explicitly stated, enhancing the system's ability to handle ambiguous or incomplete information.
+- `"Electric car"` → `"Battery"`
+- `"Battery"` → `"Lithium"`
+- `"Lithium"` → `"Mining industry"`
 
-**Knowledge Graphs in AI:**
-In AI, knowledge graphs are particularly important because they provide structured data that can be queried and reasoned over. By storing facts in a graph format, systems can quickly retrieve relevant data and infer new insights. For instance, a knowledge graph about medical conditions can help a diagnostic AI model infer potential diagnoses based on symptoms and historical data.
+These semantic connections enable richer and more insightful responses.
 
-### 3.3 Advantages and Challenges of Using Graph RAG
+### 3.3 What is Graph RAG?
 
-Graph-based RAG, which integrates retrieval-augmented generation with graph-based knowledge representation, offers a variety of benefits but also presents certain challenges.
+**Graph RAG** extends RAG by incorporating **graph-based retrieval**. Instead of retrieving isolated documents, it accesses structured knowledge represented in graphs, allowing deeper connections between concepts to inform generation (Intro To GraphRAG, 2025).
 
-**Advantages of Graph RAG:**
+This improves:
 
-1. **Improved Accuracy and Relevance:**
+- **Contextual richness**, as connected entities provide better framing (Intro To GraphRAG, 2025) 
+- **Query understanding**, especially for multi-hop or complex questions (Intro To GraphRAG, 2025)
 
-   * By combining the retrieval process with graph-based data, Graph RAG can provide responses that are not only grounded in real-world data but also contextually rich. The relationships between entities stored in a graph allow the generative model to produce more accurate and relevant answers.
-2. **Better Handling of Complex Queries:**
+### 3.4 Advantages and Challenges of Graph RAG
 
-   * Complex queries that involve multiple relationships or require reasoning across different data points can benefit significantly from graph-based retrieval. The structure of the graph helps the retrieval process find more comprehensive and interconnected information, which can then be used by the generator to form a more detailed response.
-3. **Dynamic and Adaptive Responses:**
+#### Advantages
 
-   * Just like RAG systems, Graph RAG benefits from dynamic retrieval. However, in this case, the retrieval step is guided by the graph's inherent structure, allowing the system to adapt more flexibly to different domains. This ensures that even domain-specific queries can be answered with high accuracy.
-4. **Scalability:**
+- **Improved Accuracy & Relevance:** Graphs support factually grounded, coherent responses (Korland, 2025).
+- **Better Handling of Complex Queries:** Multi-step reasoning is facilitated through graph traversal (Korland, 2025).
+- **Dynamic & Adaptive:** Graph structure enables efficient domain adaptation (Korland, 2025).
+- **Scalability:** New knowledge can be added without retraining the model (Korland, 2025).
+- **Verifiability:** Connections and sources can be cited more explicitly (Korland, 2025).
 
-   * As knowledge grows, so does the graph, allowing the model to scale seamlessly. By continuously adding new data to the graph, the system can maintain up-to-date knowledge without the need for re-training the generative model.
+#### Challenges
 
-**Challenges of Graph RAG:**
+- **Graph Construction:** Building and updating knowledge graphs is resource-intensive and requires expert design (Korland, 2025).
+- **Integration Complexity:** Adapting models to interpret and use graph-structured data is technically demanding (Korland, 2025).
+- **Computational Overhead:** Large graphs can slow down retrieval unless optimized (Korland, 2025).
+- **Ambiguity Handling:** Sparse or poorly connected graphs may limit context and relevance (Korland, 2025).
 
-1. **Complexity of Graph Construction:**
+---
 
-   * Constructing and maintaining high-quality knowledge graphs can be challenging, especially when dealing with large, unstructured data sources. It requires careful data modeling, validation, and continuous updates to ensure the graph remains accurate and comprehensive.
-2. **Integration Complexity:**
+Graph RAG presents a significant evolution in AI reasoning, marrying the flexibility of generative models with the structured precision of graphs. This synergy opens new possibilities in delivering context-aware, reliable, and scalable AI systems.
 
-   * Integrating graph-based retrieval with generative models can be technically challenging. The generative model must be capable of interpreting the graph's structure and using it to inform its responses. This often requires custom architectures and additional preprocessing steps to align the retrieved data with the model's input format.
-3. **Computational Overhead:**
-
-   * The retrieval process in Graph RAG often requires sophisticated algorithms to search and traverse the graph, especially as the size of the graph grows. This can introduce computational overhead, making the system slower compared to traditional RAG models. Optimizing graph retrieval methods is crucial to ensure real-time performance.
-4. **Handling Ambiguity and Uncertainty:**
-
-   * Graph-based systems may struggle with ambiguous relationships or incomplete graphs. If the graph lacks sufficient connections or data points, the retrieval process may miss crucial context, resulting in less accurate or incomplete answers.
+---
 
 ## 4. Applications & Use Cases
 
@@ -179,10 +141,10 @@ As already explained in the chapters above GraphRAG is an enhanced version of Re
 
 #### But why does this matter?
 
-- Better Contextual Understanding – Instead of retrieving disconnected documents, GraphRAG captures the meaning behind words and their relationships, leading to more accurate results (Bouchard, 2024).
-- Multi-Hop Reasoning – Complex queries often require linking multiple pieces of information (e.g., “How does Theory A relate to Research B?”). GraphRAG enables relationship-based retrieval, reducing hallucinations (Bouchard, 2024).
-- Improved Query Handling – If users ask high-level or meta-questions (e.g., “How many research papers on RAG were published in 2023?”), GraphRAG can navigate the data structure more effectively than traditional methods (Bouchard, 2024).
-- Optimized for Structured Data – If your dataset already contains interconnected information (e.g., citations in academic papers, linked legal documents, or organizational knowledge bases), GraphRAG outperforms standard RAG (Bouchard, 2024).
+- **Better Contextual Understanding** – Instead of retrieving disconnected documents, GraphRAG captures the meaning behind words and their relationships, leading to more accurate results (Bouchard, 2024).
+- **Multi-Hop Reasoning** – Complex queries often require linking multiple pieces of information (e.g., “How does Theory A relate to Research B?”). GraphRAG enables relationship-based retrieval, reducing hallucinations (Bouchard, 2024).
+- **Improved Query Handling** – If users ask high-level or meta-questions (e.g., “How many research papers on RAG were published in 2023?”), GraphRAG can navigate the data structure more effectively than traditional methods (Bouchard, 2024).
+- **Optimized for Structured Data** – If your dataset already contains interconnected information (e.g., citations in academic papers, linked legal documents, or organizational knowledge bases), GraphRAG outperforms standard RAG (Bouchard, 2024).
 
 #### When should you use GraphRAG?
 

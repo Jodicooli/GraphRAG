@@ -8,7 +8,7 @@ There are two widely used technologies that enable a transition toward knowledge
 
 ## 1. Stardog – Graph layer over existing SQL
 
-Stardog is a knowledge graph platform that allows organizations to connect their existing SQL databases without migration. Using a feature called Virtual Graphs, Stardog can interpret relational data as RDF (graph) data on the fly.
+Stardog is a knowledge graph platform that allows organizations to connect their existing SQL databases without migration. Using a feature called Virtual Graphs, Stardog can interpret relational data as graph data on the fly.
 
 - No data duplication — SQL remains the source of truth
 
@@ -24,7 +24,7 @@ Note: A previous student project explored this path using Stardog. For more deta
 
 ## 2. Neo4j – Native property graph model 
 
-Neo4j is a popular graph database that uses a different approach: it stores data natively as a property graph, not as RDF.
+Neo4j is a popular graph database that uses a different approach: it stores data natively as a property graph.
 
 - Requires data to be imported or restructured (no direct virtual graph equivalent)
 
