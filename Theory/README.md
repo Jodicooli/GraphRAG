@@ -57,9 +57,9 @@ Knowledge Graphs provide a solution to the limitations of RAG by providing a sem
 * Unlike a traditional database, a Knowledge Graph links entities (nodes) by relationships (edges). For example
 
   * Entities: “Steve Jobs”, “Apple Inc.”, “iPhone”.
-  * Relationships: “founded”, “created”. 
+  * Relationships: “founded”, “created”.
 
-   ![Image of the graph](images/image3.png)
+  ![Image of the graph](images/image3.png)
 
   This enables AI to understand not only words, but also the relationships between them.
 * A Knowledge Graph helps AI distinguish between similar concepts using relational context. For example, it can differentiate “Apple” (company) from “apple” (fruit) based on relationships (“founded” vs. “part of”).
@@ -107,7 +107,7 @@ These semantic connections enable richer and more insightful responses.
 
 This improves:
 
-- **Contextual richness**, as connected entities provide better framing (Intro To GraphRAG, 2025) 
+- **Contextual richness**, as connected entities provide better framing (Intro To GraphRAG, 2025)
 - **Query understanding**, especially for multi-hop or complex questions (Intro To GraphRAG, 2025)
 
 ### 3.4 Advantages and Challenges of Graph RAG
@@ -340,25 +340,17 @@ Amazon Web Services (AWS) provides a robust and production-grade environment to 
 
 In our project, we explored how to deploy GraphRAG using AWS components to reason over structured data with LLMs. We worked with two complementary approaches:
 
-- A **custom LlamaIndex-based GraphRAG pipeline** running on Neptune + Bedrock  
+- A **custom LlamaIndex-based GraphRAG pipeline** running on Neptune + Bedrock
 - The official **GraphRAG Toolkit**, recently open-sourced by AWS, enabling developers to rapidly prototype graph-augmented RAG systems.
-
-
 
 #### Architecture Overview
 
 A typical GraphRAG workflow on AWS follows these high-level steps:
 
-1. **Data Ingestion and Graph Indexing**  
-   Documents (e.g., web pages, PDFs, JSON) are parsed and chunked. Then, entities, facts, and relationships are extracted to populate a knowledge graph in **Amazon Neptune**. These elements are enriched with vector embeddings (stored in OpenSearch or other vector DBs).
-
-2. **Retrieval Step**  
-   When a user query is submitted (via notebook or API), relevant subgraphs are retrieved from Neptune using Cypher queries. Optional NL2Cypher modules allow translating natural language questions into graph queries.
-
-3. **Reasoning with LLMs**  
-   The extracted data is passed to a **foundation model** (e.g., Claude 3 Sonnet via Bedrock). The LLM generates an answer based on both the original prompt and the contextual information retrieved from the graph.
-
-4. **Response Generation**  
+1. **Data Ingestion and Graph Indexing**Documents (e.g., web pages, PDFs, JSON) are parsed and chunked. Then, entities, facts, and relationships are extracted to populate a knowledge graph in **Amazon Neptune**. These elements are enriched with vector embeddings (stored in OpenSearch or other vector DBs).
+2. **Retrieval Step**When a user query is submitted (via notebook or API), relevant subgraphs are retrieved from Neptune using Cypher queries. Optional NL2Cypher modules allow translating natural language questions into graph queries.
+3. **Reasoning with LLMs**The extracted data is passed to a **foundation model** (e.g., Claude 3 Sonnet via Bedrock). The LLM generates an answer based on both the original prompt and the contextual information retrieved from the graph.
+4. **Response Generation**
    The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity.
 
 ---
@@ -367,20 +359,17 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 
 We deployed a simplified GraphRAG system based on AWS documentation:
 
-- **Graph database**: Amazon Neptune (serverless)  
-- **LLM orchestration**: Amazon Bedrock via LlamaIndex  
-- **Interface**: Jupyter notebooks hosted on SageMaker  
+- **Graph database**: Amazon Neptune (serverless)
+- **LLM orchestration**: Amazon Bedrock via LlamaIndex
+- **Interface**: Jupyter notebooks hosted on SageMaker
 - **Toolkit**: [graphrag-toolkit](https://github.com/awslabs/graphrag-toolkit)
-
 
 #### Benefits of Using AWS for GraphRAG
 
-- **Scalable infrastructure**: Neptune and Bedrock support production-ready workloads with managed scaling.  
-- **Seamless integration**: Bedrock integrates natively with several LLMs (Anthropic, Cohere, Amazon Titan, etc.), reducing configuration complexity.  
-- **Rapid prototyping**: With the open-source GraphRAG Toolkit, developers can build indexing pipelines and search workflows using Python and LlamaIndex.  
+- **Scalable infrastructure**: Neptune and Bedrock support production-ready workloads with managed scaling.
+- **Seamless integration**: Bedrock integrates natively with several LLMs (Anthropic, Cohere, Amazon Titan, etc.), reducing configuration complexity.
+- **Rapid prototyping**: With the open-source GraphRAG Toolkit, developers can build indexing pipelines and search workflows using Python and LlamaIndex.
 - **Hybrid retrieval strategies**: AWS supports both semantic search (via vector stores) and structured graph traversal for better relevance.
-
-
 
 #### Limitations Encountered
 
@@ -388,16 +377,13 @@ Due to **student account restrictions**, we faced deployment limitations, especi
 
 Additionally, running LLMs like Claude or Titan at scale through Bedrock can incur significant costs during development if not properly optimized.
 
-
 #### Conclusion
 
 Using AWS for GraphRAG allowed us to explore production-grade implementations of knowledge-augmented generation. The combination of Neptune, Bedrock, and LlamaIndex made it possible to reason over complex graphs and generate user-specific, explainable outputs.
 
 While initial setup requires time and permissions, AWS provides all the components needed to go from prototype to scalable application — whether via the GraphRAG Toolkit or custom-built stacks.
 
-
 ### 5.4 Using GraphRAG with Puppy Graph
-
 
 Although we did **not test PuppyGraph** in our implementation, we included it in our research as a compelling and innovative alternative worth exploring.
 
@@ -410,21 +396,26 @@ With PuppyGraph, it is theoretically possible to build a GraphRAG application in
 ### General Overview (Based on Documentation)
 
 #### Zero ETL Approach
-Unlike traditional setups requiring data to be extracted, transformed, and loaded into a dedicated graph database, PuppyGraph connects directly to existing data lakes and warehouses.  
+
+Unlike traditional setups requiring data to be extracted, transformed, and loaded into a dedicated graph database, PuppyGraph connects directly to existing data lakes and warehouses.
 Tables in **PostgreSQL** or **MySQL** can be instantly treated as graph nodes and edges—no duplication required.
 
 #### Petabyte-Scale Performance
-PuppyGraph claims to execute complex queries (e.g., 10-hop traversals) in just seconds—even on petabyte-scale datasets.  
+
+PuppyGraph claims to execute complex queries (e.g., 10-hop traversals) in just seconds—even on petabyte-scale datasets.
 This is achieved through a clear separation of compute and storage, and by leveraging distributed query execution.
 
 #### Simplified Management & Security
+
 No extra user or permission management is needed. PuppyGraph reuses permissions from your existing database, reducing complexity and keeping data securely within your environment.
 
 #### Native Gremlin & Cypher Support
+
 PuppyGraph supports both **Gremlin** (imperative style) and **Cypher** (declarative style), offering flexibility for developers to query graphs using their preferred language.
 
 #### Intelligent GraphRAG Agent
-The integrated **PuppyGraphAgent** can plan multi-step graph queries, reason through graph structure, and dynamically adapt its approach.  
+
+The integrated **PuppyGraphAgent** can plan multi-step graph queries, reason through graph structure, and dynamically adapt its approach.
 Built on **LangChain** and **OpenAI GPT-4o**, the agent follows a **Chain-of-Thought** methodology to explain its reasoning process at every step.
 
 ---
@@ -460,50 +451,50 @@ The compared solutions are:
 
 ### Returns & Refunds
 
-| Question                            | Response                                           | Quality   | Completeness | Detail                              | Time |
-| ----------------------------------- | -------------------------------------------------- | --------- | ------------ | ----------------------------------- | ---- |
-| How do I return a physical product? | ✅ Structured, with 3 sections and link to refund. | Excellent | Complete     | Explains policy, steps, and contact | 17s  |
-| What’s your return policy?         | ✅ Structured, clear logic.                        | Excellent | Complete     | Business-oriented explanation       | 22s  |
-| Refund for digital product?         | ❌ "Unable to answer"                              | Poor      | None         | No alternative or fallback          | 8s   |
-| How long do refunds take?           | ✅ Clear customer and business impact              | Excellent | Complete     | Strategic and well-worded           | 12s  |
+| Question                            | Response                                        | Quality   | Completeness | Detail                              | Time |
+| ----------------------------------- | ----------------------------------------------- | --------- | ------------ | ----------------------------------- | ---- |
+| How do I return a physical product? | Structured, with 3 sections and link to refund. | Excellent | Complete     | Explains policy, steps, and contact | 17s  |
+| What’s your return policy?         | Structured, clear logic.                        | Excellent | Complete     | Business-oriented explanation       | 22s  |
+| Refund for digital product?         | "Unable to answer"                              | Poor      | None         | No alternative or fallback          | 8s   |
+| How long do refunds take?           | Clear customer and business impact              | Excellent | Complete     | Strategic and well-worded           | 12s  |
 
 ### Shipping
 
-| Question                     | Response              | Quality | Completeness | Detail | Time |
-| ---------------------------- | --------------------- | ------- | ------------ | ------ | ---- |
-| Do you ship to Canada?       | ❌ "Unable to answer" | Poor    | None         | N/A    | 11s  |
-| Countries in shipping zones? | ❌                    | Poor    | None         | N/A    | 39s  |
-| Customs fees included?       | ❌                    | Poor    | None         | N/A    | 30s  |
+| Question                     | Response           | Quality | Completeness | Detail | Time |
+| ---------------------------- | ------------------ | ------- | ------------ | ------ | ---- |
+| Do you ship to Canada?       | "Unable to answer" | Poor    | None         | N/A    | 11s  |
+| Countries in shipping zones? | "Unable to answer" | Poor    | None         | N/A    | 39s  |
+| Customs fees included?       | "Unable to answer" | Poor    | None         | N/A    | 30s  |
 
 ### Orders
 
-| Question                     | Response                       | Quality   | Completeness | Detail                                   | Time |
-| ---------------------------- | ------------------------------ | --------- | ------------ | ---------------------------------------- | ---- |
-| Track my order               | ✅ Mentions entities and tools | Good      | Complete     | Precise and structured                   | 42s  |
-| I haven’t received my order | ✅ Step-by-step                | Excellent | Complete     | Live chat, tracking, shipping zone check | 31s  |
-| Cancel an order?             | ❌ No data                     | Poor      | None         | No attempt to rephrase                   | 5s   |
+| Question                     | Response                    | Quality   | Completeness | Detail                                   | Time |
+| ---------------------------- | --------------------------- | --------- | ------------ | ---------------------------------------- | ---- |
+| Track my order               | Mentions entities and tools | Good      | Complete     | Precise and structured                   | 42s  |
+| I haven’t received my order | Step-by-step                | Excellent | Complete     | Live chat, tracking, shipping zone check | 31s  |
+| Cancel an order?             | No data                     | Poor      | None         | No attempt to rephrase                   | 5s   |
 
 ### Account
 
-| Question           | Response               | Quality | Completeness | Detail                             | Time |
-| ------------------ | ---------------------- | ------- | ------------ | ---------------------------------- | ---- |
-| Reset password     | ✅ Uses ACCOUNT entity | Good    | Complete     | Contextualized with security notes | 26s  |
-| Forgot credentials | ❌ No data             | Poor    | None         | None provided                      | 4s   |
+| Question           | Response            | Quality | Completeness | Detail                             | Time |
+| ------------------ | ------------------- | ------- | ------------ | ---------------------------------- | ---- |
+| Reset password     | Uses ACCOUNT entity | Good    | Complete     | Contextualized with security notes | 26s  |
+| Forgot credentials | No data             | Poor    | None         | None provided                      | 4s   |
 
 ### Contact Channels
 
-| Question  | Response                     | Quality   | Completeness | Detail                         | Time |
-| --------- | ---------------------------- | --------- | ------------ | ------------------------------ | ---- |
-| Email     | ✅ Clear and contextual      | Very good | Complete     | Uses email as official channel | 37s  |
-| Live chat | ✅ Available, explains usage | Very good | Complete     | Real-time resolution emphasis  | 8s   |
+| Question  | Response                  | Quality   | Completeness | Detail                         | Time |
+| --------- | ------------------------- | --------- | ------------ | ------------------------------ | ---- |
+| Email     | Clear and contextual      | Very good | Complete     | Uses email as official channel | 37s  |
+| Live chat | Available, explains usage | Very good | Complete     | Real-time resolution emphasis  | 8s   |
 
 ### Complex / Linked Questions
 
-| Question                                | Response                             | Quality   | Completeness | Detail                                   | Time |
-| --------------------------------------- | ------------------------------------ | --------- | ------------ | ---------------------------------------- | ---- |
-| Returns & refunds for physical products | ✅ Explains linked logic             | Excellent | Complete     | Connects policy, timeline, communication | 26s  |
-| Refund delay after return               | ⚠️ Timeline mentioned, no duration | Moderate  | Partial      | Misses exact duration                    | 17s  |
-| Best way to contact support             | ✅ Email justified                   | Very good | Complete     | Logically justified                      | 28s  |
+| Question                                | Response                        | Quality   | Completeness | Detail                                   | Time |
+| --------------------------------------- | ------------------------------- | --------- | ------------ | ---------------------------------------- | ---- |
+| Returns & refunds for physical products | Explains linked logic           | Excellent | Complete     | Connects policy, timeline, communication | 26s  |
+| Refund delay after return               | Timeline mentioned, no duration | Moderate  | Partial      | Misses exact duration                    | 17s  |
+| Best way to contact support             | Email justified                 | Very good | Complete     | Logically justified                      | 28s  |
 
 ### Summary: Azure
 
@@ -511,61 +502,61 @@ The compared solutions are:
 | --------------------- | ------------------------------- |
 | Global Accuracy       | ⭐⭐⭐⭐☆                      |
 | Answer Completeness   | ⭐⭐⭐☆                        |
-| Reasoning (Multi-hop) | ⚠️ Moderate                   |
-| Response Time         | ⏳ 8–42s                       |
-| Answer Structure      | ✅ Excellent                    |
-| Failure Rate          | 🔴 5/16 (~31%)                  |
+| Reasoning (Multi-hop) | Moderate                        |
+| Response Time         | 8–42s                          |
+| Answer Structure      | Excellent                       |
+| Failure Rate          | 5/16 (~31%)                     |
 
 ---
 
-## Detailed Evaluation — GraphRAG Bot 
+## Detailed Evaluation — GraphRAG Bot
 
 ### Returns & Refunds
 
-| Question                            | Response                      | Quality   | Completeness | Detail                          | Time          |
-| ----------------------------------- | ----------------------------- | --------- | ------------ | ------------------------------- | ------------- |
-| How do I return a physical product? | ✅ Website/email/chat options | Good      | Partial      | Lacks process detail            | 10s (2nd try) |
-| What’s your return policy?         | ✅ General definition         | Moderate  | Partial      | Refers policy without specifics | 11s           |
-| Refund for digital product?         | ✅ Possible                   | Good      | Partial      | No terms or limits given        | 11s           |
-| How long do refunds take?           | ✅ 3-5 business days          | Excellent | Complete     | Straightforward answer          | 9s            |
+| Question                            | Response                   | Quality   | Completeness | Detail                          | Time          |
+| ----------------------------------- | -------------------------- | --------- | ------------ | ------------------------------- | ------------- |
+| How do I return a physical product? | Website/email/chat options | Good      | Partial      | Lacks process detail            | 10s (2nd try) |
+| What’s your return policy?         | General definition         | Moderate  | Partial      | Refers policy without specifics | 11s           |
+| Refund for digital product?         | Possible                   | Good      | Partial      | No terms or limits given        | 11s           |
+| How long do refunds take?           | 3-5 business days          | Excellent | Complete     | Straightforward answer          | 9s            |
 
 ### Shipping
 
 | Question                     | Response | Quality | Completeness | Detail               | Time |
 | ---------------------------- | -------- | ------- | ------------ | -------------------- | ---- |
-| Do you ship to Canada?       | ✅ Yes   | Good    | Complete     | Short but correct    | 8s   |
+| Do you ship to Canada?       | Yes      | Good    | Complete     | Short but correct    | 8s   |
 | Countries in shipping zones? | ❌       | Poor    | None         | No effort to explain | 9s   |
 | Customs fees included?       | ❌       | Poor    | None         | No fallback offered  | 9s   |
 
 ### Orders
 
-| Question                     | Response                 | Quality  | Completeness | Detail                       | Time |
-| ---------------------------- | ------------------------ | -------- | ------------ | ---------------------------- | ---- |
-| Track my order               | ✅ Website instructions  | Good     | Complete     | Simple, usable               | 10s  |
-| I haven’t received my order | ✅ Requests order number | Moderate | Partial      | Helpful tone, no action list | 12s  |
-| Cancel an order?             | ✅ Possible              | Moderate | Partial      | No conditions explained      | 8s   |
+| Question                     | Response              | Quality  | Completeness | Detail                       | Time |
+| ---------------------------- | --------------------- | -------- | ------------ | ---------------------------- | ---- |
+| Track my order               | Website instructions  | Good     | Complete     | Simple, usable               | 10s  |
+| I haven’t received my order | Requests order number | Moderate | Partial      | Helpful tone, no action list | 12s  |
+| Cancel an order?             | Possible              | Moderate | Partial      | No conditions explained      | 8s   |
 
 ### Account
 
-| Question           | Response                       | Quality   | Completeness | Detail           | Time |
-| ------------------ | ------------------------------ | --------- | ------------ | ---------------- | ---- |
-| Reset password     | ✅ Reset instructions provided | Excellent | Complete     | Clear and direct | 11s  |
-| Forgot credentials | ✅ Reset guidance + help       | Excellent | Complete     | Offers help      | 12s  |
+| Question           | Response                    | Quality   | Completeness | Detail           | Time |
+| ------------------ | --------------------------- | --------- | ------------ | ---------------- | ---- |
+| Reset password     | Reset instructions provided | Excellent | Complete     | Clear and direct | 11s  |
+| Forgot credentials | Reset guidance + help       | Excellent | Complete     | Offers help      | 12s  |
 
 ### Contact Channels
 
-| Question  | Response          | Quality | Completeness | Detail                        | Time |
-| --------- | ----------------- | ------- | ------------ | ----------------------------- | ---- |
-| Email     | ✅ Email provided | Good    | Complete     | Suggests email as main option | 11s  |
-| Live chat | ✅ Available      | Good    | Complete     | Lists areas it covers         | 11s  |
+| Question  | Response       | Quality | Completeness | Detail                        | Time |
+| --------- | -------------- | ------- | ------------ | ----------------------------- | ---- |
+| Email     | Email provided | Good    | Complete     | Suggests email as main option | 11s  |
+| Live chat | Available      | Good    | Complete     | Lists areas it covers         | 11s  |
 
 ### Complex / Linked Questions
 
-| Question                                | Response              | Quality   | Completeness | Detail                | Time |
-| --------------------------------------- | --------------------- | --------- | ------------ | --------------------- | ---- |
-| Returns & refunds for physical products | ✅ Summarized clearly | Very good | Complete     | Solid linking         | 10s  |
-| Refund delay after return               | ✅ 3–5 days          | Excellent | Complete     | Accurate timeframe    | 11s  |
-| Best way to contact support             | ✅ Email/chat/website | Good      | Complete     | No best method argued | 12s  |
+| Question                                | Response           | Quality   | Completeness | Detail                | Time |
+| --------------------------------------- | ------------------ | --------- | ------------ | --------------------- | ---- |
+| Returns & refunds for physical products | Summarized clearly | Very good | Complete     | Solid linking         | 10s  |
+| Refund delay after return               | 3–5 days          | Excellent | Complete     | Accurate timeframe    | 11s  |
+| Best way to contact support             | Email/chat/website | Good      | Complete     | No best method argued | 12s  |
 
 ### Summary: Neo4j Bot
 
@@ -573,10 +564,10 @@ The compared solutions are:
 | --------------------- | ----------------------------- |
 | Global Accuracy       | ⭐⭐⭐⭐☆                    |
 | Answer Completeness   | ⭐⭐⭐☆                      |
-| Reasoning (Multi-hop) | ✅ Very good                  |
-| Response Time         | ⚡ 8–12s                     |
-| Answer Style          | ✅ Conversational             |
-| Failure Rate          | ⚠️ 2/16 (~12%)              |
+| Reasoning (Multi-hop) | Very good                     |
+| Response Time         | 8–12s                        |
+| Answer Style          | Conversational                |
+| Failure Rate          | 2/16 (~12%)                   |
 
 ---
 
@@ -599,16 +590,16 @@ Final quality and coverage analysis pending full results.
 
 ## Comparative Summary Table
 
-| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG (Docker)   |
-| ------------------- | ------------------------------- | ----------------------------- | ------------------------- |
-| Setup Complexity    | ⭐⭐☆☆☆                      | ⭐⭐⭐☆                      | ⭐⭐⭐⭐☆ (technical)    |
-| Cost Predictability | ❌ Cloud-based                  | ⚠️ API cost varies          | ✅ Free (local inference) |
-| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | 🔄 To be tested           |
-| Reasoning Quality   | ⚠️ Moderate                   | ✅ Excellent                  | ✅ (Expected)             |
-| Response Time       | ⏳ 8–42s                       | ⚡ 8–12s                     | 🐢 80–490s               |
-| Structure / Clarity | ✅ Very good                    | ✅ Conversational             | 🔄 Pending                |
-| Failure Rate        | 🔴 ~31%                         | ⚠️ ~12%                     | 🔄 Unknown                |
-| Offline Capability  | ❌                              | ❌                            | ✅                        |
+| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG (Docker) |
+| ------------------- | ------------------------------- | ----------------------------- | ----------------------- |
+| Setup Complexity    | ⭐⭐☆☆☆                      | ⭐⭐⭐☆                      | ⭐⭐⭐⭐☆ (technical)  |
+| Cost Predictability | Cloud-based                     | API cost varies               | Free (local inference)  |
+| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | 🔄 To be tested         |
+| Reasoning Quality   | Moderate                        | Excellent                     | (Expected)              |
+| Response Time       | 8–42s                          | 8–12s                        | 80–490s                |
+| Structure / Clarity | Very good                       | Conversational                | Pending                 |
+| Failure Rate        | ~31%                            | ~12%                          | Unknown                 |
+| Offline Capability  | ❌                              | ❌                            | ✅                      |
 
 ## 8. Conclusion
 
@@ -617,9 +608,7 @@ Our exploration of GraphRAG has revealed its transformative potential in enhanci
 We tested and compared **three main approaches**:
 
 - **GraphRAG with Azure**: Using Cognitive Search and OpenAI, we deployed a cloud-based system with API endpoints. It offered good structure and reasoning but faced restrictions due to our student account and incurred potential costs for extended usage.
-
 - **GraphRAG with AWS**: Built with Amazon Neptune, Bedrock, and LlamaIndex, our implementation allowed graph-based reasoning over structured data. Although powerful, the setup required elevated permissions, leading us to use a personal credit card to access Bedrock and SageMaker features.
-
 - **Custom GraphRAG Application**: We developed our own stack from scratch using LangChain, OpenAI, and graph databases like Neo4j. This gave us complete control over schema design, retrieval strategies, prompt engineering, and UI logic. While more complex to implement and maintain, this approach proved the most flexible and educational.
 
 We also analyzed **PuppyGraph** as an **alternative we did not test directly**. Based on its documentation, it presents an interesting “Zero ETL” solution designed to simplify the entire GraphRAG pipeline by removing infrastructure overhead. It could be a valuable option for future projects using existing SQL data and requiring minimal deployment time.
@@ -628,18 +617,18 @@ We also analyzed **PuppyGraph** as an **alternative we did not test directly**. 
 
 Our conclusion is that **GraphRAG is a powerful but non-trivial enhancement to classical RAG**. Its success depends on several factors:
 
-- The structure and quality of the knowledge base  
-- The type of queries and reasoning required  
-- The chosen infrastructure (local, cloud, or hybrid)  
+- The structure and quality of the knowledge base
+- The type of queries and reasoning required
+- The chosen infrastructure (local, cloud, or hybrid)
 - The team’s experience with graph technologies and LLM orchestration
 
 In our case, we found that **cloud-based services (AWS, Azure)** offered fast results and managed services but introduced permission and cost constraints. In contrast, **custom implementation** required more development effort but offered the best control and understanding.
 
 For future improvements, we plan to:
 
-- Refine our prompt engineering techniques  
-- Explore lightweight deployments with open-source LLMs  
-- Possibly evaluate PuppyGraph in a real scenario  
+- Refine our prompt engineering techniques
+- Explore lightweight deployments with open-source LLMs
+- Possibly evaluate PuppyGraph in a real scenario
 
 GraphRAG is still a young but promising field — and it's clearly shaping the future of AI systems that reason, adapt, and retrieve information with higher precision and explainability.
 
