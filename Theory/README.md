@@ -77,6 +77,8 @@ Retrieval-Augmented Generation (RAG) enhances traditional AI models by integrati
 1. **Retrieval Phase:** The system searches a knowledge base or document repository to find the most relevant content (Martineau, 2024).
 2. **Generation Phase:** The retrieved context is used to generate an informed, coherent, and contextually accurate response (Martineau, 2024).
 
+![Two Steps Process](images/image4.png)
+
 This hybrid method helps mitigate problems like hallucination and outdated knowledge common in standalone generative models.
 
 **Enhancements from IBM Research:**
@@ -98,6 +100,8 @@ Graphs are a natural and effective way to model complex relationships. In AI, th
 - `"Electric car"` → `"Battery"`
 - `"Battery"` → `"Lithium"`
 - `"Lithium"` → `"Mining industry"`
+
+![Graph](images/image5.png)
 
 These semantic connections enable richer and more insightful responses.
 
@@ -196,11 +200,15 @@ How GraphRAG Helps:
 - Speeds up fraud detection from hours to seconds (Hafeez, 2024)
 - Prevents cybercrime by flagging unusual transaction patterns (Hafeez, 2024)
 
+![Paysafe](images/image6.png)
+
 #### Healthcare - Precina
 
 Precina Health uses GraphRAG and Memgraph to improve care for patients with Type 2 diabetes. Their system, called P3C (Provider-Patient CoPilot), helps doctors make better treatment decisions by combining medical records with behavioral and social data. This approach has led to significant improvements, with patients lowering their HbA1C levels by 1% per month, a much faster rate than usual (Bryan, n.d.).
 
 P3C works by integrating real-time patient inputs, such as insulin levels, lifestyle factors, and even personal challenges like transportation issues or stress. The system connects these data points to find patterns and predict potential health risks. This allows providers to make informed decisions tailored to each patient’s needs, improving both medical outcomes and overall quality of care (Bryan, n.d.).
+
+![Precina](images/image7.png)
 
 ## 5. Exploring Graph RAG in practice
 
@@ -217,6 +225,7 @@ To reflect the different approaches and experiments, our project is organized in
 This makes it easy to test, compare, or reuse each GraphRAG implementation independently.
 
 **Documentation structure**
+
 Where needed, we also include a documentation/ folder inside the project. This contains:
 
 - Technology-specific guides (e.g., README.neo4j.md, README.faiss.md, README.streamlit.md)
