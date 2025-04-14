@@ -4,15 +4,14 @@ This README file contains theory aspects as well as practical examples about Gra
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Background &amp; History](#background--history)
-3. [Key Concepts &amp; Theoretical Foundations](#key-concepts--theoretical-foundations)
-4. [Applications &amp; Use Cases](#applications--use-cases)
-5. [Exploring Graph RAG in Practice](#exploring-graph-rag-in-practice)
-6. [To be defined](#to be defined)
-7. [Comparing Graph RAG with Alternative Approaches](#comparing-graph-rag-with-alternative-approaches)
-8. [Conclusion and Next Steps](#conclusion-and-next-steps)
-9. [References](#references)
+1. [Introduction](#1-introduction)
+2. [Background &amp; History](#2-background--history)
+3. [Key Concepts &amp; Theoretical Foundations](#3-key-concepts--theoretical-foundations)
+4. [Applications &amp; Use Cases](#4-applications--use-cases)
+5. [Exploring Graph RAG in Practice](#5-exploring-graph-rag-in-practice)
+6. [Comparing Graph RAG with Alternative Approaches](#6-comparative-evaluation-of-graphrag-approaches)
+7. [Conclusion and Next Steps](#7-conclusion)
+8. [References](#8-references)
 
 ---
 
@@ -452,7 +451,7 @@ The compared solutions are:
 
 1. **Azure Cognitive Search + OpenAI (Cloud)**
 2. **Custom GraphRAG Bot (Neo4j + OpenAI API)**
-3. **Local GraphRAG via Docker** *(Evaluation in progress)*
+3. **Local RAG with DeepSeek & ChromaDB**
 
 ---
 
@@ -580,20 +579,66 @@ The compared solutions are:
 
 ---
 
-## Local GraphRAG (Docker)
+## Detailed Evaluation — Local GraphRAG
 
-Currently under evaluation. Initial response times (seconds):
+### Returns & Refunds
 
-| Question                | Time (s) |
-| ----------------------- | -------- |
-| Return physical product | 195      |
-| Ship to Canada          | 233      |
-| Track order             | 384      |
-| Reset password          | 492      |
-| Contact by email        | 83       |
-| Complex return/refund   | 186      |
+| Question                            | Response                              | Quality   | Completeness | Detail                             | Time |
+| ----------------------------------- | ------------------------------------- | --------- | ------------ | ---------------------------------- | ---- |
+| How do I return a physical product? | Detailed steps, multi-channel support | Excellent | Complete     | Lists actions, timelines, channels | 195s |
+| What’s your return policy?         | Clear points on time and refunds      | Very good | Complete     | Concise and informative            | N/A  |
+| Refund for digital product?         | Yes, with conditions                  | Good      | Complete     | Recommends contacting support      | N/A  |
+| How long do refunds take?           | 5-7 business days                     | Excellent | Complete     | Aligned with return flow           | N/A  |
 
-Final quality and coverage analysis pending full results.
+### Shipping
+
+| Question                     | Response                 | Quality   | Completeness | Detail                      | Time |
+| ---------------------------- | ------------------------ | --------- | ------------ | --------------------------- | ---- |
+| Do you ship to Canada?       | Yes + contact options    | Good      | Complete     | Info about contact channels | 233s |
+| Countries in shipping zones? | US, EU, Canada listed    | Very good | Complete     | Clear, categorized list     | N/A  |
+| Customs fees included?       | May apply, warning given | Good      | Complete     | Sets expectations           | N/A  |
+
+### Orders
+
+| Question                     | Response                | Quality   | Completeness | Detail                             | Time |
+| ---------------------------- | ----------------------- | --------- | ------------ | ---------------------------------- | ---- |
+| Track my order               | Step-by-step process    | Excellent | Complete     | Includes login, real-time tracking | 384s |
+| I haven’t received my order | Instructions + contact  | Very good | Complete     | Channel options + address check    | N/A  |
+| Cancel an order?             | Yes, via return request | Good      | Complete     | Links cancellation to policy       | N/A  |
+
+### Account
+
+| Question           | Response             | Quality   | Completeness | Detail                         | Time |
+| ------------------ | -------------------- | --------- | ------------ | ------------------------------ | ---- |
+| Reset password     | Multi-step process   | Excellent | Complete     | Describes verification + reset | 492s |
+| Forgot credentials | Reset process + help | Excellent | Complete     | Alternative options explained  | N/A  |
+
+### Contact Channels
+
+| Question  | Response               | Quality | Completeness | Detail                          | Time |
+| --------- | ---------------------- | ------- | ------------ | ------------------------------- | ---- |
+| Email     | Yes + access via login | Good    | Complete     | Mentions contact form/live chat | 83s  |
+| Live chat | Yes, available         | Good    | Complete     | Confirms support area           | N/A  |
+
+### Complex / Linked Questions
+
+| Question                                | Response                    | Quality   | Completeness | Detail                          | Time |
+| --------------------------------------- | --------------------------- | --------- | ------------ | ------------------------------- | ---- |
+| Returns & refunds for physical products | Structured steps + timeline | Excellent | Complete     | Channel and refund logic        | 186s |
+| Refund delay after return               | 5–7 business days          | Excellent | Complete     | Clear and aligned               | N/A  |
+| Best way to contact support             | Multiple options given      | Very good | Complete     | Lists strengths of each channel | N/A  |
+
+### Summary: Local GraphRAG
+
+| Criteria              | Local GraphRAG (Docker) |
+| --------------------- | ----------------------- |
+| Global Accuracy       | ⭐⭐⭐⭐☆              |
+| Answer Completeness   | ⭐⭐⭐⭐☆              |
+| Reasoning (Multi-hop) | Very good               |
+| Response Time         | 80–490s                |
+| Answer Style          | Structured & clear      |
+| Failure Rate          | 0%                      |
+| Offline Capability    | Fully local             |
 
 ---
 
@@ -601,26 +646,38 @@ Final quality and coverage analysis pending full results.
 
 | Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG (Docker) |
 | ------------------- | ------------------------------- | ----------------------------- | ----------------------- |
-| Setup Complexity    | ⭐⭐☆☆☆                      | ⭐⭐⭐☆                      | ⭐⭐⭐⭐☆ (technical)  |
+| Setup Complexity    | ⭐⭐☆☆☆                      | ⭐⭐⭐☆                      | ⭐⭐⭐⭐☆              |
 | Cost Predictability | Cloud-based                     | API cost varies               | Free (local inference)  |
-| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | 🔄 To be tested         |
-| Reasoning Quality   | Moderate                        | Excellent                     | (Expected)              |
+| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | ⭐⭐⭐⭐☆              |
+| Reasoning Quality   | Moderate                        | Excellent                     | Very good               |
 | Response Time       | 8–42s                          | 8–12s                        | 80–490s                |
-| Structure / Clarity | Very good                       | Conversational                | Pending                 |
-| Failure Rate        | ~31%                            | ~12%                          | Unknown                 |
+| **Structure** | Structured                      | Mixed                         | Structured              |
+| **Style**     | Formal                          | Conversational                | Neutral / Formal        |
+| Failure Rate        | ~31%                            | ~12%                          | 0%                      |
 | Offline Capability  | ❌                              | ❌                            | ✅                      |
 
-## 8. Conclusion
+This comparative table highlights the trade-offs between the three GraphRAG implementations:
+
+* **Azure Cognitive Search + OpenAI** is the easiest to set up, with strong structure and presentation. However, it struggles with complex reasoning and has a higher failure rate due to its limited contextual understanding and strict keyword-based indexing.
+* **GraphRAG Bot (Neo4j + OpenAI)** offers excellent reasoning capabilities thanks to its graph-based structure. It is more conversational and flexible, but requires moderate setup effort and involves API usage costs.
+* **Local RAG with ChromaDB + DeepSeek** stands out for being fully offline and free to run. It provides accurate and structured answers with zero failures, though its setup is more technical and its response time significantly slower due to local inference.
+
+**Note on response time**: Performance naturally depends on the environment and hardware. These results were collected using personal laptops and should be considered indicative rather than absolute benchmarks.
+
+Each solution serves a different use case: Azure is ideal for quick deployment, Neo4j for complex reasoning, and the local option for privacy, cost control, or disconnected environments
+
+## 7. Conclusion
 
 Our exploration of GraphRAG has revealed its transformative potential in enhancing Retrieval-Augmented Generation with structured, semantic understanding.
 
-We tested and compared **three main approaches**:
+We tested and compared different **approaches**:
 
 - **GraphRAG with Azure**: Using Cognitive Search and OpenAI, we deployed a cloud-based system with API endpoints. It offered good structure and reasoning but faced restrictions due to our student account and incurred potential costs for extended usage.
 - **GraphRAG with AWS**: Built with Amazon Neptune, Bedrock, and LlamaIndex, our implementation allowed graph-based reasoning over structured data. Although powerful, the setup required elevated permissions, leading us to use a personal credit card to access Bedrock and SageMaker features.
 - **Custom GraphRAG Application**: We developed our own stack from scratch using LangChain, OpenAI, and graph databases like Neo4j. This gave us complete control over schema design, retrieval strategies, prompt engineering, and UI logic. While more complex to implement and maintain, this approach proved the most flexible and educational.
+- **Local RAG with ChromaDB + DeepSeek**: A fully offline pipeline based on vector search (not a graph). Despite its simplicity, it achieved high accuracy, zero failure rate, and offered complete control — making it ideal for privacy-sensitive or disconnected environments.
 
-We also analyzed **PuppyGraph** as an **alternative we did not test directly**. Based on its documentation, it presents an interesting “Zero ETL” solution designed to simplify the entire GraphRAG pipeline by removing infrastructure overhead. It could be a valuable option for future projects using existing SQL data and requiring minimal deployment time.
+We also analyzed **PuppyGraph** as an alternative we did not test directly. Based on its documentation, it presents an interesting “Zero ETL” solution designed to simplify the entire GraphRAG pipeline by removing infrastructure overhead. It could be a valuable option for future projects using existing SQL data and requiring minimal deployment time.
 
 ---
 
@@ -643,7 +700,7 @@ GraphRAG is still a young but promising field — and it's clearly shaping the f
 
 ---
 
-## 9. References
+## 8. References
 
 Bouchard, L. (2024, 12. August). When to Use GraphRAG. **https://www.linkedin.com/pulse/when-use-graphrag-louis-fran%C3%A7ois-bouchard-evkoe**
 

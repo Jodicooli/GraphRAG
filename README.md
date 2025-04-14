@@ -82,18 +82,19 @@ This folder includes:
 
 ### [Local implementation]()
 
-A standalone GraphRAG pipeline packaged in Docker for local/offline use. Ideal for environments without cloud access.
+A standalone RAG (Retrieval-Augmented Generation) pipeline running entirely offline, ideal for environments without cloud access.
 
-This folder will include:
+This implementation includes:
 
-* A *docker-compose.yml* for setting up services
-* Local embedding and generation options
-* Frontend and API as containers
+* A `docker-compose.yml` for setting up local services (optional)
+* Local vector database using **ChromaDB**
+* Embedding and generation via **DeepSeek LLMs** or **OpenAI**
+* FastAPI backend and Streamlit frontend, runnable locally
 
 ---
 
 ### [Transitioning from SQL](./Transitioning_From_SQL/README.md)
 
-A practical guide for teams moving from traditional relational databases to knowledge graphs. This folder demonstrates how to migrate SQL-based systems to graph databases (Stardog and Neo4j) while implementing GraphRAG capabilities. 
+A practical guide for teams moving from traditional relational databases to knowledge graphs. This folder demonstrates how to migrate SQL-based systems to graph databases (Stardog and Neo4j) while implementing GraphRAG capabilities.
 
 ---
