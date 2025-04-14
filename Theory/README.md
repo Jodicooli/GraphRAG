@@ -444,7 +444,7 @@ For future iterations or teams working with relational data, **PuppyGraph could 
 
 ---
 
-## 6. Comparative Evaluation of GraphRAG Approaches
+## 6. Comparative GraphRAG Solutions
 
 This section presents a detailed comparison of three GraphRAG-based architectures using a fixed dataset and a consistent set of customer support questions across six thematic categories:
 
