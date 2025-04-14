@@ -10,8 +10,9 @@ This README file contains theory aspects as well as practical examples about Gra
 4. [Applications &amp; Use Cases](#4-applications--use-cases)
 5. [Exploring Graph RAG in Practice](#5-exploring-graph-rag-in-practice)
 6. [Comparing Graph RAG solutions](#6-comparative-evaluation-of-graphrag-approaches)
-7. [Conclusion](#7-conclusion)
-8. [References](#8-references)
+7. [Comparative GraphRAG Solutions](#7.-comparative-graphRAG-solutions)
+8. [Conclusion](#8-conclusion)
+9. [References](#9-references)
 
 ---
 
