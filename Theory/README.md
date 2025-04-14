@@ -9,8 +9,8 @@ This README file contains theory aspects as well as practical examples about Gra
 3. [Key Concepts &amp; Theoretical Foundations](#3-key-concepts--theoretical-foundations)
 4. [Applications &amp; Use Cases](#4-applications--use-cases)
 5. [Exploring Graph RAG in Practice](#5-exploring-graph-rag-in-practice)
-6. [Comparing Graph RAG with Alternative Approaches](#6-comparative-evaluation-of-graphrag-approaches)
-7. [Conclusion and Next Steps](#7-conclusion)
+6. [Comparing Graph RAG solutions](#6-comparative-evaluation-of-graphrag-approaches)
+7. [Conclusion](#7-conclusion)
 8. [References](#8-references)
 
 ---
@@ -315,19 +315,19 @@ This accelerator simplifies the process of deploying a fully managed GraphRAG se
 - Trigger **indexing pipelines**.
 - Query the **knowledge graph** for context-enriched responses.
 
-It leverages Azure services such as Azure OpenAI, Azure Kubernetes Service (AKS), Azure Container Registry, and Azure API Management. While powerful, it’s important to note that this setup can incur **significant costs**, especially when auto-scaling or large-scale indexing are involved.
+It leverages Azure services such as Azure OpenAI, Azure Kubernetes Service (AKS), Azure Container Registry, and Azure API Management. While powerful, it’s important to note that this setup can incur **significant costs**, especially when auto-scaling or large-scale indexing are involved (Azure-Samples, n.d.).
 
 #### Benefits of the GraphRAG Accelerator
 
 - **Hosted API Service**: Easily trigger GraphRAG operations (indexing, querying) via RESTful endpoints.
 - **Enterprise-Ready**: Auto-scaling, RBAC support, and integration with Azure OpenAI make it ideal for production use cases.
-- **Dev Container Support**: A DevContainer setup ensures that required tools are pre-installed for easier local development and deployment.
+- **Dev Container Support**: A DevContainer setup ensures that required tools are pre-installed for easier local development and deployment (Azure-Samples, n.d.).
 
 #### Practical Insights from Deployment
 
 In our project, we tested this accelerator extensively. While the setup is streamlined through scripts and Bicep files, **we encountered limitations** due to using an Azure student account. Key Azure services required for deployment (e.g., Azure OpenAI or APIM) were restricted, preventing us from completing the setup with default configurations.
 
-To overcome this, we had to **upgrade our Azure subscription by attaching a personal credit card**, which allowed access to the required services and quotas (e.g., GPT-4 Turbo, embeddings).
+To overcome this, we had to **upgrade our Azure subscription by attaching a personal credit card**, which allowed access to the required services and quotas (e.g., GPT-4 Turbo, embeddings) (Azure-Samples, n.d.).
 
 #### How to Deploy the Accelerator
 
@@ -336,7 +336,7 @@ To overcome this, we had to **upgrade our Azure subscription by attaching a pers
 3. **Prepare Azure**: Login, set your subscription, and create a resource group.
 4. **Configure deployment**: Edit `infra/deploy.parameters.json` with model names, API endpoints, quotas, and resource names.
 5. **Deploy**: Run `bash deploy.sh -p deploy.parameters.json`. The first deployment may take 40–50 minutes.
-6. **Access and test**: Once deployed, use the Quickstart notebook or navigate to `<APIM_gateway_url>/manpage/docs` to interact with the APIs.
+6. **Access and test**: Once deployed, use the Quickstart notebook or navigate to `<APIM_gateway_url>/manpage/docs` to interact with the APIs (Azure-Samples, n.d.).
 
 #### Conclusion
 
@@ -350,7 +350,7 @@ Overall, the Accelerator is a great choice **if you have the technical expertise
 
 ### 5.3 Using GraphRAG with AWS
 
-Amazon Web Services (AWS) provides a robust and production-grade environment to implement GraphRAG solutions by combining powerful services such as **Amazon Neptune** (graph database), **Amazon Bedrock** (foundational models like Claude and Titan), and **Amazon SageMaker** (for orchestration and experimentation via Jupyter notebooks).
+Amazon Web Services (AWS) provides a robust and production-grade environment to implement GraphRAG solutions by combining powerful services such as **Amazon Neptune** (graph database), **Amazon Bedrock** (foundational models like Claude and Titan), and **Amazon SageMaker** (for orchestration and experimentation via Jupyter notebooks) (Amazon Web Services, 2024).
 
 In our project, we explored how to deploy GraphRAG using AWS components to reason over structured data with LLMs. We worked with two complementary approaches:
 
@@ -365,7 +365,7 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 2. **Retrieval Step**When a user query is submitted (via notebook or API), relevant subgraphs are retrieved from Neptune using Cypher queries. Optional NL2Cypher modules allow translating natural language questions into graph queries.
 3. **Reasoning with LLMs**The extracted data is passed to a **foundation model** (e.g., Claude 3 Sonnet via Bedrock). The LLM generates an answer based on both the original prompt and the contextual information retrieved from the graph.
 4. **Response Generation**
-   The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity.
+   The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity (Amazon Web Services, 2024).
 
 
 
@@ -383,13 +383,13 @@ We deployed a simplified GraphRAG system based on AWS documentation:
 - **Scalable infrastructure**: Neptune and Bedrock support production-ready workloads with managed scaling.
 - **Seamless integration**: Bedrock integrates natively with several LLMs (Anthropic, Cohere, Amazon Titan, etc.), reducing configuration complexity.
 - **Rapid prototyping**: With the open-source GraphRAG Toolkit, developers can build indexing pipelines and search workflows using Python and LlamaIndex.
-- **Hybrid retrieval strategies**: AWS supports both semantic search (via vector stores) and structured graph traversal for better relevance.
+- **Hybrid retrieval strategies**: AWS supports both semantic search (via vector stores) and structured graph traversal for better relevance (Amazon Web Services, 2024).
 
 #### Limitations Encountered
 
 Due to **student account restrictions**, we faced deployment limitations, especially with services requiring elevated permissions or quotas (e.g., Bedrock models, SageMaker notebooks). As a workaround, we had to connect a **personal credit card** to access these features and complete the tests.
 
-Additionally, running LLMs like Claude or Titan at scale through Bedrock can incur significant costs during development if not properly optimized.
+Additionally, running LLMs like Claude or Titan at scale through Bedrock can incur significant costs during development if not properly optimized (Amazon Web Services, 2024).
 
 #### Conclusion
 
@@ -402,11 +402,11 @@ While initial setup requires time and permissions, AWS provides all the componen
 
 ### 5.4 Using GraphRAG with Puppy Graph
 
-Although we did **not test PuppyGraph** in our implementation, we included it in our research as a compelling and innovative alternative worth exploring.
+Although we did **not test PuppyGraph** in our implementation, we included it in our research as a compelling and innovative alternative worth exploring (PuppyGraph, n.d.).
 
-**PuppyGraph** is a next-generation graph analytics engine designed to instantly transform existing relational databases into graph models—without any ETL. This is a radically different approach compared to traditional graph databases, with a focus on simplicity, performance, and direct integration into existing systems.
+**PuppyGraph** is a next-generation graph analytics engine designed to instantly transform existing relational databases into graph models—without any ETL. This is a radically different approach compared to traditional graph databases, with a focus on simplicity, performance, and direct integration into existing systems (PuppyGraph, n.d.).
 
-With PuppyGraph, it is theoretically possible to build a GraphRAG application in just minutes, leveraging a scalable engine, native support for **Gremlin** and **Cypher**, and seamless compatibility with tools like **LangChain** and **OpenAI**.
+With PuppyGraph, it is theoretically possible to build a GraphRAG application in just minutes, leveraging a scalable engine, native support for **Gremlin** and **Cypher**, and seamless compatibility with tools like **LangChain** and **OpenAI** (PuppyGraph, n.d.).
 
 
 ### General Overview (Based on Documentation)
@@ -414,25 +414,25 @@ With PuppyGraph, it is theoretically possible to build a GraphRAG application in
 #### Zero ETL Approach
 
 Unlike traditional setups requiring data to be extracted, transformed, and loaded into a dedicated graph database, PuppyGraph connects directly to existing data lakes and warehouses.
-Tables in **PostgreSQL** or **MySQL** can be instantly treated as graph nodes and edges—no duplication required.
+Tables in **PostgreSQL** or **MySQL** can be instantly treated as graph nodes and edges—no duplication required (PuppyGraph, n.d.).
 
 #### Petabyte-Scale Performance
 
 PuppyGraph claims to execute complex queries (e.g., 10-hop traversals) in just seconds—even on petabyte-scale datasets.
-This is achieved through a clear separation of compute and storage, and by leveraging distributed query execution.
+This is achieved through a clear separation of compute and storage, and by leveraging distributed query execution (PuppyGraph, n.d.).
 
 #### Simplified Management & Security
 
-No extra user or permission management is needed. PuppyGraph reuses permissions from your existing database, reducing complexity and keeping data securely within your environment.
+No extra user or permission management is needed. PuppyGraph reuses permissions from your existing database, reducing complexity and keeping data securely within your environment (PuppyGraph, n.d.).
 
 #### Native Gremlin & Cypher Support
 
-PuppyGraph supports both **Gremlin** (imperative style) and **Cypher** (declarative style), offering flexibility for developers to query graphs using their preferred language.
+PuppyGraph supports both **Gremlin** (imperative style) and **Cypher** (declarative style), offering flexibility for developers to query graphs using their preferred language (PuppyGraph, n.d.).
 
 #### Intelligent GraphRAG Agent
 
 The integrated **PuppyGraphAgent** can plan multi-step graph queries, reason through graph structure, and dynamically adapt its approach.
-Built on **LangChain** and **OpenAI GPT-4o**, the agent follows a **Chain-of-Thought** methodology to explain its reasoning process at every step.
+Built on **LangChain** and **OpenAI GPT-4o**, the agent follows a **Chain-of-Thought** methodology to explain its reasoning process at every step (PuppyGraph, n.d.).
 
 ### Conclusion
 
@@ -676,7 +676,22 @@ Each solution serves a different use case: Azure is ideal for quick deployment, 
 
 ---
 
-## 7. Conclusion
+## 7. Alternatives to GraphRAG
+While GraphRAG is powerful for complex reasoning and semantic context, there are simpler or more lightweight alternatives depending on your needs:
+
+- **Standard RAG** (Retrieval-Augmented Generation): The most common approach, using vector search to retrieve chunks of text without graphs. It’s easier to set up and faster for basic use cases but lacks structured reasoning (Pavlik, 2023).
+
+- **Hybrid RAG: Combines keyword-based search** (e.g., BM25) with vector retrieval to improve accuracy without using a graph (Nigam, 2024).
+
+- **Tool-Augmented LLMs**: Systems like LangChain or AutoGPT can call external tools (e.g., APIs, calculators, search engines) to enhance answers without relying on a graph structure (LangChain, n.d.).
+
+- **Knowledge Base** Q&A (e.g., Haystack): Frameworks focused on traditional document retrieval and question answering pipelines that can also integrate with vector stores and metadata filtering (Haystack, n.d.).
+
+These alternatives may be more appropriate when working with unstructured text, tight deadlines, or limited compute resources.
+
+---
+
+## 8. Conclusion
 
 Our exploration of GraphRAG has revealed its transformative potential in enhancing Retrieval-Augmented Generation with structured, semantic understanding.
 
@@ -710,7 +725,11 @@ GraphRAG is still a young but promising field — and it's clearly shaping the f
 
 ---
 
-## 8. References
+## 9. References
+
+Amazon Web Services. (2024, December 23). Improving Retrieval Augmented Generation accuracy with GraphRAG | Amazon Web Services. **https://aws.amazon.com/de/blogs/machine-learning/improving-retrieval-augmented-generation-accuracy-with-graphrag/**
+
+Azure-Samples. (n.d.). GitHub - Azure-Samples/graphrag-accelerator : One-click deploy of a Knowledge Graph powered RAG (GraphRAG) in Azure. GitHub. **https://github.com/Azure-Samples/graphrag-accelerator?tab=readme-ov-file**
 
 Bouchard, L. (2024, 12. August). When to Use GraphRAG. **https://www.linkedin.com/pulse/when-use-graphrag-louis-fran%C3%A7ois-bouchard-evkoe**
 
@@ -724,25 +743,33 @@ Fokou, K. (2019, 11 juin).  *NLP & modèles de langage | Smals Research* . **htt
 
 Hafeez, M. (2024, 1. September). GraphRAG: The Unique Value that Oracle Database 23ai Brings to the Table. **https://www.linkedin.com/pulse/graphrag-unique-value-oracle-database-23ai-brings-table-hafeez-9bj1f**
 
-Azure-Samples. (s. d.). GitHub - Azure-Samples/graphrag-accelerator : One-click deploy of a Knowledge Graph powered RAG (GraphRAG) in Azure. GitHub. **https://github.com/Azure-Samples/graphrag-accelerator?tab=readme-ov-file**
-
 Harsh, K., & Harsh, K. (2024, 19 novembre). *What is Retrieval-Augmented Generation (RAG) ? * Bright Data. **https://brightdata.com/blog/web-data/rag-explained#:~:text=One%20major%20issue%20is%20the,back%20irrelevant%20or%20inaccurate%20documents.**
+
+Haystack | Haystack. (n.d.). Haystack. Abgerufen am 12. März 2025, **https://haystack.deepset.ai/**
+
+Introducing the GraphRAG Toolkit. (2025, 27 January). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/introducing-the-graphrag-toolkit/**
 
 Korland, G. (2025, 6. Februar). What is GraphRAG? Types, Limitations & When to Use. FalkorDB Knowledge Graph Database. **https://www.falkordb.com/blogs/what-is-graphrag/**
 
-PuppyGraph Docs. (n.d.). **https://docs.puppygraph.com/**
-
-Introducing the GraphRAG Toolkit. (2025, 27 January). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/introducing-the-graphrag-toolkit/**
+LangChain. (n.d.). **https://www.langchain.com/**
 
 Martineau, K. (2024, 13. November). What is retrieval-augmented generation? IBM Research. **https://research.ibm.com/blog/retrieval-augmented-generation-RAG**
 
 Merritt, R. (2025, 31 janvier).  *What Is Retrieval-Augmented Generation aka RAG | NVIDIA Blogs* . NVIDIA Blog. **https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/?utm_source=chatgpt.com**
 
-Using knowledge graphs to build GraphRAG applications with Amazon Bedrock and Amazon Neptune. (2024, 1 August). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/using-knowledge-graphs-to-build-graphrag-applications-with-amazon-bedrock-and-amazon-neptune/**
+Nigam, G. (2024, 17. Dezember). A complete guide to implementing hybrid RAG - Aingineer - Medium. Medium. **https://medium.com/aingineer/a-complete-guide-to-implementing-hybrid-rag-86c0febba474**
+
+PuppyGraph. (n.d.). GraphRAG Explained: Enhancing RAG with Knowledge Graphs. **https://www.puppygraph.com/blog/graph-rag**
+
+PuppyGraph Docs. (n.d.). **https://docs.puppygraph.com/**
+
+Pavlik, G. (2023, 19. September). What is Retrieval-Augmented Generation (RAG)? Abgerufen am 12. März 2025, **https://www.oracle.com/uk/artificial-intelligence/generative-ai/retrieval-augmented-generation-rag/**
 
 SivaParam. (2024, 25. September). Unlocking Insights: GraphRAG & Standard RAG in Financial Services. **https://techcommunity.microsoft.com/blog/azure-ai-services-blog/unlocking-insights-graphrag--standard-rag-in-financial-services/4253311**
 
 Sparkbit. (2025, 9. Januar). GraphRAG - where and how is it used. **https://www.linkedin.com/pulse/graphrag-where-how-used-sparkbit-eawaf**
+
+Using knowledge graphs to build GraphRAG applications with Amazon Bedrock and Amazon Neptune. (2024, 1 August). Amazon Web Services, Inc. **https://aws.amazon.com/fr/blogs/database/using-knowledge-graphs-to-build-graphrag-applications-with-amazon-bedrock-and-amazon-neptune/**
 
 What is RAG? - Retrieval-Augmented Generation AI Explained - AWS. (n.d.). Amazon Web Services, Inc. **https://aws.amazon.com/what-is/retrieval-augmented-generation/?nc1=h_ls**
 
