@@ -372,12 +372,15 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 
 #### Our Implementation
 
-We deployed a simplified GraphRAG system based on AWS documentation:
+We successfully launched the necessary services and explored the following setup:
 
 - **Graph database**: Amazon Neptune (serverless)
 - **LLM orchestration**: Amazon Bedrock via LlamaIndex
 - **Interface**: Jupyter notebooks hosted on SageMaker
 - **Toolkit**: [graphrag-toolkit](https://github.com/awslabs/graphrag-toolkit)
+
+However, it's important to note that we did not deploy a working UI or frontend, so no screenshots or live app demos were available during the test phase.
+This was likely due to limitations in our AWS subscription, which blocked access to certain services needed for a full deployment. Since we had already invested some personal funds to activate core services for the backend, we chose to stop at this stage to avoid further costs.
 
 #### Benefits of Using AWS for GraphRAG
 
@@ -389,6 +392,8 @@ We deployed a simplified GraphRAG system based on AWS documentation:
 #### Limitations Encountered
 
 Due to **student account restrictions**, we faced deployment limitations, especially with services requiring elevated permissions or quotas (e.g., Bedrock models, SageMaker notebooks). As a workaround, we had to connect a **personal credit card** to access these features and complete the tests.
+
+Also, we encountered challenges completing a full deployment — no UI or frontend was available, and work remained limited to backend components and service configurations.
 
 Additionally, running LLMs like Claude or Titan at scale through Bedrock can incur significant costs during development if not properly optimized (Amazon Web Services, 2024).
 
