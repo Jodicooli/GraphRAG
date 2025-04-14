@@ -25,6 +25,8 @@ This project explores how Graph RAG enhances AI retrieval and generation, its ap
 
 ![Data Exchange in GraphRAG](images/image.png)
 
+---
+
 ## 2. Background & History
 
 ### Evolution of AI-Assisted Retrieval Systems
@@ -64,6 +66,8 @@ Knowledge Graphs provide a solution to the limitations of RAG by providing a sem
 * A Knowledge Graph helps AI distinguish between similar concepts using relational context. For example, it can differentiate “Apple” (company) from “apple” (fruit) based on relationships (“founded” vs. “part of”).
 * AI can use relationships to deduce new information. For example, if “Steve Jobs founded Apple” and “Apple created the iPhone”, the AI can deduce that “Steve Jobs helped create the iPhone”.
 * By combining GraphRAG with RAG, the Knowledge Graph is used to augment queries by providing relevant context. This makes it possible to ask more precise questions and obtain more relevant answers.
+
+---
 
 ## 3. Key Concepts & Theoretical Foundations
 
@@ -130,9 +134,7 @@ This improves:
 - **Computational Overhead:** Large graphs can slow down retrieval unless optimized (Korland, 2025).
 - **Ambiguity Handling:** Sparse or poorly connected graphs may limit context and relevance (Korland, 2025).
 
----
-
-Graph RAG presents a significant evolution in AI reasoning, marrying the flexibility of generative models with the structured precision of graphs. This synergy opens new possibilities in delivering context-aware, reliable, and scalable AI systems.
+Note:Graph RAG presents a significant evolution in AI reasoning, marrying the flexibility of generative models with the structured precision of graphs. This synergy opens new possibilities in delivering context-aware, reliable, and scalable AI systems.
 
 ---
 
@@ -209,6 +211,8 @@ P3C works by integrating real-time patient inputs, such as insulin levels, lifes
 
 ![Precina](images/image7.png)
 
+---
+
 ## 5. Exploring Graph RAG in practice
 
 **Folder structure**
@@ -233,6 +237,8 @@ Where needed, we also include a documentation/ folder inside the project. This c
 - Alternatives and relevant examples
 
 This helps you understand not just how the tools were used, but why they were chosen.
+
+---
 
 ### 5.1 Creating your own GraphRAG application
 
@@ -361,7 +367,7 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 4. **Response Generation**
    The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity.
 
----
+
 
 #### Our Implementation
 
@@ -391,6 +397,9 @@ Using AWS for GraphRAG allowed us to explore production-grade implementations of
 
 While initial setup requires time and permissions, AWS provides all the components needed to go from prototype to scalable application — whether via the GraphRAG Toolkit or custom-built stacks.
 
+
+---
+
 ### 5.4 Using GraphRAG with Puppy Graph
 
 Although we did **not test PuppyGraph** in our implementation, we included it in our research as a compelling and innovative alternative worth exploring.
@@ -399,7 +408,6 @@ Although we did **not test PuppyGraph** in our implementation, we included it in
 
 With PuppyGraph, it is theoretically possible to build a GraphRAG application in just minutes, leveraging a scalable engine, native support for **Gremlin** and **Cypher**, and seamless compatibility with tools like **LangChain** and **OpenAI**.
 
----
 
 ### General Overview (Based on Documentation)
 
@@ -426,8 +434,6 @@ PuppyGraph supports both **Gremlin** (imperative style) and **Cypher** (declarat
 The integrated **PuppyGraphAgent** can plan multi-step graph queries, reason through graph structure, and dynamically adapt its approach.
 Built on **LangChain** and **OpenAI GPT-4o**, the agent follows a **Chain-of-Thought** methodology to explain its reasoning process at every step.
 
----
-
 ### Conclusion
 
 While we did not integrate or test PuppyGraph in our project, it appears to offer a **modern and practical vision of GraphRAG** — one that reduces setup friction and accelerates deployment.
@@ -435,6 +441,8 @@ While we did not integrate or test PuppyGraph in our project, it appears to offe
 Its **Zero ETL** approach and support for existing SQL databases could make it an attractive solution for teams seeking rapid experimentation without heavy infrastructure.
 
 For future iterations or teams working with relational data, **PuppyGraph could be a powerful candidate to explore further.**
+
+---
 
 ## 6. Comparative Evaluation of GraphRAG Approaches
 
@@ -665,6 +673,8 @@ This comparative table highlights the trade-offs between the three GraphRAG impl
 **Note on response time**: Performance naturally depends on the environment and hardware. These results were collected using personal laptops and should be considered indicative rather than absolute benchmarks.
 
 Each solution serves a different use case: Azure is ideal for quick deployment, Neo4j for complex reasoning, and the local option for privacy, cost control, or disconnected environments
+
+---
 
 ## 7. Conclusion
 
