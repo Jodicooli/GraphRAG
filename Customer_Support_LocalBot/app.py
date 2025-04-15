@@ -29,7 +29,7 @@ except Exception as e:
     st.error(f"Failed to load CrossEncoder model: {str(e)}")
 
 
-st.set_page_config(page_title="DeepGraph RAG-Pro HES-SO", layout="wide")      # ✅ Streamlit configuration
+st.set_page_config(page_title="Local Customer Bot Assistant", layout="wide")      # ✅ Streamlit configuration
 
 # Custom CSS
 st.markdown("""
@@ -98,7 +98,7 @@ with st.sidebar:                                                                
     """, unsafe_allow_html=True)
 
 # 💬 Chat Interface
-st.title("🤖 DeepGraph GraphRAG Project")
+st.title("🤖 Hello, I am your customer assistant bot !")
 st.caption("Advanced RAG System with GraphRAG, Hybrid Retrieval, Neural Reranking and Chat History")
 
 # Display messages
