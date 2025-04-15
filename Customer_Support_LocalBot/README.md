@@ -1,8 +1,37 @@
-# **DeepSeek GRAPHRAG Chatbot 3.0**
+# **DeepSeek GRAPHRAG Chatbot**
 
 **DeepSeek + NOMIC + FAISS + Neural Reranking + HyDE + GraphRAG + Chat Memory**
 
-This chatbot enables **fast, accurate, and explainable retrieval of information** from PDFs, DOCX, and TXT files using **DeepSeek-7B**, **BM25**, **FAISS**, **Neural Reranking (Cross-Encoder)**, **GraphRAG**, and **Chat History Integration**.
+This chatbot enables **fast, accurate, and explainable retrieval of information** from PDFs, DOCX, and TXT files using **DeepSeek-7B**, **BM25**, **FAISS**, **Neural Reranking (Cross-Encoder)**, **GraphRAG**, and **Chat History Integration**. 
+
+---
+
+## Here some impressions of the website:
+
+### 1. Homepage
+![Home Page](images/HomePage.png)
+
+### 2. Document Feeding
+
+![Chat with Chat bot](images/feeding.png)
+
+### 3. Bot Thinking
+
+![Reponse Chat bot](images/thinking.png)
+
+
+---
+
+# **Technologies Used**
+
+| Layer                    | Technology & Details                                                               |
+| ------------------------ | ---------------------------------------------------------------------------------- |
+| LLM Generation           | DeepSeek-7B via Ollama (chat-based completions)                                    |
+| Document Retrieval       | BM25 & FAISS (hybrid retrieval and semantic similarity over knowledge chunks)      |
+| Neural Reranking         | Cross-Encoder (ms-marco-MiniLM-L-6-v2 for reordering retrieved passages)           |
+| Graph Processing         | GraphRAG (building and visualizing the knowledge graph)                            |
+| Chat Interface           | Streamlit (interactive web UI for chatbot interactions)                            |
+| Deployment & Environment | Python venv & Docker (flexible local and containerized deployments)                |
 
 ---
 
@@ -129,3 +158,9 @@ Both **Ollama** and the chatbot run in Docker. Access the chatbot at **[http://l
 7. **DeepSeek-7B Generation**: Produces the final answer based on top-ranked chunks.
 
 ---
+
+# **Credits**
+The original creator of this project is mentioned in the license file. Modifications were done by providing
+1. A special context for our customer policy text.
+2. A new layout that includes graph modification parameters
+3. A graph visualizer that indicated the related nodes on a query
