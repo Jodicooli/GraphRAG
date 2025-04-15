@@ -13,6 +13,8 @@ This project is organized to clearly separate theory, practical implementations,
 │
 │── 📁 Customer_Support_Bot           # A bot that uses GraphRAG for answering support queries
 │
+│── 📁 Customer_Support_LocalBot      # A Localbot that uses GraphRAG
+│
 │── 📁 Employees_Slack_Bot            # Internal Slack bot powered by GraphRAG
 │
 │── 📁 GraphRAG_Library               # Simple implementation of the graphrag library 
@@ -37,7 +39,7 @@ This folder contains all theoretical materials related to GraphRAG, including:
 
 You should start with this folder to understand the concept of GraphRAG and our testings.
 
-### [Custom_GraphRAG_Application](./Custom_GraphRAG_Application/README.md) / [GraphRAG_Library](./GraphRAG_Library/README.md) / [Customer_Support_Bot](./Customer_Support_Bot/README.md) / [Employees_Slack_Bot](./Employees_Slack_Bot/README.md)
+### [Custom_GraphRAG_Application](./Custom_GraphRAG_Application/README.md) / [GraphRAG_Library](./GraphRAG_Library/README.md) / [Customer_Support_Bot](./Customer_Support_Bot/README.md) / [Employees_Slack_Bot](./Employees_Slack_Bot/README.md) / [Customer_Support_LocalBot](.Customer_Support_LocalBot/README.md)
 
 Each of these folders contains a complete and self-contained implementation of a GraphRAG system — ranging from simple setups using libraries like graphrag to full-stack custom systems with FAISS, Neo4j, Ollama, FastAPI, and Streamlit or a bot for answering questions in Slack.
 
