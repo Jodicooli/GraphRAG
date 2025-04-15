@@ -69,7 +69,7 @@ These folders are independent, making it easy to run and compare them individual
 
 ---
 
-### [Azure Accelerator](./Azure_Accelerator/readme.md)
+### [Azure Accelerator](./Azure_Accelerator/README.md)
 
 A complete cloud deployment of the [Azure-Samples GraphRAG Accelerator](https://github.com/Azure-Samples/graphrag-accelerator). This example shows how to use Azure OpenAI, Cognitive Search, AKS, and APIM to build a production-grade RAG pipeline.
 

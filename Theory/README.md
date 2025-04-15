@@ -9,7 +9,7 @@ This README file contains theory aspects as well as practical examples about Gra
 3. [Key Concepts &amp; Theoretical Foundations](#3-key-concepts--theoretical-foundations)
 4. [Applications &amp; Use Cases](#4-applications--use-cases)
 5. [Exploring Graph RAG in Practice](#5-exploring-graph-rag-in-practice)
-6. [Comparative GraphRAG Solutions](#6-comparative-graphrag-solutions)  
+6. [Comparative GraphRAG Solutions](#6-comparative-graphrag-solutions)
 7. [Alternatives to GraphRAG](#7-alternatives-to-graphrag)
 8. [Conclusion](#8-conclusion)
 9. [Glossary of Acronyms](#9-glossary-of-acronyms)
@@ -370,8 +370,6 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 4. **Response Generation**
    The system produces accurate, grounded, and context-aware answers, often outperforming classical RAG which relies solely on vector similarity (Amazon Web Services, 2024).
 
-
-
 #### Our Implementation
 
 We launched the necessary services and explored the following setup:
@@ -404,7 +402,6 @@ Using AWS for GraphRAG allowed us to explore production-grade implementations of
 
 While initial setup requires time and permissions, AWS provides all the components needed to go from prototype to scalable application — whether via the GraphRAG Toolkit or custom-built stacks.
 
-
 ---
 
 ### 5.4 Using GraphRAG with Puppy Graph
@@ -414,7 +411,6 @@ Although we did **not test PuppyGraph** in our implementation, we included it in
 **PuppyGraph** is a next-generation graph analytics engine designed to instantly transform existing relational databases into graph models—without any ETL. This is a radically different approach compared to traditional graph databases, with a focus on simplicity, performance, and direct integration into existing systems (PuppyGraph, n.d.).
 
 With PuppyGraph, it is theoretically possible to build a GraphRAG application in just minutes, leveraging a scalable engine, native support for **Gremlin** and **Cypher**, and seamless compatibility with tools like **LangChain** and **OpenAI** (PuppyGraph, n.d.).
-
 
 ### General Overview (Based on Documentation)
 
@@ -645,31 +641,31 @@ The compared solutions are:
 
 ### Summary: Local GraphRAG
 
-| Criteria              | Local GraphRAG |
-| --------------------- | ----------------------- |
-| Global Accuracy       | ⭐⭐⭐⭐☆              |
-| Answer Completeness   | ⭐⭐⭐⭐☆              |
-| Reasoning (Multi-hop) | Very good               |
-| Response Time         | 80–490s                |
-| Answer Style          | Structured & clear      |
-| Failure Rate          | 0%                      |
-| Offline Capability    | Fully local             |
+| Criteria              | Local GraphRAG     |
+| --------------------- | ------------------ |
+| Global Accuracy       | ⭐⭐⭐⭐☆         |
+| Answer Completeness   | ⭐⭐⭐⭐☆         |
+| Reasoning (Multi-hop) | Very good          |
+| Response Time         | 80–490s           |
+| Answer Style          | Structured & clear |
+| Failure Rate          | 0%                 |
+| Offline Capability    | Fully local        |
 
 ---
 
 ## Comparative Summary Table
 
-| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG |
-| ------------------- | ------------------------------- | ----------------------------- | ----------------------- |
-| Setup Complexity    | ⭐⭐⭐☆☆                      | ⭐⭐⭐⭐⭐                      | ⭐⭐☆☆☆              |
-| Cost Predictability | Cloud-based                     | API cost varies               | Free (local inference)  |
-| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | ⭐⭐⭐⭐☆              |
-| Reasoning Quality   | Moderate                        | Excellent                     | Very good               |
-| Response Time       | 8–42s                          | 8–12s                        | 80–490s                |
-| **Structure** | Structured                      | Mixed                         | Structured              |
-| **Style**     | Formal                          | Conversational                | Neutral / Formal        |
-| Failure Rate        | ~31%                            | ~12%                          | 0%                      |
-| Offline Capability  | ❌                              | ❌                            | ✅                      |
+| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG (DeepSeek + ChromaDB) |
+| ------------------- | ------------------------------- | ----------------------------- | ------------------------------------ |
+| Setup Complexity    | ⭐⭐⭐☆☆                      | ⭐⭐⭐⭐⭐                    | ⭐⭐☆☆☆                           |
+| Cost Predictability | Cloud-based                     | API cost varies               | Free (local inference)               |
+| Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | ⭐⭐⭐⭐☆                           |
+| Reasoning Quality   | Moderate                        | Excellent                     | Very good                            |
+| Response Time       | 8–42s                          | 8–12s                        | 80–490s                             |
+| **Structure** | Structured                      | Mixed                         | Structured                           |
+| **Style**     | Formal                          | Conversational                | Neutral / Formal                     |
+| Failure Rate        | ~31%                            | ~12%                          | 0%                                   |
+| Offline Capability  | ❌                              | ❌                            | ✅                                   |
 
 This comparative table highlights the trade-offs between the three GraphRAG implementations:
 
@@ -684,14 +680,12 @@ Each solution serves a different use case: Azure is ideal for quick deployment, 
 ---
 
 ## 7. Alternatives to GraphRAG
+
 While GraphRAG is powerful for complex reasoning and semantic context, there are simpler or more lightweight alternatives depending on your needs:
 
 - **Standard RAG** (Retrieval-Augmented Generation): The most common approach, using vector search to retrieve chunks of text without graphs. It’s easier to set up and faster for basic use cases but lacks structured reasoning (Pavlik, 2023).
-
 - **Hybrid RAG: Combines keyword-based search** (e.g., BM25) with vector retrieval to improve accuracy without using a graph (Nigam, 2024).
-
 - **Tool-Augmented LLMs**: Systems like LangChain or AutoGPT can call external tools (e.g., APIs, calculators, search engines) to enhance answers without relying on a graph structure (LangChain, n.d.).
-
 - **Knowledge Base** Q&A (e.g., Haystack): Frameworks focused on traditional document retrieval and question answering pipelines that can also integrate with vector stores and metadata filtering (Haystack, n.d.).
 
 These alternatives may be more appropriate when working with unstructured text, tight deadlines, or limited compute resources.
@@ -734,16 +728,16 @@ GraphRAG is still a young but promising field — and it's clearly shaping the f
 
 ## 9. Glossary of Acronyms
 
-- **AI**: Artificial Intelligence  
-- **API**: Application Programming Interface  
-- **AKS**: Azure Kubernetes Service  
-- **BM25**: Best Matching 25 (a ranking function used for text retrieval)  
-- **CLI**: Command-Line Interface  
-- **FAISS**: Facebook AI Similarity Search  
-- **LLM**: Large Language Model  
-- **RAG**: Retrieval-Augmented Generation  
-- **GraphRAG**: Graph-based Retrieval-Augmented Generation  
-- **RBAC**: Role-Based Access Control  
+- **AI**: Artificial Intelligence
+- **API**: Application Programming Interface
+- **AKS**: Azure Kubernetes Service
+- **BM25**: Best Matching 25 (a ranking function used for text retrieval)
+- **CLI**: Command-Line Interface
+- **FAISS**: Facebook AI Similarity Search
+- **LLM**: Large Language Model
+- **RAG**: Retrieval-Augmented Generation
+- **GraphRAG**: Graph-based Retrieval-Augmented Generation
+- **RBAC**: Role-Based Access Control
 
 ---
 
