@@ -8,7 +8,7 @@ This chatbot enables **fast, accurate, and explainable retrieval of information*
 
 # **Installation & Setup**
 
-You can install and run the **DeepSeek RAG Chatbot** in one of two ways:
+You can install and run the **DeepSeek GRAPHRAG Chatbot** in one of two ways:
 
 1. **Traditional (Python/venv) Installation**
 2. **Docker Installation** (ideal for containerized deployments)
@@ -17,11 +17,10 @@ You can install and run the **DeepSeek RAG Chatbot** in one of two ways:
 
 ## **1️⃣ Traditional (Python/venv) Installation**
 
-### **Step A: Clone the Repository & Install Dependencies**
+### **Step A: Install Dependencies**
 
 ```
-git clone https://github.com/SaiAkhil066/DeepSeek-RAG-Chatbot.git
-cd DeepSeek-RAG-Chatbot
+cd Customer_Support_LocalBot
 
 # Create a virtual environment
 python -m venv venv

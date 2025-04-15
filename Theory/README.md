@@ -645,7 +645,7 @@ The compared solutions are:
 
 ### Summary: Local GraphRAG
 
-| Criteria              | Local GraphRAG (Docker) |
+| Criteria              | Local GraphRAG |
 | --------------------- | ----------------------- |
 | Global Accuracy       | ⭐⭐⭐⭐☆              |
 | Answer Completeness   | ⭐⭐⭐⭐☆              |
@@ -659,9 +659,9 @@ The compared solutions are:
 
 ## Comparative Summary Table
 
-| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG (Docker) |
+| Criteria / Feature  | Azure Cognitive Search + OpenAI | GraphRAG Bot (Neo4j + OpenAI) | Local GraphRAG |
 | ------------------- | ------------------------------- | ----------------------------- | ----------------------- |
-| Setup Complexity    | ⭐⭐☆☆☆                      | ⭐⭐⭐☆                      | ⭐⭐⭐⭐☆              |
+| Setup Complexity    | ⭐⭐⭐☆☆                      | ⭐⭐⭐⭐⭐                      | ⭐⭐☆☆☆              |
 | Cost Predictability | Cloud-based                     | API cost varies               | Free (local inference)  |
 | Answer Precision    | ⭐⭐⭐⭐☆                      | ⭐⭐⭐⭐☆                    | ⭐⭐⭐⭐☆              |
 | Reasoning Quality   | Moderate                        | Excellent                     | Very good               |
