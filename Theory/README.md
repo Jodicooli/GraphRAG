@@ -12,7 +12,8 @@ This README file contains theory aspects as well as practical examples about Gra
 6. [Comparative GraphRAG Solutions](#6-comparative-graphrag-solutions)  
 7. [Alternatives to GraphRAG](#7-alternatives-to-graphrag)
 8. [Conclusion](#8-conclusion)
-9. [References](#9-references)
+9. [Glossary of Acronyms](#9-glossary-of-acronyms)
+10. [References](#10-references)
 
 ---
 
@@ -373,15 +374,14 @@ A typical GraphRAG workflow on AWS follows these high-level steps:
 
 #### Our Implementation
 
-We successfully launched the necessary services and explored the following setup:
+We launched the necessary services and explored the following setup:
 
 - **Graph database**: Amazon Neptune (serverless)
 - **LLM orchestration**: Amazon Bedrock via LlamaIndex
 - **Interface**: Jupyter notebooks hosted on SageMaker
 - **Toolkit**: [graphrag-toolkit](https://github.com/awslabs/graphrag-toolkit)
 
-However, it's important to note that we did not deploy a working UI or frontend, so no screenshots or live app demos were available during the test phase.
-This was likely due to limitations in our AWS subscription, which blocked access to certain services needed for a full deployment. Since we had already invested some personal funds to activate core services for the backend, we chose to stop at this stage to avoid further costs.
+However, it's important to note that we did not deploy a working UI or frontend, nor did we successfully provided a stable environnement. This was likely due to limitations in our AWS subscription, which blocked access to certain services needed for a full deployment. Since we had already invested some personal funds to activate core services for the backend, we chose to stop at this stage to avoid further costs as billing was drastically increasing.
 
 #### Benefits of Using AWS for GraphRAG
 
@@ -675,7 +675,7 @@ This comparative table highlights the trade-offs between the three GraphRAG impl
 
 * **Azure Cognitive Search + OpenAI** is the easiest to set up, with strong structure and presentation. However, it struggles with complex reasoning and has a higher failure rate due to its limited contextual understanding and strict keyword-based indexing.
 * **GraphRAG Bot (Neo4j + OpenAI)** offers excellent reasoning capabilities thanks to its graph-based structure. It is more conversational and flexible, but requires moderate setup effort and involves API usage costs.
-* **Local RAG with ChromaDB + DeepSeek** stands out for being fully offline and free to run. It provides accurate and structured answers with zero failures, though its setup is more technical and its response time significantly slower due to local inference.
+* **Local GraphRAG with DeepSeek** stands out for being fully offline and free to run. It provides accurate and structured answers with zero failures, though its setup is more technical and its response time significantly slower due to local inference.
 
 **Note on response time**: Performance naturally depends on the environment and hardware. These results were collected using personal laptops and should be considered indicative rather than absolute benchmarks.
 
@@ -705,9 +705,9 @@ Our exploration of GraphRAG has revealed its transformative potential in enhanci
 We tested and compared different **approaches**:
 
 - **GraphRAG with Azure**: Using Cognitive Search and OpenAI, we deployed a cloud-based system with API endpoints. It offered good structure and reasoning but faced restrictions due to our student account and incurred potential costs for extended usage.
-- **GraphRAG with AWS**: Built with Amazon Neptune, Bedrock, and LlamaIndex, our implementation allowed graph-based reasoning over structured data. Although powerful, the setup required elevated permissions, leading us to use a personal credit card to access Bedrock and SageMaker features.
+- **GraphRAG with AWS**: Built with Amazon Neptune, Bedrock, and LlamaIndex, the implementation allows graph-based reasoning over structured data. Although powerful, the setup required elevated permissions, leading us to use a personal credit card to access Bedrock and SageMaker features.
 - **Custom GraphRAG Application**: We developed our own stack from scratch using LangChain, OpenAI, and graph databases like Neo4j. This gave us complete control over schema design, retrieval strategies, prompt engineering, and UI logic. While more complex to implement and maintain, this approach proved the most flexible and educational.
-- **Local RAG with ChromaDB + DeepSeek**: A fully offline pipeline based on vector search (not a graph). Despite its simplicity, it achieved high accuracy, zero failure rate, and offered complete control — making it ideal for privacy-sensitive or disconnected environments.
+- **Local GraphRAG with DeepSeek**: A fully offline pipeline based on vector search (not a graph). Despite its simplicity, it achieved high accuracy, zero failure rate, and offered complete control — making it ideal for privacy-sensitive or disconnected environments.
 
 We also analyzed **PuppyGraph** as an alternative we did not test directly. Based on its documentation, it presents an interesting “Zero ETL” solution designed to simplify the entire GraphRAG pipeline by removing infrastructure overhead. It could be a valuable option for future projects using existing SQL data and requiring minimal deployment time.
 
@@ -732,7 +732,22 @@ GraphRAG is still a young but promising field — and it's clearly shaping the f
 
 ---
 
-## 9. References
+## 9. Glossary of Acronyms
+
+- **AI**: Artificial Intelligence  
+- **API**: Application Programming Interface  
+- **AKS**: Azure Kubernetes Service  
+- **BM25**: Best Matching 25 (a ranking function used for text retrieval)  
+- **CLI**: Command-Line Interface  
+- **FAISS**: Facebook AI Similarity Search  
+- **LLM**: Large Language Model  
+- **RAG**: Retrieval-Augmented Generation  
+- **GraphRAG**: Graph-based Retrieval-Augmented Generation  
+- **RBAC**: Role-Based Access Control  
+
+---
+
+## 10. References
 
 Amazon Web Services. (2024, December 23). Improving Retrieval Augmented Generation accuracy with GraphRAG | Amazon Web Services. **https://aws.amazon.com/de/blogs/machine-learning/improving-retrieval-augmented-generation-accuracy-with-graphrag/**
 
