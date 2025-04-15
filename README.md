@@ -82,13 +82,13 @@ This folder includes:
 
 ---
 
-### [Local implementation]()
+### [Local implementation](./Customer_Support_LocalBot/README.md)
 
 A standalone RAG (Retrieval-Augmented Generation) pipeline running entirely offline, ideal for environments without cloud access.
 
 This implementation includes:
 
-* A `docker-compose.yml` for setting up local services (optional)
+* A `docker-compose.yml` for setting up local services
 * Local vector database using **ChromaDB**
 * Embedding and generation via **DeepSeek LLMs** or **OpenAI**
 * FastAPI backend and Streamlit frontend, runnable locally
