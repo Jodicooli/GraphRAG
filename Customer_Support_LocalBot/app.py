@@ -9,7 +9,7 @@ import torch
 import os
 from dotenv import load_dotenv, find_dotenv
 from utils.visualization import visualize_graph, visualize_query_subgraph
-import time  # Add this import at the top
+import time  
 
 torch.classes.__path__ = [os.path.join(torch.__path__[0], torch.classes.__file__)]  # Fix for torch classes not found error
 load_dotenv(find_dotenv())  # Loads .env file contents into the application based on key-value pairs defined therein, making them accessible via 'os' module functions like os.getenv().
@@ -21,15 +21,16 @@ EMBEDDINGS_MODEL = "nomic-embed-text:latest"
 CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
-
-reranker = None                                                        # 🚀 Initialize Cross-Encoder (Reranker) at the global level 
+# 🚀 Initialize Cross-Encoder (Reranker) at the global level 
+reranker = None                                                        
 try:
     reranker = CrossEncoder(CROSS_ENCODER_MODEL, device=device)
 except Exception as e:
     st.error(f"Failed to load CrossEncoder model: {str(e)}")
 
 
-st.set_page_config(page_title="Local Customer Bot Assistant", layout="wide")      # ✅ Streamlit configuration
+# ✅ Streamlit configuration
+st.set_page_config(page_title="Local Customer Bot Assistant", layout="wide")      
 
 # Custom CSS
 st.markdown("""
@@ -44,7 +45,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-                                                                                    # Manage Session state
+# Manage Session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "retrieval_pipeline" not in st.session_state:
@@ -54,8 +55,8 @@ if "rag_enabled" not in st.session_state:
 if "documents_loaded" not in st.session_state:
     st.session_state.documents_loaded = False
 
-
-with st.sidebar:                                                                        # 📁 Sidebar
+# 📁 Sidebar
+with st.sidebar:                                                                       
     st.header("📁 Document Management")
     uploaded_files = st.file_uploader(
         "Upload documents (PDF/DOCX/TXT)",
