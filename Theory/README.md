@@ -248,7 +248,7 @@ Creating your own GraphRAG system — whether through lightweight tools like the
 
 This section outlines both the benefits and downsides of building GraphRAG systems from scratch or via tooling, and how our project was structured around real use cases.
 
-If you want to discover what GraphRAG application we made you can check out the following two fodlers:
+If you want to discover what GraphRAG application we made you can check out the following two folders:
 
 - **/Custom_GraphRAG_Application**
 - **/GraphRAG_Library**
