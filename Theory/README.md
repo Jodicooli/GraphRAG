@@ -252,6 +252,7 @@ If you want to discover what GraphRAG application we made you can check out the 
 - **/Custom_GraphRAG_Application**
 - **/GraphRAG_Library**
 - **/Customer_Support_Bot**
+- **/Customer_Support_LocalBot**
 - **/Employees_Slack_Bot**
 
 #### Benefits of custom GraphRAG implementation
